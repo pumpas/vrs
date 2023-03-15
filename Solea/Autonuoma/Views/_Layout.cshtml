@@ -5,7 +5,7 @@
 	/// <param name="ctrl">Controller to look for.</param>
 	/// <param name="act">Action to look for. Pass null if action does not matter.</param>
 	/// <returns>If controller and (optionally) action match given ones returns "active". Returns empty string otherwise.</returns>
-	string MarkActive(string ctrl, string act = null)
+	@*string MarkActive(string ctrl, string act = null)
 	{
 		//get current controller and action
 		var curCtrl = (string)ViewContext.RouteData.Values["Controller"];
@@ -15,108 +15,114 @@
 		if( curCtrl == ctrl && (act == null || curAct == act) )
 			return "active";
 		return "";
-	}
+	}*@
+	
 }
+
 <!DOCTYPE html>
 <html>
 <head>
 	<meta charset="utf-8" />
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Solea - @ViewData["title"]</title>
+	<link rel="icon" type="image/x-icon" href="css/favicon.ico">
+	<link rel="stylesheet" href="~/css/bootswatchTheme.css" />
 
-	<title>Autonuoma - @ViewData["title"]</title>
+	@*<script src="@Url.Content("~/lib/jquery/dist/jquery.js")"></script> 
 
-	<link href="@Url.Content("~/lib/bootstrap/css/bootstrap.css")" rel="stylesheet"/>
-	<link href="@Url.Content("~/css/fontawesome.all.css")" rel="stylesheet"/>
-	<link href="@Url.Content("~/lib/jquery-datetimepicker/jquery.datetimepicker.min.css")" rel="stylesheet"/>
-	<link href="@Url.Content("~/lib/datatables/datatables.css")" rel="stylesheet"/>
-
-	<link href="@Url.Content("~/css/site.css")" rel="stylesheet"/>
-
-	<script src="@Url.Content("~/lib/jquery/dist/jquery.js")"></script>
-	<script src="@Url.Content("~/lib/jquery-validation/dist/jquery.validate.js")"></script>
-	<script src="@Url.Content("~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.js")"></script>
-	<script src="@Url.Content("~/lib/jquery-datetimepicker/jquery.datetimepicker.full.js")"></script>
-	<script src="@Url.Content("~/lib/bootstrap/js/bootstrap.bundle.js")"></script>
-	<script src="@Url.Content("~/lib/popper/popper.js")"></script>
 	<script src="@Url.Content("~/lib/datatables/datatables.js")"></script>
 
-	<script src="@Url.Content("~/js/site.js")" asp-append-version="true"></script>
+	<script src="@Url.Content("~/js/site.js")" asp-append-version="true"></script>*@
+	
 </head>
+@*@if(TempData["id"]!=null){
+			TempData["id"]=TempData["id"];	
+}*@
 <body>
-	@* main menu *@
-	<nav class="navbar sticky-top navbar-expand-md navbar-dark bg-dark">
-		<div class="container-fluid">
-			<a class="navbar-brand" href="@Url.Action("Index", "Home")" class="navbar-brand"><i class="fa-solid fa-car"></i></a>
-			<button
-				class="navbar-toggler"
-				type="button"
-				data-bs-toggle="collapse"
-				data-bs-target="#navbarContent"
-			>
-				<span class="navbar-toggler-icon"></span>
-			</button>
-			<div class="container-fluid d-flex justify-content-center">
-				<div class="collapse navbar-collapse" id="navbarContent">
-					<ul class="navbar-nav me-auto mb-2 mb-lg-0">
-						@* main menu links go here *@
-						<li class="nav-item">
-							<a href="@Url.Action("Index", "Sutartis")" class="@MarkActive("Sutartis") nav-link">Sutartys</a>
-						</li>
-						<li class="nav-item">
-							<a href="@Url.Action("Index", "Paslauga")" class="@MarkActive("Paslauga") nav-link">Paslaugos</a>
-						</li>
-						<li class="nav-item">
-							<a href="@Url.Action("Index", "Klientas")" class="@MarkActive("Klientas") nav-link">Klientai</a>
-						</li>
-						<li class="nav-item">
-							<a href="@Url.Action("Index", "Darbuotojas")" class="@MarkActive("Darbuotojas") nav-link">Darbuotojai</a>
-						</li>
-						<li class="nav-item">
-							<a href="@Url.Action("Index", "Automobilis")" class="@MarkActive("Automobilis") nav-link">Automobiliai</a>
-						</li>
-						<li class="nav-item">
-							<a href="@Url.Action("Index", "Marke")" class="@MarkActive("Marke") nav-link">Markės</a>
-						</li>
-						<li class="nav-item">
-							<a href="@Url.Action("Index", "Modelis")" class="@MarkActive("Modelis") nav-link">Modeliai</a>
-						</li>
-					</ul>
+	<nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+  <div class="container-fluid">
+    <a class="navbar-brand" href="http://localhost:5000/Home"><img src="/images/Solea-logos_whitee.png" width="170" height="auto" alt="logo"</a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarColor01" aria-controls="navbarColor01" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+	@*<script>
+		sessionStorage.setItem("id", @TempData["id"]);
+		if(sessionStorage.id == null || sessionStorage.id == 0)
+	</script>*@
+	@if(TempData["id1"]==null || Convert.ToInt32(TempData["id1"])==0){
+	<span class="actions">
+		<a href="@Url.Action("Create", "User")" class="btn btn-primary"><i class="fa-solid fa-plus"></i> Register</a>
+	</span>
+	<span class="actions">
+		<a href="@Url.Action("Login", "User")" class="btn btn-primary"><i class="fa-solid fa-plus"></i> Login</a>
+	</span>
+	}
+	else{
+		<span class="actions">
+			<a ><i class="fa-solid fa-plus"></i></a>
+		</span>
 
-					@* drop-down for report links *@
-					<ul class="navbar-nav justify-content-right mb-2 mb-lg-0">
-						<li class="nav-item dropdown">
-							<a
-								class="@MarkActive("Ataskaita") nav-link dropdown-toggle"
-								href="#"
-								id="navbarReports"
-								role="button"
-								data-bs-toggle="dropdown"
-								aria-expanded="false"
-							>
-								Ataskaitos
-							</a>
-							<ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarReports">
-								@* report links go here *@
-								<li>
-									<a
-										href="@Url.Action("Paslaugos", "Ataskaita")"
-										class="@MarkActive("Ataskaita", "Paslaugos") dropdown-item"
-									>Paslaugų ataskaita</a>
-								</li>
-								<li>
-									<a
-										href="@Url.Action("Sutartys", "Ataskaita")"
-										class="@MarkActive("Ataskaita", "Sutartys") dropdown-item"
-									>Sutarčių ataskaita</a>
-								</li>
-								<li>
-									<a
-										href="@Url.Action("Veluojancios", "Ataskaita")"
-										class="@MarkActive("Ataskaita", "Veluojancios") dropdown-item"
-									>Vėluojančių sutarčių ataskaita</a>
-								</li>
-							</ul>
+		   <div class="navbar-collapse collapse w-100 order-3 dual-collapse2">
+			   
+        <ul class="navbar-nav ms-auto">
+            <li class="nav-item">
+				@*<antrast >@TempData["name"] </antrast>*@
+					<ul class="nav nav-tabs">
+ 						<li class="nav-item dropdown">
+    					<antrast class="btn btn-secondary btn-lg dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">@TempData["name"] </antrast>
+    						<div class="dropdown-menu" style="">
+      							<a class="dropdown-item" href="@Url.Action("Edit", "User")">Edit profile</a>
+      							<a class="dropdown-item" style="color: red;" href="@Url.Action("Index", "Home")">Logout</a>
+  						</li>
+					</ul>
+				<img src="/images/gold.png" alt="golden" width="30" height="auto">x@(Convert.ToInt32(TempData["currency"])/100)
+				<img src="/images/silver.png" alt="silver" width="30" height="auto">x@(Convert.ToInt32(TempData["currency"])%100/10)
+				<img src="/images/bronze.png" alt="bronze" width="30" height="auto">x@(Convert.ToInt32(TempData["currency"])%10)
+            </li> 
+        </ul>
+    </div>	
+	}
+    <div class="collapse navbar-collapse" id="navbarColor01">
+      <ul class="navbar-nav me-auto">
+        @*<li class="nav-item">
+          <a class="nav-link active" href="http://localhost:5000/Question">Questions
+            <span class="visually-hidden">(current)</span>
+          </a>
+        </li>*@
+        @*<li class="nav-item">
+          <a class="nav-link" href="http://localhost:5000/Question/Create">Create a question</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="http://localhost:5000/Answer">Answers</a>
+        </li>
+		
+        @*<li class="nav-item">
+          <a class="nav-link" href="http://localhost:5000/User">Users</a>
+        </li>*@
+		
+      </ul>
+    </div>
+  </div>
+</nav>
+		
+
+	@* main menu*@
+	<nav>
+		<div>
+			
+			<div>
+				<div>
+					<ul>
+						 @*
+						<li>
+							<a href="@Url.Action("Index", "User")" class="@MarkActive("User") nav-link">Users</a>
 						</li>
+						<li>
+							<a href="@Url.Action("Index", "Question")" class="@MarkActive("Question") nav-link">Questions</a>
+						</li>
+						<li>
+							<a href="@Url.Action("Index", "Answer")" class="@MarkActive("Answer") nav-link">Answers</a>
+						</li>*@
 					</ul>
 				</div>
 			</div>
@@ -128,14 +134,15 @@
 		@RenderBody()
 	</div>
 
-	@* page footer *@
+	 @*page footer 
 	<div class="container-fluid bg-dark text-muted">
 		<div class="footer-wrapper container-fluid d-flex justify-content-center pt-2">
 			<footer >
-				<p>&copy; KTU Informacinių Sistemų Katedra</p>
+				<p>&copy; SOLEA</p>
 			</footer>
 		</div>
 	</div>
+	*@
 	
 	@* any javascript comming from script sections in views gets redered here *@
 	@RenderSection("scripts", required: false)
@@ -146,25 +153,25 @@
 		$(document).ready(function () {
 			//apply datatables plugin on tables having css class 'entitylist'
 			$(".entitylist").DataTable({
-				"autoWidth": true,
+				"autoWidth": false,
 				language : {
 					"decimal":        "",
-					"emptyTable":     "Įrašų nėra",
-					"info":           "Įrašai nuo _START_ iki _END_ iš _TOTAL_",
-					"infoEmpty":      "0",
-					"infoFiltered":   "(iš _MAX_ įrašų)",
+					"emptyTable":     "",
+					"info":           "",
+					"infoEmpty":      "",
+					"infoFiltered":   "",
 					"infoPostFix":    "",
-					"thousands":      ",",
-					"lengthMenu":     "Puslapyje: _MENU_",
-					"loadingRecords": "Vyksta duomenų įkėlimas...",
-					"processing":     "Vyksta apdorojimas...",
-					"search":         "Paieška:",
-					"zeroRecords":    "Įrašų nerasta",
+					"thousands":      "",
+					"lengthMenu":     "",
+					"loadingRecords": "",
+					"processing":     "",
+					"search":         "Search:",
+					"zeroRecords":    "",
 					"paginate": {
-						"first":      "Pirmas",
-						"last":       "Paskutinis",
-						"next":       "Sekantis",
-						"previous":   "Buvęs"
+						"first":      "",
+						"last":       "",
+						"next":       "",
+						"previous":   ""
 					},
 					"aria": {
 						"sortAscending":  ": rikiuoti didėjimo tvarka",
@@ -199,5 +206,7 @@
 			}); *@
 		});
 	</script>
+	<script> src="~/lib/jquery/dist/jquery.min.js"></script>
+	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
 </body>
 </html>
