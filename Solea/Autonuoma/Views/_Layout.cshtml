@@ -41,7 +41,7 @@
 <body>
 	<nav class="navbar navbar-expand-lg navbar-dark bg-primary">
   <div class="container-fluid">
-    <a class="navbar-brand" href="http://localhost:5000/Question">Solea</a>
+    <a class="navbar-brand" href="http://localhost:5000/Question"><img src="/images/Solea-logos_whitee.png" width="170" height="auto" alt="logo"</a>
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarColor01" aria-controls="navbarColor01" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
@@ -59,10 +59,29 @@
 	}
 	else{
 		<span class="actions">
-			<a href="@Url.Action("Index", "Home")" class="btn btn-primary"><i class="fa-solid fa-plus"></i> Logout</a>
+			<a ><i class="fa-solid fa-plus"></i></a>
 		</span>
-	}
 
+		   <div class="navbar-collapse collapse w-100 order-3 dual-collapse2">
+			   
+        <ul class="navbar-nav ms-auto">
+            <li class="nav-item">
+				@*<antrast >@TempData["name"] </antrast>*@
+					<ul class="nav nav-tabs">
+ 						<li class="nav-item dropdown">
+    					<antrast class="btn btn-secondary btn-lg dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">@TempData["name"] </antrast>
+    						<div class="dropdown-menu" style="">
+      							<a class="dropdown-item" href="@Url.Action("Edit", "User")">Edit profile</a>
+      							<a class="dropdown-item" style="color: red;" href="@Url.Action("Index", "Home")">Logout</a>
+  						</li>
+					</ul>
+				<img src="/images/gold.png" alt="golden" width="30" height="auto">x@(Convert.ToInt32(TempData["currency"])/100)
+				<img src="/images/silver.png" alt="silver" width="30" height="auto">x@(Convert.ToInt32(TempData["currency"])%100/10)
+				<img src="/images/bronze.png" alt="bronze" width="30" height="auto">x@(Convert.ToInt32(TempData["currency"])%10)
+            </li> 
+        </ul>
+    </div>	
+	}
     <div class="collapse navbar-collapse" id="navbarColor01">
       <ul class="navbar-nav me-auto">
         @*<li class="nav-item">

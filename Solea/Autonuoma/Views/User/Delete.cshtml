@@ -1,10 +1,17 @@
 @model Org.Ktu.Isk.P175B602.Autonuoma.Models.User
 @{
 	ViewData["title"] = "User removal";
+
+	ViewData["title"] = "Users";
+	TempData["id"] = 166;
+	TempData["id1"] = 166;
+	TempData["name"] = "admin";
+	TempData["currency"] = 100;
+
 }
 
 <div class="main-content-header container-fluid d-flex d-row justify-content-between align-items-center">
-	<span class="title">@ViewData["title"]</span>
+	<pantrast class="title">@ViewData["title"]</pantrast>
 </div>
 
 <div class="container-fluid d-flex justify-content-center">
@@ -55,6 +62,6 @@
 <div class="main-content-footer container-fluid d-flex d-row justify-content-between align-items-center">
 	<span class="title"></span>
 	<span class="actions">
-		<a href="@Url.Action("Index")" class="link-primary"><i class="fa-solid fa-angles-left"></i>Back to list</a>
+		<a href="@Url.Action("Index")" class="btn btn-success"><i class="fa-solid fa-angles-left"></i> Back to list</a>
 	</span>
 </div>

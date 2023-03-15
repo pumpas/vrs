@@ -14,21 +14,55 @@ namespace Org.Ktu.Isk.P175B602.Autonuoma.Repositories
 {
 	public class QuestionRepo
 	{
-		public static List<QuestionListVM> List()
+		public static List<QuestionListVM> List(int n)
 		{
 			var result = new List<QuestionListVM>();
-
-			var query =
+			string query;
+			if(n == 2){
+				query =
 				$@"SELECT
-					md.user,
-					md.question,
-					md.content,
-					md.id
-					FROM
-					`{Config.TblPrefix}questions` md
-					LEFT JOIN `{Config.TblPrefix}users` usr ON md.user=usr.name
-				ORDER BY md.id DESC";
-
+						md.user,
+						md.question,
+						md.content,
+						md.id,
+						md.likes,
+						md.dislikes,
+						md.topAnswer
+						FROM
+						`{Config.TblPrefix}questions` md
+						LEFT JOIN `{Config.TblPrefix}users` usr ON md.user=usr.name
+					ORDER BY md.dislikes DESC";
+			}
+			else if(n == 3){
+				query =
+				$@"SELECT
+						md.user,
+						md.question,
+						md.content,
+						md.id,
+						md.likes,
+						md.dislikes,
+						md.topAnswer
+						FROM
+						`{Config.TblPrefix}questions` md
+						LEFT JOIN `{Config.TblPrefix}users` usr ON md.user=usr.name
+					ORDER BY md.id DESC";
+			}
+			else{
+				query =
+				$@"SELECT
+						md.user,
+						md.question,
+						md.content,
+						md.id,
+						md.likes,
+						md.dislikes,
+						md.topAnswer
+						FROM
+						`{Config.TblPrefix}questions` md
+						LEFT JOIN `{Config.TblPrefix}users` usr ON md.user=usr.name
+					ORDER BY md.likes DESC";
+			}
 			var dt = Sql.Query(query);
 
 			foreach( DataRow item in dt )
@@ -38,7 +72,10 @@ namespace Org.Ktu.Isk.P175B602.Autonuoma.Repositories
 					fk_User = Convert.ToString(item["user"]),
                     Questions = Convert.ToString(item["question"]),
 					Content = Convert.ToString(item["content"]),
-				    Id = Convert.ToInt32(item["id"])
+				    Id = Convert.ToInt32(item["id"]),
+					Likes = Convert.ToInt32(item["likes"]),
+					Dislikes = Convert.ToInt32(item["dislikes"]),
+					topAnswer = Convert.ToInt32(item["topAnswer"])
 
 				});
 			}
@@ -64,6 +101,34 @@ namespace Org.Ktu.Isk.P175B602.Autonuoma.Repositories
 				mevm.Question.Questions = Convert.ToString(item["question"]);
 				mevm.Question.Content = Convert.ToString(item["content"]);
 				mevm.Question.Id = Convert.ToInt32(item["id"]);
+				mevm.Question.Likes = Convert.ToInt32(item["likes"]);
+				mevm.Question.Dislikes = Convert.ToInt32(item["dislikes"]);
+				mevm.Question.topAnswer = Convert.ToInt32(item["topAnswer"]);
+			}
+
+			return mevm;
+		}
+
+		public static List<QuestionListVM> FindList(string search)
+		{
+			var mevm = List(3);
+			if(search!=null){
+			string[] words = search.Split(' ');
+			List<QuestionListVM> questions = new List<QuestionListVM>();
+			foreach(var item in mevm){
+				if(words.All(item.Questions.Contains)){
+					questions.Add(new QuestionListVM{
+						fk_User = item.fk_User,
+						Questions = item.Questions,
+						Content = item.Content,
+						Id = item.Id,
+						Likes = item.Likes,
+						Dislikes = item.Dislikes,
+						topAnswer = item.topAnswer
+					});
+				}	
+			}
+			return questions;
 			}
 
 			return mevm;
@@ -80,7 +145,10 @@ namespace Org.Ktu.Isk.P175B602.Autonuoma.Repositories
 					md.user,
 					md.question,
 					md.content,
-					md.id
+					md.id,
+					md.likes,
+					md.dislikes,
+					md.topAnswer
 				FROM
 					`{Config.TblPrefix}questions` md
 					LEFT JOIN `{Config.TblPrefix}users` usr ON md.user=usr.name
@@ -97,6 +165,9 @@ namespace Org.Ktu.Isk.P175B602.Autonuoma.Repositories
 				mlvm.Questions = Convert.ToString(item["question"]);
 				mlvm.Content = Convert.ToString(item["content"]);
 				mlvm.Id = Convert.ToInt32(item["id"]);
+				mlvm.Likes = Convert.ToInt32(item["likes"]);
+				mlvm.Dislikes = Convert.ToInt32(item["dislikes"]);
+				mlvm.topAnswer = Convert.ToInt32(item["topAnswer"]);
 			}
 
 			return mlvm;
@@ -109,7 +180,10 @@ namespace Org.Ktu.Isk.P175B602.Autonuoma.Repositories
 				SET
 					user=?user,
 					question=?question,
-					content=?content
+					content=?content,
+					likes=?likes,
+					dislikes=?dislikes,
+					topAnswer=?topAnswer
 				WHERE
 					id=?id";
 
@@ -118,6 +192,9 @@ namespace Org.Ktu.Isk.P175B602.Autonuoma.Repositories
 				args.Add("?question", MySqlDbType.VarChar).Value = QuestionEvm.Question.Questions;
 				args.Add("?id", MySqlDbType.Int32).Value = QuestionEvm.Question.Id;
 				args.Add("?content", MySqlDbType.VarChar).Value = QuestionEvm.Question.Content;
+				args.Add("?likes", MySqlDbType.Int32).Value = QuestionEvm.Question.Likes;
+				args.Add("?dislikes", MySqlDbType.Int32).Value = QuestionEvm.Question.Dislikes;
+				args.Add("?topAnswer", MySqlDbType.Int32).Value = QuestionEvm.Question.topAnswer;
 			});
 		}
 
@@ -129,13 +206,19 @@ namespace Org.Ktu.Isk.P175B602.Autonuoma.Repositories
 					user,
 					question,
 					content,
-					id
+					id,
+					likes,
+					dislikes,
+					topAnswer
 				)
 				VALUES(
 					?user,
 					?question,
 					?content,
-					?id
+					?id,
+					?likes,
+					?dislikes,
+					?topAnswer
 				)";
 
 			Sql.Insert(query, args => {
@@ -143,6 +226,9 @@ namespace Org.Ktu.Isk.P175B602.Autonuoma.Repositories
 				args.Add("?question", MySqlDbType.VarChar).Value = QuestionEvm.Question.Questions;
 				args.Add("?content", MySqlDbType.VarChar).Value = QuestionEvm.Question.Content;
 				args.Add("?id", MySqlDbType.Int32).Value = QuestionEvm.Question.Id;
+				args.Add("?likes", MySqlDbType.Int32).Value = QuestionEvm.Question.Likes;
+				args.Add("?dislikes", MySqlDbType.Int32).Value = QuestionEvm.Question.Dislikes;
+				args.Add("?topAnswer", MySqlDbType.Int32).Value = QuestionEvm.Question.topAnswer;
 			});
 		}
 

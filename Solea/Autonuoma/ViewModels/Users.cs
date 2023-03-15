@@ -8,11 +8,9 @@ namespace Org.Ktu.Isk.P175B602.Autonuoma.ViewModels
 	/// <summary>
 	/// Model of 'Modelis' entity used in lists.
 	/// </summary>
-	public class Answers
+	public class Users
     {
-        public QuestionListVM question { get; set; }
-        public List<AnswerListVM> answers { get; set; }
+        public List<UserListVM> users { get; set; }
         public User user {get; set;}
-        public AnswerListVM answer { get; set; }
     }
 }

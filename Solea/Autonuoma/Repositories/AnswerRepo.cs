@@ -17,19 +17,22 @@ namespace Org.Ktu.Isk.P175B602.Autonuoma.Repositories
 		public static List<AnswerListVM> List()
 		{
 			var result = new List<AnswerListVM>();
-
-			var query =
+			string query;
+			query =
 				$@"SELECT
 					md.user,
 					md.question,
 					md.answer,
-					md.id
+					md.id,
+					md.likes,
+					md.dislikes,
+					md.best
 					FROM
 					`{Config.TblPrefix}answers` md
 					LEFT JOIN `{Config.TblPrefix}users` usr ON md.user=usr.name
 					LEFT JOIN `{Config.TblPrefix}questions` que ON md.question=que.question
-				ORDER BY md.id DESC";
-
+				ORDER BY md.answer ASC";
+			
 			var dt = Sql.Query(query);
 
 			foreach( DataRow item in dt )
@@ -39,30 +42,73 @@ namespace Org.Ktu.Isk.P175B602.Autonuoma.Repositories
 					fk_User = Convert.ToString(item["user"]),
                     fk_Questions = Convert.ToString(item["question"]),
 					Answers = Convert.ToString(item["answer"]),
-				    Id = Convert.ToInt32(item["id"])
-
+				    Id = Convert.ToInt32(item["id"]),
+					Likes = Convert.ToInt32(item["likes"]),
+					Dislikes = Convert.ToInt32(item["dislikes"]),
+					best = Convert.ToInt32(item["best"])
 				});
 			}
 
 			return result;
 		}
-		public static List<AnswerListVM> QuestionAnswers(int id)
+		public static List<AnswerListVM> QuestionAnswers(int id,int n)
 		{
 			var result = new List<AnswerListVM>();
-
-			var query =
+			string query;
+			if(n == 3){
+				query =
 				$@"SELECT
 					md.user,
 					md.question,
 					md.answer,
-					md.id
+					md.id,
+					md.likes,
+					md.dislikes,
+					md.best
 					FROM
 					`{Config.TblPrefix}answers` md
 					LEFT JOIN `{Config.TblPrefix}users` usr ON md.user=usr.name
 					LEFT JOIN `{Config.TblPrefix}questions` que ON md.question=que.question
 				WHERE
-					que.id = ?id";
-
+					que.id = ?id
+				ORDER BY md.id DESC";
+			}
+			else if(n == 2){
+				query =
+				$@"SELECT
+					md.user,
+					md.question,
+					md.answer,
+					md.id,
+					md.likes,
+					md.dislikes,
+					md.best
+					FROM
+					`{Config.TblPrefix}answers` md
+					LEFT JOIN `{Config.TblPrefix}users` usr ON md.user=usr.name
+					LEFT JOIN `{Config.TblPrefix}questions` que ON md.question=que.question
+				WHERE
+					que.id = ?id
+				ORDER BY md.dislikes DESC";
+			}
+			else{
+				query =
+				$@"SELECT
+					md.user,
+					md.question,
+					md.answer,
+					md.id,
+					md.likes,
+					md.dislikes,
+					md.best
+					FROM
+					`{Config.TblPrefix}answers` md
+					LEFT JOIN `{Config.TblPrefix}users` usr ON md.user=usr.name
+					LEFT JOIN `{Config.TblPrefix}questions` que ON md.question=que.question
+				WHERE
+					que.id = ?id
+				ORDER BY md.likes DESC";
+			}
 			var dt =
 				Sql.Query(query, args => {
 					args.Add("?id", MySqlDbType.Int32).Value = id;
@@ -76,7 +122,10 @@ namespace Org.Ktu.Isk.P175B602.Autonuoma.Repositories
 					fk_User = Convert.ToString(item["user"]),
                     fk_Questions = Convert.ToString(item["question"]),
 					Answers = Convert.ToString(item["answer"]),
-				    Id = Convert.ToInt32(item["id"])
+				    Id = Convert.ToInt32(item["id"]),
+					Likes = Convert.ToInt32(item["likes"]),
+					Dislikes = Convert.ToInt32(item["dislikes"]),
+					best = Convert.ToInt32(item["best"])
 
 				});
 			}
@@ -119,6 +168,9 @@ namespace Org.Ktu.Isk.P175B602.Autonuoma.Repositories
 				mevm.Answer.fk_Questions = Convert.ToString(item["question"]);
 				mevm.Answer.Answers = Convert.ToString(item["answer"]);
 				mevm.Answer.Id = Convert.ToInt32(item["id"]);
+				mevm.Answer.Likes = Convert.ToInt32(item["likes"]);
+				mevm.Answer.Dislikes = Convert.ToInt32(item["dislikes"]);
+				mevm.Answer.best = Convert.ToInt32(item["best"]);
 			}
 
 			return mevm;
@@ -133,7 +185,10 @@ namespace Org.Ktu.Isk.P175B602.Autonuoma.Repositories
 					md.user,
 					md.question,
 					md.answer,
-					md.id
+					md.id,
+					md.likes,
+					md.dislikes,
+					md.best
 				FROM
 					`{Config.TblPrefix}answers` md
 					LEFT JOIN `{Config.TblPrefix}users` usr ON md.user=usr.name
@@ -151,6 +206,9 @@ namespace Org.Ktu.Isk.P175B602.Autonuoma.Repositories
 				mlvm.fk_Questions = Convert.ToString(item["question"]);
 				mlvm.Answers = Convert.ToString(item["answer"]);
 				mlvm.Id = Convert.ToInt32(item["id"]);
+				mlvm.Likes = Convert.ToInt32(item["likes"]);
+				mlvm.Dislikes = Convert.ToInt32(item["dislikes"]);
+				mlvm.best = Convert.ToInt32(item["best"]);
 			}
 
 			return mlvm;
@@ -163,7 +221,10 @@ namespace Org.Ktu.Isk.P175B602.Autonuoma.Repositories
 				SET
 					user=?user,
 					question=?question,
-					answer=?answer
+					answer=?answer,
+					likes=?likes,
+					dislikes=?dislikes,
+					best=?best
 				WHERE
 					id=?id";
 
@@ -172,6 +233,9 @@ namespace Org.Ktu.Isk.P175B602.Autonuoma.Repositories
 				args.Add("?question", MySqlDbType.VarChar).Value = AnswerEvm.Answer.fk_Questions;
 				args.Add("?answer", MySqlDbType.VarChar).Value = AnswerEvm.Answer.Answers;
 				args.Add("?id", MySqlDbType.Int32).Value = AnswerEvm.Answer.Id;
+				args.Add("?likes", MySqlDbType.Int32).Value = AnswerEvm.Answer.Likes;
+				args.Add("?dislikes", MySqlDbType.Int32).Value = AnswerEvm.Answer.Dislikes;
+				args.Add("?best", MySqlDbType.Int32).Value = AnswerEvm.Answer.best;
 			});
 		}
 
@@ -183,13 +247,19 @@ namespace Org.Ktu.Isk.P175B602.Autonuoma.Repositories
 					user,
 					question,
 					answer,
-					id
+					id,
+					likes,
+					dislikes,
+					best
 				)
 				VALUES(
 					?user,
 					?question,
 					?answer,
-					?id
+					?id,
+					?likes,
+					?dislikes,
+					?best
 				)";
 
 			Sql.Insert(query, args => {
@@ -197,6 +267,9 @@ namespace Org.Ktu.Isk.P175B602.Autonuoma.Repositories
 				args.Add("?question", MySqlDbType.VarChar).Value = AnswerEvm.Answer.fk_Questions;
 				args.Add("?answer", MySqlDbType.VarChar).Value = AnswerEvm.Answer.Answers;
 				args.Add("?id", MySqlDbType.Int32).Value = AnswerEvm.Answer.Id;
+				args.Add("?likes", MySqlDbType.Int32).Value = AnswerEvm.Answer.Likes;
+				args.Add("?dislikes", MySqlDbType.Int32).Value = AnswerEvm.Answer.Dislikes;
+				args.Add("?best", MySqlDbType.Int32).Value = AnswerEvm.Answer.best;
 			});
 		}
 

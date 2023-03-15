@@ -21,5 +21,14 @@ namespace Org.Ktu.Isk.P175B602.Autonuoma.Models
 
 		[DisplayName("Id")]
 		public int Id { get; set; }
+
+		[DisplayName("Likes")]
+		public int Likes { get; set; }
+
+		[DisplayName("Dislikes")]
+		public int Dislikes { get; set; }
+
+		[DisplayName("best")]
+		public int best { get; set; }
 	}
 }

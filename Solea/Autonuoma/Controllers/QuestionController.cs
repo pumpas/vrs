@@ -7,6 +7,7 @@ using Org.Ktu.Isk.P175B602.Autonuoma.Models;
 using Org.Ktu.Isk.P175B602.Autonuoma.ViewModels;
 
 
+
 namespace Org.Ktu.Isk.P175B602.Autonuoma.Controllers
 {
 	/// <summary>
@@ -19,28 +20,28 @@ namespace Org.Ktu.Isk.P175B602.Autonuoma.Controllers
 		/// This is invoked when either 'Index' action is requested or no action is provided.
 		/// </summary>
 		/// <returns>Entity list view.</returns>
-		public ActionResult Index()
+		public ActionResult Index(string search, int n)
 		{
 			
 			int idUser = Convert.ToInt32(TempData["id"]);
-			//HttpContext.Session.SetInt32("id", Convert.ToInt32(TempData["id"]));
-			//string password = Convert.ToString(TempData["password"]);
-			//User userTemp = new User();
-			//userTemp.Name=name;
-			//userTemp.Password=password;
-			var questions = QuestionRepo.List();
-			var user = UserRepo.Find(idUser);
-			//user.Name=Convert.ToString(something);
 			var vModel = new QuestionsLog();
-			vModel.question=questions;
+			if(search==null){
+				var questions = QuestionRepo.List(n);
+				vModel.question=questions;
+			}	
+			else{
+				var questionsSearch = QuestionRepo.FindList(search);
+				vModel.question=questionsSearch;
+			}
+			var user = UserRepo.Find(idUser);
 			vModel.user=user;
-			//vModel.loggedin=questions;
 			return View(vModel);
 		}
-		
-		public ActionResult Content(int id)
+		//Shows the question and it's answers. From Views gets question id. With that id
+		//using QuestionRepo.FindForDeletion() method finds the question and it's answers
+		public ActionResult Content(int id,int n)
 		{
-			var answerss = AnswerRepo.QuestionAnswers(id);
+			var answerss = AnswerRepo.QuestionAnswers(id,n);
 			var questions = QuestionRepo.FindForDeletion(id);
 			var user = UserRepo.Find(Convert.ToInt32(TempData["id"]));
 			var vModel = new Answers();
@@ -48,6 +49,90 @@ namespace Org.Ktu.Isk.P175B602.Autonuoma.Controllers
 			vModel.question=questions;
 			vModel.user=user;
 			return View(vModel);
+		}
+
+		//When like button pressed on main page, it reloads a page and adds or substracts likes count
+		public ActionResult Like(int id, string QuestiondUserId)
+		{
+			var match = LikedRepo.Find(id, Convert.ToInt32(TempData["id"]));
+			var user = UserRepo.Find(QuestiondUserId, 1);
+			var Liked = LikedRepo.List();
+			int LikedId = 0;
+			if(Liked.Count==0)
+				LikedId=1;
+			else
+				LikedId = LikedRepo.List().Last().Id+1;
+			var question=QuestionRepo.Find(id);
+			if(match.QuestionId != id){
+				question.Question.Likes+=1;
+				if(user.Id!=Convert.ToInt32(TempData["id"]))
+					user.Currency+=5;
+				LikedRepo.Insert(id, 0, Convert.ToInt32(TempData["id"]), LikedId, 1);
+			}
+			else if(match.likedOrDisliked == 2 ){
+				question.Question.Likes+=1;
+				question.Question.Dislikes-=1;
+				if(user.Id!=Convert.ToInt32(TempData["id"]))
+					user.Currency+=5;
+				LikedRepo.Update(id, 0, Convert.ToInt32(TempData["id"]), match.Id, 1);
+			}
+			else{
+				if(user.Id!=Convert.ToInt32(TempData["id"]))
+					user.Currency-=5;
+				question.Question.Likes-=1;
+				LikedRepo.Delete(match.Id);
+			}
+			UserRepo.Update(user);
+			QuestionRepo.Update(question);
+			return RedirectToAction("Index");
+		}
+		//When dislike button pressed on main page, it reloads a page and adds or substracts dislikes count
+		public ActionResult Dislike(int id, string QuestiondUserId)
+		{
+			var match = LikedRepo.Find(id, Convert.ToInt32(TempData["id"]));
+			var user = UserRepo.Find(QuestiondUserId, 1);
+			var Liked = LikedRepo.List();
+			int LikedId = 0;
+			if(Liked.Count==0)
+				LikedId=1;
+			else
+				LikedId = LikedRepo.List().Last().Id+1;
+			var question=QuestionRepo.Find(id);
+			if(match.QuestionId != id){
+				question.Question.Dislikes+=1;
+				LikedRepo.Insert(id, 0, Convert.ToInt32(TempData["id"]), LikedId, 2);
+			}
+			else if(match.likedOrDisliked == 1){
+				question.Question.Likes-=1;
+				question.Question.Dislikes+=1;
+				if(user.Id!=Convert.ToInt32(TempData["id"]))
+					user.Currency-=5;
+				LikedRepo.Update(id, 0, Convert.ToInt32(TempData["id"]), match.Id, 2);
+			}
+			else{
+				question.Question.Dislikes-=1;
+				LikedRepo.Delete(match.Id);
+			}
+			UserRepo.Update(user);
+			QuestionRepo.Update(question);
+			return RedirectToAction("Index");
+		}
+		//This is invoked when "mark as the best answer" button is pressed
+		public ActionResult Mark(int AnswerId)
+		{
+			var question = QuestionRepo.Find(Convert.ToInt32(TempData["Qid"]));
+			if(question.Question.topAnswer==0){
+				question.Question.topAnswer=1;
+				QuestionRepo.Update(question);
+				var answer = AnswerRepo.Find(AnswerId);
+				answer.Answer.best=1;
+				AnswerRepo.Update(answer);
+				var user = UserRepo.Find(answer.Answer.fk_User, 1);
+				user.Currency+=80;
+				UserRepo.Update(user);
+				Debug.WriteLine(user.Name);
+			}
+			return RedirectToAction("Content", new {id=Convert.ToInt32(TempData["Qid"])});
 		}
 		/// <summary>
 		/// This is invoked when creation form is first opened in browser.
@@ -73,15 +158,6 @@ namespace Org.Ktu.Isk.P175B602.Autonuoma.Controllers
 		public ActionResult Create(QuestionEditVM questionEvm)
 		{
 			bool temp=true;
-			//form field validation passed?
-			/*if( ModelState.IsValid )
-			
-			{
-				QuestionRepo.Insert(questionEvm);
-
-				//save success, go back to the entity list
-				return RedirectToAction("Index", new { id = questionEvm.user.Id});
-			}*/
 			if(questionEvm.Question.Questions == null || questionEvm.Question.Questions.Length < 5){
 				ModelState.AddModelError("question", "Question must be atleast 5 characters");
 				temp=false;
@@ -96,6 +172,9 @@ namespace Org.Ktu.Isk.P175B602.Autonuoma.Controllers
 				temp=false;
 			}
 			if(temp){
+				var user = UserRepo.Find(Convert.ToInt32(TempData["id"]));
+				user.Currency-=100;
+				UserRepo.Update(user);
 				QuestionRepo.Insert(questionEvm);
 				return RedirectToAction("Index");
 			}
@@ -141,7 +220,7 @@ namespace Org.Ktu.Isk.P175B602.Autonuoma.Controllers
 			if(question.Question.Questions == questionEvm.Question.Questions)
 				ModelState.AddModelError("question", "Question with the same title already exist");*/
 			if(questionEvm.Question.Content == null || questionEvm.Question.Content.Length < 15)
-				ModelState.AddModelError("content", "Content must be atleast 15 characters");
+				ModelState.AddModelError("content", "Content must be at least 15 characters");
 			else {
 				QuestionRepo.Update(questionEvm);
 				return RedirectToAction("Index");
@@ -157,7 +236,10 @@ namespace Org.Ktu.Isk.P175B602.Autonuoma.Controllers
 		public ActionResult Delete(int id)
 		{
 			var questionLvm = QuestionRepo.FindForDeletion(id);
-			return View(questionLvm);
+			Answers question = new Answers();
+			question.question=questionLvm;
+			question.user=UserRepo.Find(Convert.ToInt32(TempData["id"]));
+			return View(question);
 		}
 
 		/// <summary>
@@ -181,8 +263,9 @@ namespace Org.Ktu.Isk.P175B602.Autonuoma.Controllers
 			{
 				//enable explanatory message and show delete form
 				ViewData["deletionNotPermitted"] = true;
-
-				var questionLvm = QuestionRepo.FindForDeletion(id);
+				Answers questionLvm = new Answers();
+				questionLvm.question = QuestionRepo.FindForDeletion(id);
+				questionLvm.user=UserRepo.Find(Convert.ToInt32(TempData["id"]));
 
 				return View("Delete", questionLvm);
 			}
@@ -208,5 +291,20 @@ namespace Org.Ktu.Isk.P175B602.Autonuoma.Controllers
 				})
 				.ToList();
 		}*/
+		public ActionResult Share(){
+			return Redirect("http://www.facebook.com");
+		}
+		public ActionResult Lock(int id){
+			var question = QuestionRepo.Find(id);
+			question.Question.topAnswer=1;
+			QuestionRepo.Update(question);
+			return RedirectToAction("Index");
+		}
+		public ActionResult Unlock(int id){
+			var question = QuestionRepo.Find(id);
+			question.Question.topAnswer=0;
+			QuestionRepo.Update(question);
+			return RedirectToAction("Index");
+		}
 	}
 }

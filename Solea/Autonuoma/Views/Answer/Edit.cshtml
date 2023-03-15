@@ -3,12 +3,14 @@
 	ViewData["title"] = "Edit answer";
 	TempData["id"] = Model.user.Id;
 	TempData["id1"] = Model.user.Id;
+	TempData["name"] = Model.user.Name;
+	TempData["currency"] = Model.user.Currency;
 }
 @if(Model.user.Id==0){
 <body onload=' window.location="http://localhost:5000" ; '></body>
 }
 <div class="main-content-header container-fluid d-flex d-row justify-content-between align-items-center">
-	<span class="title">@ViewData["title"]</span>
+	<pantrast class="title">@ViewData["title"]</pantrast>
 </div>
 
 <div class="container-fluid d-flex justify-content-center">
@@ -21,6 +23,8 @@
 	@* add hidden form fields for non-visible properties, otherwise they will get lost in code that handles button presses *@
 
 	@Html.HiddenFor(m => m.Answer.Id)
+	@Html.HiddenFor(m => m.Answer.Likes)
+	@Html.HiddenFor(m => m.Answer.Dislikes)
 
 	@Html.HiddenFor(m => m.user.Id)
 	@Html.HiddenFor(m => m.Answer.fk_User, new { htmlAttributes = new { @Value=Model.Answer.fk_User } })
@@ -34,28 +38,36 @@
 		</div>*@
 
 	    <div class="form-group">
-			@Html.LabelFor(m => m.Answer.fk_Questions, new { @class = "control-label" })
+			<atskls>@Html.LabelFor(m => m.Answer.fk_Questions, new { @class = "control-label" }) </atskls>
 			@Html.EditorFor(m => m.Answer.fk_Questions, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly"  } })
 			@Html.ValidationMessageFor(m => m.Answer.fk_Questions, "", new { @class = "text-danger" })
 		</div>
 
 
 		<div class="form-group">
-			@Html.LabelFor(m => m.Answer.Answers, new { @class = "control-label" })
+			<atskls>@Html.LabelFor(m => m.Answer.Answers, new { @class = "control-label" }) </atskls>
 			@Html.EditorFor(m => m.Answer.Answers, new { htmlAttributes = new { @class = "form-control" } })
 			@Html.ValidationMessage(@*m => m.Answer.Answers, "", new { @class = "text-danger" }*@"answer")
 		</div>
 
+		@*<div class="form-group">
+			@Html.LabelFor(m => m.Answer.Likes, new { @class = "control-label" })
+			@Html.EditorFor(m => m.Answer.Likes, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly"  } })
+			@Html.ValidationMessageFor(m => m.Answer.Likes, "", new { @class = "text-danger" })
+		</div>
 
 		<div class="form-group">
-			<div class="col-md-offset-2 col-md-10">
-				<input type="submit" value="Išsaugoti" class="btn btn-success" />
-			</div>
-		</div>
+			@Html.LabelFor(m => m.Answer.Dislikes, new { @class = "control-label" })
+			@Html.EditorFor(m => m.Answer.Dislikes, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly"  } })
+			@Html.ValidationMessageFor(m => m.Answer.Dislikes, "", new { @class = "text-danger" })
+		</div>*@
+
+
+		
 	</fieldset>
 
 	<div class="container-fluid d-flex d-row justify-content-end">
-		<button name="save" value="1" class="btn btn-success"><i class="fa-solid fa-floppy-disk"></i> Save</button>
+		<button name="save" value="1" class="btn btn-warning"><i class="fa-solid fa-floppy-disk"></i> Save</button>
 	</div>
 }
 </div>
@@ -63,6 +75,6 @@
 <div class="main-content-footer container-fluid d-flex d-row justify-content-between align-items-center">
 	<span class="title"></span>
 	<span class="actions">
-		<a href="@Url.Action("Index")" class="link-primary"><i class="fa-solid fa-angles-left"></i> Back to list</a>
+		<a href="@Url.Action("Content", "Question", new {id = Model.Lists.Questions_Id})" class="btn btn-success"><i class="fa-solid fa-angles-left"></i> Back to list</a>
 	</span>
 </div>
