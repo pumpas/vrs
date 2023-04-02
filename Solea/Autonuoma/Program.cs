@@ -43,7 +43,7 @@ namespace Org.Ktu.Isk.P175B602.Autonuoma
 		}
 
 		/// <summary>
-		/// Program body.
+		/// Programos main body.
 		/// </summary>
 		/// <param name="args">Command line arguments.</param>
 		private void Run(string[] args)
