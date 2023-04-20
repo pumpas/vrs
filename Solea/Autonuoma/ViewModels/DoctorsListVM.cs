@@ -11,27 +11,28 @@ namespace Org.Ktu.Isk.P175B602.Autonuoma.ViewModels
 	/// </summary>
 	public class DoctorsListVM
 	{
-		[DisplayName("DocId")]
-		public int DocId { get; set; }
+		[DisplayName("Id")]
+		public int Id { get; set; }
 
-		[DisplayName("DocName")]
+		[DisplayName("Name")]
 		[Required]
-		public string DocName { get; set; }
+		public string Name { get; set; }
 
-		[DisplayName("DocQualification")]
-		public int DocQualification { get; set; }
-
-		[DisplayName("DocEmail")]
+		[DisplayName("Surname")]
 		[Required]
-		public string DocEmail { get; set; }
+		public string Surname { get; set; }
 
-		[DisplayName("DocPassword")]
+		[DisplayName("Email")]
 		[Required]
-		public string DocPassword { get; set; }
+		public string Email { get; set; }
 
-		[DisplayName("DocField")]
+		[DisplayName("Password")]
 		[Required]
-		public string DocField { get; set; }
+		public string Password { get; set; }
+
+		[DisplayName("Specialty")]
+		[Required]
+		public string Specialty { get; set; }
 
 
 	}
