@@ -1,5 +1,6 @@
 using Microsoft.EntityFrameworkCore;
-using Org.Ktu.Isk.P175B602.Autonuoma.Models;
+
+
 
 public class MyDbContext : DbContext
 {
