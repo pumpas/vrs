@@ -13,7 +13,9 @@ namespace Org.Ktu.Isk.P175B602.Autonuoma.Repositories
 {
 	public class UserRepo
 	{
-		public static List<User> List()
+        
+
+        public static List<User> List()
 		{
 			var users = new List<User>();
 
