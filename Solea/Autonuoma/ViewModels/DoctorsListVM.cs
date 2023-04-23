@@ -9,7 +9,7 @@ namespace Org.Ktu.Isk.P175B602.Autonuoma.ViewModels
 	/// <summary>
 	/// Model for 'Marke' entity.
 	/// </summary>
-	public class UserListVM
+	public class DoctorsListVM
 	{
 		[DisplayName("Id")]
 		public int Id { get; set; }
@@ -18,8 +18,9 @@ namespace Org.Ktu.Isk.P175B602.Autonuoma.ViewModels
 		[Required]
 		public string Name { get; set; }
 
-		[DisplayName("Currency")]
-		public int Currency { get; set; }
+		[DisplayName("Surname")]
+		[Required]
+		public string Surname { get; set; }
 
 		[DisplayName("Email")]
 		[Required]
@@ -29,9 +30,9 @@ namespace Org.Ktu.Isk.P175B602.Autonuoma.ViewModels
 		[Required]
 		public string Password { get; set; }
 
-		[DisplayName("UserType")]
+		[DisplayName("Specialty")]
 		[Required]
-		public string UserType { get; set; }
+		public string Specialty { get; set; }
 
 
 	}

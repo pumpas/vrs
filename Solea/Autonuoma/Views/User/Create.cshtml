@@ -39,13 +39,20 @@
 			@Html.EditorFor(m => m.Password, new { htmlAttributes = new { @class = "form-control", @type = "password", @placeholder = "Password" } })
 			@Html.ValidationMessage("password"@*m => m.Password, "", new { @class = "text-danger" }*@)
 			</div>
-			 
+			<div>
+    		<atskls>@Html.LabelFor(m => m.UserType, new { @class = "control-label" }) </atskls>
+    		@Html.DropDownListFor(m => m.UserType, new SelectList(new List<string> { "Doctor", "Patient" }), new { @class = "form-control", @placeholder = "User"})
+			</div>
+
 		</div>
 	</fieldset>
 
 	<div class="container-fluid d-flex d-row justify-content-end">
 		<button class="btn btn-warning"><i class="fa-solid fa-floppy-disk"></i> Save</button>
+		@*<button class="btn btn-warning" onclick="location.href='http://localhost:5000/Registration'"><i class="fa-solid fa-registered"></i> Daktaro anketa</button>*@
 	</div>
+	
+
 }
 </div>
 

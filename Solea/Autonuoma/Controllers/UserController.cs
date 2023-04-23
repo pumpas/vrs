@@ -113,6 +113,7 @@ namespace Org.Ktu.Isk.P175B602.Autonuoma.Controllers
 				TempData["userN"] = user.Name;
 				TempData["userE"] = user.Email;
 				TempData["userP"] = user.Password;
+				TempData["userT"] = user.UserType;
 				return RedirectToAction("Confirm");
 				//return RedirectToAction("Index","Question");
 			}
@@ -228,6 +229,7 @@ namespace Org.Ktu.Isk.P175B602.Autonuoma.Controllers
 			user.Name = Convert.ToString(TempData["userN"]);
 			user.Email = Convert.ToString(TempData["userE"]);
 			user.Password = Convert.ToString(TempData["userP"]);
+			user.UserType = Convert.ToString(TempData["userT"]);
 			user.Currency = 100;
 			UserRepo.Insert(user);
 			TempData["id"]=UserRepo.Find(user.Name, 1).Id;
