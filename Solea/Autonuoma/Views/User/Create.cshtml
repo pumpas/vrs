@@ -39,16 +39,16 @@
 			@Html.EditorFor(m => m.Password, new { htmlAttributes = new { @class = "form-control", @type = "password", @placeholder = "Password" } })
 			@Html.ValidationMessage("password"@*m => m.Password, "", new { @class = "text-danger" }*@)
 			</div>
-			@*<div>
+			<div>
     		<atskls>@Html.LabelFor(m => m.UserType, new { @class = "control-label" }) </atskls>
     		@Html.DropDownListFor(m => m.UserType, new SelectList(new List<string> { "Daktaras", "Pacientas" }), new { @class = "form-control"})
-			</div>*@
+			</div>
 			
-			<div>
+			@*<div>
 			<atskls>@Html.LabelFor(m => m.UserType, new { @class = "control-label" }) </atskls>
 			@Html.EditorFor(m => m.UserType, new { htmlAttributes = new { @class = "form-control", @type = "UserType", @placeholder = "UserType" } })
 			@Html.ValidationMessage("UserType"@*m => m.UserType, "", new { @class = "text-danger" }*@)
-			</div>
+			@*</div>*@
 
 		</div>
 	</fieldset>
