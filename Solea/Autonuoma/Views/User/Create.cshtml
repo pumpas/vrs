@@ -41,14 +41,8 @@
 			</div>
 			<div>
     		<atskls>@Html.LabelFor(m => m.UserType, new { @class = "control-label" }) </atskls>
-    		@Html.DropDownListFor(m => m.UserType, new SelectList(new List<string> { "Daktaras", "Pacientas" }), new { @class = "form-control"})
+    		@Html.DropDownListFor(m => m.UserType, new SelectList(new List<string> { "Doctor", "Patient" }), new { @class = "form-control", @placeholder = "User"})
 			</div>
-			
-			@*<div>
-			<atskls>@Html.LabelFor(m => m.UserType, new { @class = "control-label" }) </atskls>
-			@Html.EditorFor(m => m.UserType, new { htmlAttributes = new { @class = "form-control", @type = "UserType", @placeholder = "UserType" } })
-			@Html.ValidationMessage("UserType"@*m => m.UserType, "", new { @class = "text-danger" }*@)
-			@*</div>*@
 
 		</div>
 	</fieldset>
