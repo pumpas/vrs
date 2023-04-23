@@ -29,6 +29,7 @@ namespace Org.Ktu.Isk.P175B602.Autonuoma.Repositories
 					Currency = Convert.ToInt32(item["currency"]),
 					Email = Convert.ToString(item["email"]),
 					Password = Convert.ToString(item["password"]),
+					UserType = Convert.ToString(item["UserType"])
 				});
 			}
 
@@ -52,6 +53,7 @@ namespace Org.Ktu.Isk.P175B602.Autonuoma.Repositories
 				User.Currency = Convert.ToInt32(item["currency"]);
 				User.Email = Convert.ToString(item["email"]);
 				User.Password = Convert.ToString(item["password"]);
+				User.UserType = Convert.ToString(item["UserType"]);
 			}
 
 			return User;
@@ -74,6 +76,7 @@ namespace Org.Ktu.Isk.P175B602.Autonuoma.Repositories
 				User.Currency = Convert.ToInt32(item["currency"]);
 				User.Email = Convert.ToString(item["email"]);
 				User.Password = Convert.ToString(item["password"]);
+				User.UserType = Convert.ToString(item["UserType"]);
 			}
 
 			return User;
@@ -93,6 +96,7 @@ namespace Org.Ktu.Isk.P175B602.Autonuoma.Repositories
 				User.Currency = Convert.ToInt32(item["currency"]);
 				User.Email = Convert.ToString(item["email"]);
 				User.Password = Convert.ToString(item["password"]);
+				User.UserType = Convert.ToString(item["UserType"]);
 			}
 
 			return User;
@@ -111,6 +115,7 @@ namespace Org.Ktu.Isk.P175B602.Autonuoma.Repositories
 				User.Currency = Convert.ToInt32(item["currency"]);
 				User.Email = Convert.ToString(item["email"]);
 				User.Password = Convert.ToString(item["password"]);
+				User.UserType = Convert.ToString(item["UserType"]);
 			}
 
 			return User;
@@ -124,7 +129,9 @@ namespace Org.Ktu.Isk.P175B602.Autonuoma.Repositories
 					name=?name,
 					currency=?currency,
 					email=?email,
-					password=?password
+					password=?password,
+					UserType=?UserType
+
 				WHERE 
 					id=?id";
 
@@ -134,6 +141,7 @@ namespace Org.Ktu.Isk.P175B602.Autonuoma.Repositories
 				args.Add("?currency", MySqlDbType.VarChar).Value = User.Currency;
 				args.Add("?email", MySqlDbType.VarChar).Value = User.Email;
 				args.Add("?password", MySqlDbType.VarChar).Value = User.Password;
+				args.Add("?UserType", MySqlDbType.VarChar).Value = User.UserType;
 			});							
 		}
 
@@ -146,14 +154,16 @@ namespace Org.Ktu.Isk.P175B602.Autonuoma.Repositories
                     name,
 					currency,
 					email,
-					password
+					password,
+					UserType
 				)
 				VALUES(
 					?id,
 					?name,
 					?currency,
 					?email,
-					?password
+					?password,
+					?UserType
 				)";
 
 			Sql.Insert(query, args => {
@@ -162,6 +172,7 @@ namespace Org.Ktu.Isk.P175B602.Autonuoma.Repositories
 				args.Add("?currency", MySqlDbType.VarChar).Value = User.Currency;
 				args.Add("?email", MySqlDbType.VarChar).Value = User.Email;
 				args.Add("?password", MySqlDbType.VarChar).Value = User.Password;
+				args.Add("?UserType", MySqlDbType.VarChar).Value = User.UserType;
 			});
 		}
 

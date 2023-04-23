@@ -28,6 +28,8 @@ namespace Org.Ktu.Isk.P175B602.Autonuoma.Models
 		[Required]
 		public string Password { get; set; }
 
-
+		[DisplayName("UserType")]
+		[Required]
+		public string UserType { get; set; }
 	}
 }

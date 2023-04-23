@@ -39,13 +39,23 @@
 			@Html.EditorFor(m => m.Password, new { htmlAttributes = new { @class = "form-control", @type = "password", @placeholder = "Password" } })
 			@Html.ValidationMessage("password"@*m => m.Password, "", new { @class = "text-danger" }*@)
 			</div>
-			 
+			@*<div>
+    		<atskls>@Html.LabelFor(m => m.UserType, new { @class = "control-label" }) </atskls>
+    		@Html.DropDownListFor(m => m.UserType, new SelectList(new List<string> { "Daktaras", "Pacientas" }), new { @class = "form-control"})
+			</div>*@
+			
+			<div>
+			<atskls>@Html.LabelFor(m => m.UserType, new { @class = "control-label" }) </atskls>
+			@Html.EditorFor(m => m.UserType, new { htmlAttributes = new { @class = "form-control", @type = "UserType", @placeholder = "UserType" } })
+			@Html.ValidationMessage("UserType"@*m => m.UserType, "", new { @class = "text-danger" }*@)
+			</div>
+
 		</div>
 	</fieldset>
 
 	<div class="container-fluid d-flex d-row justify-content-end">
 		<button class="btn btn-warning"><i class="fa-solid fa-floppy-disk"></i> Save</button>
-		<button class="btn btn-warning" onclick="location.href='http://localhost:5000/Registration'"><i class="fa-solid fa-registered"></i> Daktaro anketa</button>
+		@*<button class="btn btn-warning" onclick="location.href='http://localhost:5000/Registration'"><i class="fa-solid fa-registered"></i> Daktaro anketa</button>*@
 	</div>
 	
 

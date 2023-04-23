@@ -29,6 +29,10 @@ namespace Org.Ktu.Isk.P175B602.Autonuoma.ViewModels
 		[Required]
 		public string Password { get; set; }
 
+		[DisplayName("UserType")]
+		[Required]
+		public string UserType { get; set; }
+
 
 	}
 }
