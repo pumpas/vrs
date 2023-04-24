@@ -12,12 +12,11 @@ namespace Org.Ktu.Isk.P175B602.Autonuoma.Models
 {
     public int Id { get; set; }
     public int PatientId { get; set; }
-    public Patient Patient { get; set; }
     public int DoctorId { get; set; }
-    public Doctor Doctor { get; set; }
     public DateTime AppointmentDate { get; set; }
-    public TimeSpan StartTime { get; set; }
-    public TimeSpan EndTime { get; set; }
-    public string Reason { get; set; }
+    public int AppointmentDuration { get; set; }
+    public string AppointmentReason { get; set; }
+    public string AppointmentStatus { get; set; }
 }
+
 }

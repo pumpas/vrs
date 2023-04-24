@@ -18,7 +18,7 @@ namespace Org.Ktu.Isk.P175B602.Autonuoma.Models
     public string Password { get; set; }
     public string Role { get; set; }
 	public string Name { get; set; }
-	public virtual Doctor Doctor { get; set; }
-	public virtual Patient Patient { get; set; }
+    public string Specialty { get; set; }
+	
 }
 }

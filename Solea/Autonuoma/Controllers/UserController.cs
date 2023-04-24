@@ -98,18 +98,7 @@ namespace Org.Ktu.Isk.P175B602.Autonuoma.Controllers
 				ModelState.AddModelError("password", "Password must be atleast 5 characters long");
 			
 			
-			if (user.Role == "Doctor")
-			{
-				 var doctor = new Doctor { Name = user.Name, UserId = user.Id };
-    			//UserRepo.Doctors.Add(doctor); // add the new doctor to the Doctors DbSet
-    			user.Doctor = doctor;
-			}
 			
-				else if (user.Role == "Patient")
-{
-    	var patient = new Patient { Name = user.Name, UserId = user.Id  };
-    user.Patient = patient;
-}
 
 			//form field validation passed?
 			if (ModelState.IsValid && matchName.Name != user.Name && matchEmail.Email != user.Email)
@@ -134,6 +123,7 @@ namespace Org.Ktu.Isk.P175B602.Autonuoma.Controllers
 				TempData["userLN"] = user.LastName;
 				TempData["userMN"] = user.MobileNumber;
 				TempData["userR"] = user.Role;
+				TempData["userS"] = user.Specialty;
 				return RedirectToAction("Confirm");
 				//return RedirectToAction("Index","Question");
 			}
@@ -256,6 +246,7 @@ namespace Org.Ktu.Isk.P175B602.Autonuoma.Controllers
 			user.LastName = Convert.ToString(TempData["userLN"]);
 			user.MobileNumber = Convert.ToString(TempData["userMN"]);
 			user.Role = Convert.ToString(TempData["userR"]);
+			user.Specialty = Convert.ToString(TempData["userS"]);
 			//user.Currency = 100;
 			UserRepo.Insert(user);
 			TempData["id"]=UserRepo.Find(user.Name, 1).Id;
