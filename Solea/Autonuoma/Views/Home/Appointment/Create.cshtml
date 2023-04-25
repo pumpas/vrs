@@ -29,6 +29,32 @@
 			@Html.ValidationMessage("name"@*m => m.PatientId, "", new { @class = "text-danger" }*@)
 			</div>
 			<div>
+			
+
+
+<script>
+$(document).ready(function() {
+  // Get the Role and Specialty fields
+  var roleField = $('#role-field');
+  var specialtyField = $('#Specialty');
+
+  // Hide the Specialty field by default
+  specialtyField.hide();
+
+  // Add an event listener to the Role dropdown menu
+  roleField.change(function() {
+    // Check if "Doctor" is selected
+    if (roleField.val() === 'Doctor') {
+      // Show the Specialty field
+      specialtyField.show();
+    } else {
+      // Hide the Specialty field
+      specialtyField.hide();
+    }
+  });
+});
+
+</script>
 
 
 			 

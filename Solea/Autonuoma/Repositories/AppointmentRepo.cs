@@ -11,42 +11,39 @@ using Org.Ktu.Isk.P175B602.Autonuoma.Models;
 
 namespace Org.Ktu.Isk.P175B602.Autonuoma.Repositories
 {
-	public class UserRepo
+	public class AppointmentRepo
 	{
         
 
-        public static List<User> List()
+        public static List<Appointment> List()
 		{
-			var users = new List<User>();
+			var appointments = new List<Appointment>();
 
-			string query = $@"SELECT * FROM `{Config.TblPrefix}users` ORDER BY id ASC";
+			string query = $@"SELECT * FROM `{Config.TblPrefix}appointments` ORDER BY id ASC";
 			var dt = Sql.Query(query);
 
 			foreach( DataRow item in dt )
 			{
-				users.Add(new User
+				appointments.Add(new Appointment
 				{
 					Id = Convert.ToInt32(item["id"]),
-					Name = Convert.ToString(item["name"]),
-					//Currency = Convert.ToInt32(item["currency"]),
-					Email = Convert.ToString(item["email"]),
-					Password = Convert.ToString(item["password"]),
-					LastName = Convert.ToString(item["lastname"]),
-					MobileNumber = Convert.ToString(item["mobilenumber"]),
-					Role = Convert.ToString(item["role"]),
-					Specialty = Convert.ToString(item["specialty"]),
-					FirstName = Convert.ToString(item["firstname"])
+					PatientId = Convert.ToInt32(item["patient_id"]),
+					DoctorId = Convert.ToInt32(item["doctor_id"]),
+					AppointmentDate = Convert.ToDateTime(item["appointment_date"]),
+					AppointmentDuration = Convert.ToInt32(item["appointment_duration"]),
+					AppointmentReason = Convert.ToString(item["appointment_reason"]),
+					AppointmentStatus = Convert.ToString(item["appointment_status"])
 				});
 			}
 
-			return users;
+			return appointments;
 		}
 		//This is used to find a user based on the id
-		public static User Find(int id)
+		public static Appointment Find(int id)
 		{
-			var User = new User();
+			var Appointment = new Appointment();
 
-			var query = $@"SELECT * FROM `{Config.TblPrefix}users` WHERE id=?id";
+			var query = $@"SELECT * FROM `{Config.TblPrefix}appointments` WHERE id=?id";
 			var dt = 
 				Sql.Query(query, args => {
 					args.Add("?id", MySqlDbType.Int32).Value = id;
@@ -54,163 +51,77 @@ namespace Org.Ktu.Isk.P175B602.Autonuoma.Repositories
 
 			foreach( DataRow item in dt )
 			{
-				User.Id = Convert.ToInt32(item["id"]);
-				User.Name = Convert.ToString(item["name"]);
-				//User.Currency = Convert.ToInt32(item["currency"]);
-				User.Email = Convert.ToString(item["email"]);
-				User.Password = Convert.ToString(item["password"]);
-				User.LastName = Convert.ToString(item["lastname"]);
-				User.MobileNumber = Convert.ToString(item["mobilenumber"]);
-				User.Role = Convert.ToString(item["role"]);
-				User.Specialty = Convert.ToString(item["specialty"]);
-				User.FirstName = Convert.ToString(item["firstname"]);
+				Appointment.Id = Convert.ToInt32(item["id"]);
+				Appointment.PatientId = Convert.ToInt32(item["patient_id"]);
+				Appointment.DoctorId = Convert.ToInt32(item["doctor_id"]);
+				Appointment.AppointmentDate = Convert.ToDateTime(item["appointment_date"]);
+				Appointment.AppointmentDuration = Convert.ToInt32(item["appointment_duration"]);
+				Appointment.AppointmentReason = Convert.ToString(item["appointment_reason"]);
+				Appointment.AppointmentStatus = Convert.ToString(item["appointment_status"]);
 			}
 
-			return User;
+			return Appointment;
 		}
-		//This is used to check when loggin in whether a user inputed a correct name and password
-		public static User Find(User user)
-		{
-			var User = new User();
+		
 
-			var query = $@"SELECT * FROM `{Config.TblPrefix}users` WHERE name=?name AND password=?password";
-			var dt = 
-				Sql.Query(query, args => {
-					args.Add("?password", MySqlDbType.VarChar).Value = user.Password;
-					args.Add("?name", MySqlDbType.VarChar).Value = user.Name;
-				});
-			foreach( DataRow item in dt )
-			{
-				User.Id = Convert.ToInt32(item["id"]);
-				User.Name = Convert.ToString(item["name"]);
-				//User.Currency = Convert.ToInt32(item["currency"]);
-				User.Email = Convert.ToString(item["email"]);
-				User.Password = Convert.ToString(item["password"]);
-				User.LastName = Convert.ToString(item["lastname"]);
-				User.MobileNumber = Convert.ToString(item["mobilenumber"]);
-				User.Role = Convert.ToString(item["role"]);
-				User.Specialty = Convert.ToString(item["specialty"]);
-				User.FirstName = Convert.ToString(item["firstname"]);
-			}
-
-			return User;
-		}
-		//This is used to check when registering whether an account with the same name or email already exist
-		public static User Find(string user){
-			var User = new User();
-			var query = $@"SELECT * FROM `{Config.TblPrefix}users` WHERE email=?email";
-			var dt = 
-				Sql.Query(query, args => {
-					args.Add("?email", MySqlDbType.VarChar).Value = user;
-				});
-			foreach( DataRow item in dt )
-			{
-				User.Id = Convert.ToInt32(item["id"]);
-				User.Name = Convert.ToString(item["name"]);
-				//User.Currency = Convert.ToInt32(item["currency"]);
-				User.Email = Convert.ToString(item["email"]);
-				User.Password = Convert.ToString(item["password"]);
-				User.LastName = Convert.ToString(item["lastname"]);
-				User.MobileNumber = Convert.ToString(item["mobilenumber"]);
-				User.Role = Convert.ToString(item["role"]);
-				User.Specialty = Convert.ToString(item["specialty"]);
-				User.FirstName = Convert.ToString(item["firstname"]);
-			}
-
-			return User;
-		}
-		public static User Find(string user, int n){
-			var User = new User();
-			var query = $@"SELECT * FROM `{Config.TblPrefix}users` WHERE name=?name";
-			var dt = 
-				Sql.Query(query, args => {
-					args.Add("?name", MySqlDbType.VarChar).Value = user;
-				});
-			foreach( DataRow item in dt )
-			{
-				User.Id = Convert.ToInt32(item["id"]);
-				User.Name = Convert.ToString(item["name"]);
-				//User.Currency = Convert.ToInt32(item["currency"]);
-				User.Email = Convert.ToString(item["email"]);
-				User.Password = Convert.ToString(item["password"]);
-				User.LastName = Convert.ToString(item["lastname"]);
-				User.MobileNumber = Convert.ToString(item["mobilenumber"]);
-				User.Role = Convert.ToString(item["role"]);
-				User.Specialty = Convert.ToString(item["specialty"]);
-				User.FirstName = Convert.ToString(item["firstname"]);
-			}
-
-			return User;
-		}
-
-		public static void Update(User User)
+		public static void Update(Appointment appointment)
 		{			
 			var query = 
-				$@"UPDATE `{Config.TblPrefix}users` 
+				$@"UPDATE `{Config.TblPrefix}appointments` 
 				SET 
-					name=?name,
-					email=?email,
-					password=?password,
-					lastname=?lastname,
-					mobilenumber=?mobilenumber,
-					role=?role,
-					specialty=?specialty,
-					firstname=?firstname
+					patient_id=?patient_id,
+					doctor_id=?doctor_id,
+					appointment_date=?appointment_date,
+					appointment_duration=?appointment_duration,
+					appointment_reason=?appointment_reason,
+					appointment_status=?appointment_status
 				WHERE 
 					id=?id";
 
 			Sql.Update(query, args => {
-				args.Add("?name", MySqlDbType.VarChar).Value = User.Name;
-				args.Add("?id", MySqlDbType.VarChar).Value = User.Id;
+				args.Add("?patient_id", MySqlDbType.VarChar).Value = appointment.PatientId;
+				args.Add("?id", MySqlDbType.VarChar).Value = appointment.Id;
 				//args.Add("?currency", MySqlDbType.VarChar).Value = User.Currency;
-				args.Add("?email", MySqlDbType.VarChar).Value = User.Email;
-				args.Add("?password", MySqlDbType.VarChar).Value = User.Password;
-				args.Add("?lastname", MySqlDbType.VarChar).Value = User.LastName;
-				args.Add("?mobilenumber", MySqlDbType.VarChar).Value = User.MobileNumber;
-				args.Add("?role", MySqlDbType.VarChar).Value = User.Role;
-				args.Add("?specialty", MySqlDbType.VarChar).Value = User.Specialty;
-				args.Add("?firstname", MySqlDbType.VarChar).Value = User.FirstName;
+				args.Add("?doctor_id", MySqlDbType.VarChar).Value = appointment.DoctorId;
+				args.Add("?appointment_date", MySqlDbType.VarChar).Value = appointment.AppointmentDate;
+				args.Add("?appointment_duration", MySqlDbType.VarChar).Value = appointment.AppointmentDuration;
+				args.Add("?appointment_reason", MySqlDbType.VarChar).Value = appointment.AppointmentReason;
+				args.Add("?appointment_status", MySqlDbType.VarChar).Value = appointment.AppointmentStatus;
+			
 			});							
 		}
 
-		public static void Insert(User User)
+		public static void Insert(Appointment appointment)
 		{			
 				var query =
-				$@"INSERT INTO `{Config.TblPrefix}users`
+				$@"INSERT INTO `{Config.TblPrefix}appointments`
 				(
 					id,
-                    name,
-					email,
-					password,
-					lastname,
-					mobilenumber,
-					role,
-					specialty,
-					firstname
+                    patient_id,
+					doctor_id,
+					appointment_date,
+					appointment_duration,
+					appointment_reason,
+					appointment_status
 				)
 				VALUES(
 					?id,
-					?name,
-					?email,
-					?password,
-					?lastname,
-					?mobilenumber,
-					?role,
-					?specialty,
-					?firstname
+					?patient_id,
+					?doctor_id,
+					?appointment_date,
+					?appointment_duration,
+					?appointment_reason,
+					?appointment_status
 				)";
 
 			Sql.Insert(query, args => {
-				args.Add("?id", MySqlDbType.VarChar).Value = User.Id;
-				args.Add("?name", MySqlDbType.VarChar).Value = User.Name;
-				//args.Add("?currency", MySqlDbType.VarChar).Value = User.Currency;
-				args.Add("?email", MySqlDbType.VarChar).Value = User.Email;
-				args.Add("?password", MySqlDbType.VarChar).Value = User.Password;
-				args.Add("?lastname", MySqlDbType.VarChar).Value = User.LastName;
-				args.Add("?mobilenumber", MySqlDbType.VarChar).Value = User.MobileNumber;
-				args.Add("?role", MySqlDbType.VarChar).Value = User.Role;
-				args.Add("?specialty", MySqlDbType.VarChar).Value = User.Specialty;
-				args.Add("?firstname", MySqlDbType.VarChar).Value = User.FirstName;
+				args.Add("?id", MySqlDbType.VarChar).Value = appointment.Id;
+				args.Add("?patient_id", MySqlDbType.VarChar).Value = appointment.PatientId;
+				args.Add("?doctor_id", MySqlDbType.VarChar).Value = appointment.DoctorId;
+				args.Add("?appointment_date", MySqlDbType.VarChar).Value = appointment.AppointmentDate;
+				args.Add("?appointment_duration", MySqlDbType.VarChar).Value = appointment.AppointmentDuration;
+				args.Add("?appointment_reason", MySqlDbType.VarChar).Value = appointment.AppointmentReason;
+				args.Add("?appointment_status", MySqlDbType.VarChar).Value = appointment.AppointmentStatus;
 			});
 		}
 
