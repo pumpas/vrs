@@ -52,7 +52,67 @@ namespace Org.Ktu.Isk.P175B602.Autonuoma.Controllers
 		}
 
 		
+		
+/// <summary>
+		/// This is invoked when buttons are pressed in the creation form.
+		/// </summary>
+		/// <param name="user">Entity model filled with latest data.</param>
+		/// <returns>Returns creation from view or redirects back to Index if save is successfull.</returns>
+		[HttpPost]
+		public ActionResult Create(Appointment appointment)
+		{
+			
+			/*var matchName = UserRepo.Find(user.Name, 1);
+			var matchEmail = UserRepo.Find(user.Email);
+			// if(matchName.Name == "testasAI"){
+			// 		Debug.WriteLine("gerai");
+			// 	}
+			// else
+			// 	Debug.WriteLine("blogai");
 
+			if( matchName.Name == user.Name)
+				ModelState.AddModelError("name", "This name is already taken");
+			else if( user.Name==null || user.Name.Length < 5)
+				ModelState.AddModelError("name", "Name must be atleast 5 characters long");
+			if( matchEmail.Email == user.Email)
+				ModelState.AddModelError("email", "This email is already taken");
+			else if( user.Email == null || user.Email.Length < 5)
+				ModelState.AddModelError("email", "Email must be atleast 5 characters long");
+			if(user.Password == null || user.Password.Length < 5)
+				ModelState.AddModelError("password", "Password must be atleast 5 characters long");
+			
+			*/
+			
+
+			//form field validation passed?
+			//if (ModelState.IsValid && matchName.Name != user.Name && matchEmail.Email != user.Email)
+			{
+				// user.Currency=100;
+				// UserRepo.Insert(user);
+				// TempData["id"]=UserRepo.Find(user.Name, 1).Id;
+				//matchName = UserRepo.Find(user.Name, 1);
+				/*if(match.Name == "lab"){
+					Debug.WriteLine("gerai");
+				}
+				else
+					Debug.WriteLine("blogai");*/
+				//save success, go back to the entity list
+
+				//int id = SendConfirm(user.Email);
+				//TempData["codeId"] = Id;
+				TempData["userPID"] = appointment.PatientId;
+				TempData["userDIP"] = appointment.DoctorId;
+				TempData["userDAT"] = appointment.AppointmentDate;
+				TempData["userDUR"] = appointment.AppointmentDuration;
+				TempData["userREA"] = appointment.AppointmentReason;
+				TempData["userSTA"] = appointment.AppointmentStatus;
+				//return RedirectToAction("Confirm");
+				return RedirectToAction("Index","Question");
+			}
+
+			//form field validation failed, go back to the form
+			return View(appointment);
+		}
 		/// <summary>
 		/// This is invoked when editing form is first opened in browser.
 		/// </summary>
@@ -159,12 +219,12 @@ namespace Org.Ktu.Isk.P175B602.Autonuoma.Controllers
 		}
 		public ActionResult Add(){
 			Appointment appointment = new Appointment();
-			appointment.PatientId = Convert.ToInt32(TempData["userN"]);
-			appointment.DoctorId = Convert.ToInt32(TempData["userE"]);
-			appointment.AppointmentDate = Convert.ToDateTime(TempData["userP"]);
-			appointment.AppointmentDuration = Convert.ToInt32(TempData["userFN"]);
-			appointment.AppointmentReason = Convert.ToString(TempData["userLN"]);
-			appointment.AppointmentStatus = Convert.ToString(TempData["userMN"]);
+			appointment.PatientId = Convert.ToInt32(TempData["userPID"]);
+			appointment.DoctorId = Convert.ToInt32(TempData["userDIP"]);
+			appointment.AppointmentDate = Convert.ToDateTime(TempData["userDAT"]);
+			appointment.AppointmentDuration = Convert.ToInt32(TempData["userDUR"]);
+			appointment.AppointmentReason = Convert.ToString(TempData["userREA"]);
+			appointment.AppointmentStatus = Convert.ToString(TempData["userSTA"]);
 			
 			//user.Currency = 100;
 			AppointmentRepo.Insert(appointment);

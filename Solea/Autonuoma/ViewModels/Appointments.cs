@@ -10,36 +10,9 @@ namespace Org.Ktu.Isk.P175B602.Autonuoma.ViewModels
 	/// Model for 'Marke' entity.
 	/// </summary>
 	public class Appointments
-	{
-		[DisplayName("Id")]
-		public int Id { get; set; }
-
-		[DisplayName("PatientId")]
-		[Required]
-		public string PatientId { get; set; }
-
-
-		[DisplayName("DoctorId")]
-		[Required]
-		public string DoctorId { get; set; }
-
-		[DisplayName("AppointmentDate")]
-		[Required]
-		public string AppointmentDate { get; set; }
-
-		[DisplayName("AppointmentDuration")]
-		[Required]
-		public string AppointmentDuration { get; set; }
-
-		[DisplayName("AppointmentReason")]
-		[Required]
-		public string AppointmentReason { get; set; }
-
-		[DisplayName("AppointmentStatus")]
-		[Required]
-		public string AppointmentStatus { get; set; }
-		
-
-
-	}
+    {
+        public List<AppointmentsListVM> appointments { get; set; }
+        public Appointment appointment {get; set;}
+          public string Id { get; set; }
+    }
 }

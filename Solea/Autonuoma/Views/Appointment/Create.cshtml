@@ -29,6 +29,11 @@
 			@Html.ValidationMessage("patient_id"@*m => m.PatientId, "", new { @class = "text-danger" }*@)
 			</div>
 			<div>
+				<atskls>@Html.LabelFor(m => m.AppointmentReason, new { @class = "control-label" }) </atskls>
+			@Html.EditorFor(m => m.AppointmentReason, new { htmlAttributes = new { @class = "form-control", @placeholder = "Reason" } })
+			@Html.ValidationMessage("appointment_reason"@*m => m.PatientId, "", new { @class = "text-danger" }*@)
+			</div>
+			<div>
 			
 
 
