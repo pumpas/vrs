@@ -1,45 +1,26 @@
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
+
 using Org.Ktu.Isk.P175B602.Autonuoma.Repositories;
 using Org.Ktu.Isk.P175B602.Autonuoma.Models;
 using Org.Ktu.Isk.P175B602.Autonuoma.ViewModels;
-using System.Diagnostics;
-using System.Linq;
-using System.Net;
-using System.Net.Mail;
-using System.Web;
 
 
 namespace Org.Ktu.Isk.P175B602.Autonuoma.Controllers
 {
 	/// <summary>
-	/// Controller for working with 'Marke' entity.
+	/// Controller for working with 'Automobilis' entity.
 	/// </summary>
 	public class AppointmentController : Controller
 	{
-			
 		/// <summary>
 		/// This is invoked when either 'Index' action is requested or no action is provided.
 		/// </summary>
 		/// <returns>Entity list view.</returns>
 		public ActionResult Index()
 		{
-			var appointments = AppointmentRepo.List();
-			return View(appointments);
+			return View(AppointmentRepo.List());
 		}
-
-		/*public ActionResult Login(string name, string password)
-		{
-			var match = UserRepo.Find(darb.ID);
-			return View(users);
-		}*/
-		//This page is invoked when login button is pressed
-		public ActionResult Login()
-		{
-			return View();
-		}
-
-		
-
 
 		/// <summary>
 		/// This is invoked when creation form is first opened in browser.
@@ -47,111 +28,77 @@ namespace Org.Ktu.Isk.P175B602.Autonuoma.Controllers
 		/// <returns>Creation form view.</returns>
 		public ActionResult Create()
 		{
-			var appointment = new Appointment();
-			return View(appointment);
+			var autoEvm = new AppointmentEditVM();
+			PopulateSelections(autoEvm);
+
+			return View(autoEvm);
 		}
 
-		
-		
-/// <summary>
+		/// <summary>
 		/// This is invoked when buttons are pressed in the creation form.
 		/// </summary>
-		/// <param name="user">Entity model filled with latest data.</param>
+		/// <param name="autoEvm">Entity model filled with latest data.</param>
 		/// <returns>Returns creation from view or redirects back to Index if save is successfull.</returns>
 		[HttpPost]
-		public ActionResult Create(Appointment appointment)
+		public ActionResult Create(AppointmentEditVM autoEvm)
 		{
-			
-			/*var matchName = UserRepo.Find(user.Name, 1);
-			var matchEmail = UserRepo.Find(user.Email);
-			// if(matchName.Name == "testasAI"){
-			// 		Debug.WriteLine("gerai");
-			// 	}
-			// else
-			// 	Debug.WriteLine("blogai");
-
-			if( matchName.Name == user.Name)
-				ModelState.AddModelError("name", "This name is already taken");
-			else if( user.Name==null || user.Name.Length < 5)
-				ModelState.AddModelError("name", "Name must be atleast 5 characters long");
-			if( matchEmail.Email == user.Email)
-				ModelState.AddModelError("email", "This email is already taken");
-			else if( user.Email == null || user.Email.Length < 5)
-				ModelState.AddModelError("email", "Email must be atleast 5 characters long");
-			if(user.Password == null || user.Password.Length < 5)
-				ModelState.AddModelError("password", "Password must be atleast 5 characters long");
-			
-			*/
-			
-
 			//form field validation passed?
-			//if (ModelState.IsValid && matchName.Name != user.Name && matchEmail.Email != user.Email)
+			if( ModelState.IsValid )
 			{
-				// user.Currency=100;
-				// UserRepo.Insert(user);
-				// TempData["id"]=UserRepo.Find(user.Name, 1).Id;
-				//matchName = UserRepo.Find(user.Name, 1);
-				/*if(match.Name == "lab"){
-					Debug.WriteLine("gerai");
-				}
-				else
-					Debug.WriteLine("blogai");*/
+				AppointmentRepo.Insert(autoEvm);
+
 				//save success, go back to the entity list
-
-				//int id = SendConfirm(user.Email);
-				//TempData["codeId"] = Id;
-				TempData["userPID"] = appointment.PatientId;
-				TempData["userDIP"] = appointment.DoctorId;
-				TempData["userDAT"] = appointment.AppointmentDate;
-				TempData["userDUR"] = appointment.AppointmentDuration;
-				TempData["userREA"] = appointment.AppointmentReason;
-				TempData["userSTA"] = appointment.AppointmentStatus;
-				//return RedirectToAction("Confirm");
-				return RedirectToAction("Index","Question");
+				return RedirectToAction("Index");
 			}
-
+			
 			//form field validation failed, go back to the form
-			return View(appointment);
+			PopulateSelections(autoEvm);
+			return View(autoEvm);
 		}
+
 		/// <summary>
 		/// This is invoked when editing form is first opened in browser.
 		/// </summary>
 		/// <param name="id">ID of the entity to edit.</param>
 		/// <returns>Editing form view.</returns>
-		public ActionResult Edit()
+		public ActionResult Edit(int id)
 		{
-			var appointment = AppointmentRepo.Find(Convert.ToInt32(TempData["id"]));
-			return View(appointment);
+			var autoEevm = AppointmentRepo.Find(id);
+			PopulateSelections(autoEevm);
+
+			return View(autoEevm);
 		}
 
 		/// <summary>
 		/// This is invoked when buttons are pressed in the editing form.
 		/// </summary>
 		/// <param name="id">ID of the entity being edited</param>		
-		/// <param name="marke">Entity model filled with latest data.</param>
+		/// <param name="autoEvm">Entity model filled with latest data.</param>
 		/// <returns>Returns editing from view or redirects back to Index if save is successfull.</returns>
 		[HttpPost]
-		public ActionResult Edit(User user)
+		public ActionResult Edit(int id, AppointmentEditVM autoEvm)
 		{
 			//form field validation passed?
-			if(user.Password == null || user.Password.Length < 5)
-				ModelState.AddModelError("password", "Password must be at least 5 characters");
-			else {
-				UserRepo.Update(user);
-				return RedirectToAction("Index","Question");
+			if (ModelState.IsValid)
+			{
+				AppointmentRepo.Update(autoEvm);
+
+				//save success, go back to the entity list
+				return RedirectToAction("Index");
 			}
 
 			//form field validation failed, go back to the form
-			return View(user);
+			PopulateSelections(autoEvm);
+			return View(autoEvm);
 		}
-	
+
 		/// </summary>
 		/// <param name="id">ID of the entity to delete.</param>
 		/// <returns>Deletion form view.</returns>
 		public ActionResult Delete(int id)
 		{
-			var user = UserRepo.Find(id);
-			return View(user);
+			var autoEvm = AppointmentRepo.Find(id);
+			return View(autoEvm);
 		}
 
 		/// <summary>
@@ -165,7 +112,7 @@ namespace Org.Ktu.Isk.P175B602.Autonuoma.Controllers
 			//try deleting, this will fail if foreign key constraint fails
 			try 
 			{
-				UserRepo.Delete(id);
+				AppointmentRepo.Delete(id);
 
 				//deletion success, redired to list form
 				return RedirectToAction("Index");
@@ -176,60 +123,44 @@ namespace Org.Ktu.Isk.P175B602.Autonuoma.Controllers
 				//enable explanatory message and show delete form
 				ViewData["deletionNotPermitted"] = true;
 
-				var user = UserRepo.Find(id);
-				return View("Delete", user);
+				var autoEvm = AppointmentRepo.Find(id);
+				PopulateSelections(autoEvm);
+
+				return View("Delete", autoEvm);
 			}
 		}
-		 public int SendConfirm(string mail){
-			using (MailMessage mm = new MailMessage("blokasthe@gmail.com", mail))
-        {
-			int id=0;
-			Random random = new Random();
-			id = random.Next();
-            mm.Subject = "Account Activation";
-            string body = "Hello " /*+ user.Name*/ + ",";
-            body += "<br /><br />Please write the following code to activate your account: ";
-			body += id;
-            mm.Body = body;
-            mm.IsBodyHtml = true;
-            SmtpClient smtp = new SmtpClient();
-            smtp.Host = "smtp.gmail.com";
-            smtp.EnableSsl = true;
-            NetworkCredential NetworkCred = new NetworkCredential("blokasthe@gmail.com", "qrfeziedrxiiezll");
-            smtp.UseDefaultCredentials = false;
-            smtp.Credentials = NetworkCred;
-            smtp.Port = 587;
-            smtp.Send(mm);
-			return id;
-        }
-		
-		}
-		
-		public ActionResult Confirm(){
-			return View();
-		}
-		[HttpPost]
-		public ActionResult Confirm(string code){
-			string id = Convert.ToString(TempData["codeId"]);
-			if(code == id){
-				return RedirectToAction("Add");
-			}
-			TempData["codeId"] = id;
-			return View();
-		}
-		public ActionResult Add(){
-			Appointment appointment = new Appointment();
-			appointment.PatientId = Convert.ToInt32(TempData["userPID"]);
-			appointment.DoctorId = Convert.ToInt32(TempData["userDIP"]);
-			appointment.AppointmentDate = Convert.ToDateTime(TempData["userDAT"]);
-			appointment.AppointmentDuration = Convert.ToInt32(TempData["userDUR"]);
-			appointment.AppointmentReason = Convert.ToString(TempData["userREA"]);
-			appointment.AppointmentStatus = Convert.ToString(TempData["userSTA"]);
-			
-			//user.Currency = 100;
-			AppointmentRepo.Insert(appointment);
-			//TempData["id"]=AppointmentRepo.Find(appointment., 1).Id;
-			return RedirectToAction("Index", "Question");
+
+		/// <summary>
+		/// Populates select lists used to render drop down controls.
+		/// </summary>
+		/// <param name="modelisEvm">'Automobilis' view model to append to.</param>
+		public void PopulateSelections(AppointmentEditVM modelisEvm)
+		{
+			//load entities for the select lists
+			var pacientai = UserRepo.List();
+			var daktarai = UserRepo.List();
+
+
+			//build select lists
+			modelisEvm.Lists.PatientId =
+				pacientai.Select(it => {
+					return
+						new SelectListItem() {
+							Value = Convert.ToString(it.Id),
+							Text = it.Name
+						};
+				})
+				.ToList();
+
+				modelisEvm.Lists.DoctorId =
+				daktarai.Select(it => {
+					return
+						new SelectListItem() {
+							Value = Convert.ToString(it.Id),
+							Text = it.Name
+						};
+				})
+				.ToList();
 		}
 	}
 }

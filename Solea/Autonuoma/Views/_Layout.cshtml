@@ -56,12 +56,30 @@
 
   <div class="d-flex ml-auto">
     @if(TempData["id1"]==null || Convert.ToInt32(TempData["id1"])==0){
-      <span class="actions">
-        <a href="@Url.Action("Create", "User")" class="btn btn-primary btn-lg"><i class="fa-solid fa-plus"></i> Register</a>
+		<span class="actions">
+        <a href="@Url.Action("Create", "User")" class="btn btn-primary btn-lg"><i class="fa-solid fa-plus"></i> Register Patient</a>
+      </span>
+	  <span class="actions">
+        <a href="@Url.Action("Create", "Doctor")" class="btn btn-primary btn-lg"><i class="fa-solid fa-plus"></i> Register Doctor</a>
       </span>
       <span class="actions">
-        <a href="@Url.Action("Login", "User")" class="btn btn-primary btn-lg"><i class="fa-solid fa-plus"></i> Login</a>
+        <a href="@Url.Action("Login", "User")" class="btn btn-primary btn-lg"><i class="fa-solid fa-plus"></i> Login Patient</a>
       </span>
+      <span class="actions">
+        <a href="@Url.Action("Login", "Doctor")" class="btn btn-primary btn-lg"><i class="fa-solid fa-plus"></i> Login Doctor</a>
+      </span>
+	  <div class="actions">
+    <div class="dropdown">
+        <button class="btn btn-primary btn-lg dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            Register
+        </button>
+        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+            <a class="dropdown-item" href="@Url.Action("Create", "User")">Register Patient</a>
+            <a class="dropdown-item" href="@Url.Action("Create", "Doctor")">Register Doctor</a>
+        </div>
+    </div>
+</div>
+
     }
 
     else{
@@ -78,6 +96,7 @@
                 <antrast class="btn btn-secondary btn-lg dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">@TempData["name"] </antrast>
                 <div class="dropdown-menu" style="">
                   <a class="dropdown-item" href="@Url.Action("Edit", "User")">Edit profile</a>
+				  <a class="dropdown-item" href="@Url.Action("Edit", "Doctor")">Edit profile</a>
                   <a class="dropdown-item" style="color: red;" href="@Url.Action("Index", "Home")">Logout</a>
                 </li>
               </ul>

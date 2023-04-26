@@ -3,16 +3,15 @@ using System.ComponentModel.DataAnnotations;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Org.Ktu.Isk.P175B602.Autonuoma.Models;
 
-
 namespace Org.Ktu.Isk.P175B602.Autonuoma.ViewModels
 {
 	/// <summary>
-	/// Model for 'Marke' entity.
+	/// Model of 'Modelis' entity used in lists.
 	/// </summary>
-	public class Appointments
+	public class Doctors
     {
-        public List<AppointmentsListVM> appointments { get; set; }
-        public Appointment appointment {get; set;}
-          public string Id { get; set; }
+        public List<DoctorListVM> users { get; set; }
+        public Doctor doctor {get; set;}
+          public string Role { get; set; }
     }
 }
