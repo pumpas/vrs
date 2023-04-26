@@ -127,7 +127,7 @@ namespace Org.Ktu.Isk.P175B602.Autonuoma.Repositories
 
 		public static void Delete(int id)
 		{			
-			var query = $@"DELETE FROM `{Config.TblPrefix}users` where id=?id";
+			var query = $@"DELETE FROM `{Config.TblPrefix}appointments` where id=?id";
 			Sql.Delete(query, args => {
 				args.Add("?id", MySqlDbType.Int32).Value = id;
 			});			
