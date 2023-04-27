@@ -10,7 +10,7 @@ namespace Org.Ktu.Isk.P175B602.Autonuoma.ViewModels
 	/// </summary>
 	public class Doctors
     {
-        public List<DoctorListVM> users { get; set; }
+        public List<DoctorListVM> doctors { get; set; }
         public Doctor doctor {get; set;}
           public string Role { get; set; }
     }
