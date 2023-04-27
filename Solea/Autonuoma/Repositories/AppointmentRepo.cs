@@ -25,10 +25,12 @@ namespace Org.Ktu.Isk.P175B602.Autonuoma.Repositories
 					md.appointment_duration,
 					md.appointment_reason,
 					md.appointment_status,
-					mark.firstname AS pacientas
+					mark.firstname AS patient,
+					mm.firstname AS doctor
 				FROM
 					`{Config.TblPrefix}appointments` md
 					LEFT JOIN `{Config.TblPrefix}users` mark ON mark.id=md.patient_id
+				LEFT JOIN `{Config.TblPrefix}doctors` mm ON mm.id = md.doctor_id
 				ORDER BY mark.firstname ASC, md.id ASC";
 
 			var dt = Sql.Query(query);
@@ -42,7 +44,8 @@ namespace Org.Ktu.Isk.P175B602.Autonuoma.Repositories
 					AppointmentDuration = Convert.ToInt32(item["appointment_duration"]),
 					AppointmentReason = Convert.ToString(item["appointment_reason"]),
 					AppointmentStatus = Convert.ToString(item["appointment_status"]),
-					PatientId = Convert.ToString(item["patient_id"])
+					PatientId = Convert.ToString(item["patient"]),
+					DoctorId = Convert.ToString(item["doctor"])
 
 				});
 			}
@@ -128,7 +131,7 @@ namespace Org.Ktu.Isk.P175B602.Autonuoma.Repositories
 		public static void Update(AppointmentEditVM modelisEvm)
 		{
 			var query =
-				$@"UPDATE `{Config.TblPrefix}modeliai`
+				$@"UPDATE `{Config.TblPrefix}appointments`
 				SET
 					patient_id=?patient,
 					doctor_id=?doctor,
