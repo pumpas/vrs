@@ -51,7 +51,7 @@ namespace Org.Ktu.Isk.P175B602.Autonuoma.Controllers
 				TempData["id"]=match.Id;
 
 				//Loggedin.Login();
-				return RedirectToAction("Index", "Question");
+				return RedirectToAction("Index", "Answer");
 				//return View( "Index", nameof(Index));
 			}
 			return View(user);

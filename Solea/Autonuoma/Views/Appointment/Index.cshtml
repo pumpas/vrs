@@ -1,28 +1,49 @@
-@model Org.Ktu.Isk.P175B602.Autonuoma.ViewModels.Appointments
+@model IEnumerable<Org.Ktu.Isk.P175B602.Autonuoma.ViewModels.AppointmentListVM>
 @{
-	ViewData["title"] = "Vizitų laikai";
-	TempData["id"] = Model.doctor.Id;
-	TempData["id1"] = Model.doctor.Id;
-	TempData["name"] = Model.doctor.Name;
-	//TempData["currency"] = Model.user.Currency;
+	ViewData["title"] = "Modeliai";
 }
-@*@if(Model.user.Id==0){
-<body onload=' window.location="http://localhost:5000" ; '></body>
-}*@
-<link rel="stylesheet" href="~/css/bootswatchTheme.css" />
 
 <div class="main-content-header container-fluid d-flex d-row justify-content-between align-items-center p-2">
-	<pantrast class="title">@ViewData["title"]</pantrast>
-	@*<input type="text" placeholder="Search.." id="search">
-	<input type="submit" value="Search" formaction="Search" fommethod="post"/>
-	@*<button type="submit" formaction="@Url.Action("Create")">Submit</button>
-	<input type="submit" value="Search" formaction="Content" fommethod="post" >*@
-	<form href="@Url.Action("Search", "Question")">
-      <input type="text" placeholder="Search.." name="search">
-      <button type="submit"  ><img src="/images/magnifier.png" alt="search" width="20" height="auto"></button>
-	  @*<input type="image" src="/images/magnifier.png" width="30" height="auto"  alt="search">*@
-    </form>
-	@*<div class="container-fluid d-flex d-row justify-content-end">
-		<button name="Search" value="1" class="btn btn-success"><i class="fa-solid fa-floppy-disk"></i> Save</button>
-	</div>*@
-	
+	<span class="title">@ViewData["title"]</span>
+	<span class="actions">
+		<a href="@Url.Action("Create")" class="btn btn-primary"><i class="fa-solid fa-plus"></i> Sukurti naują</a>
+	</span>
+</div>
+
+<div class="d-flex justify-content-center">
+	<table class="entitylist table table-striped table-hover">
+		<thead>
+			<tr>
+				<th>
+					@Html.DisplayNameFor(model => model.PatientId)
+				</th>
+				<th>
+					@Html.DisplayNameFor(model => model.DoctorId)
+				</th>
+				<th>
+					@Html.DisplayNameFor(model => model.AppointmentStatus)
+				</th>
+				<th></th>
+			</tr>
+		</thead>
+		<tbody>
+			@foreach (var item in Model) {
+			<tr>
+				<td>
+					@Html.DisplayFor(model => item.PatientId)
+				</td>
+				<td>
+					@Html.DisplayFor(model => item.DoctorId)
+				</td>
+				<td>
+					@Html.DisplayFor(model => item.AppointmentStatus)
+				</td>
+				<td>
+					<a href="@Url.Action("Edit", new { id = item.Id })" class="btn btn-primary"><i class="fa-solid fa-pen-to-square"></i> Redaguoti</a>
+					<a href="@Url.Action("Delete", new { id = item.Id })" class="btn btn-danger"><i class="fa-solid fa-trash"></i> Šalinti</a>
+				</td>
+			</tr>
+			}
+		</tbody>
+	</table>
+</div>

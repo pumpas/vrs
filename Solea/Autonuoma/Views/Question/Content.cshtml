@@ -1,9 +1,9 @@
 ﻿@model Org.Ktu.Isk.P175B602.Autonuoma.ViewModels.Answers
 @{
 	ViewData["title"] = "Question";
-	TempData["id"] = Model.user.Id;
-	TempData["id1"] = Model.user.Id;
-	TempData["name"] = Model.user.Name;
+	TempData["id"] = Model.doctor.Id;
+	TempData["id1"] = Model.doctor.Id;
+	TempData["name"] = Model.doctor.Name;
 	//TempData["currency"] = Model.user.Currency;
 	TempData["Qid"] = Model.question.Id;
 }
@@ -42,7 +42,7 @@
 
 
 </div>
-@if(Model.user.Id==0){
+@if(Model.doctor.Id==0){
 	<a href="http://localhost:5000/User/Login" class="btn btn-outline-danger" role="button">Login to create an answer</a>
 	
 }
@@ -98,7 +98,7 @@ else{
 				<td>
           <atskls>
 					@Html.DisplayFor(Answer => item.Likes)
-					@if(Model.user.Id==0){
+					@if(Model.doctor.Id==0){
 						<a href="http://localhost:5000/User/Login"  role="button"><img src="/images/like.png" alt="like" width="20" height="auto"></a>
 					}
 					else{
@@ -109,7 +109,7 @@ else{
 				<td>
          		<atskls>
 					@Html.DisplayFor(Answer => item.Dislikes)
-					@if(Model.user.Id==0){
+					@if(Model.doctor.Id==0){
 						<a href="http://localhost:5000/User/Login"  role="button"><img src="/images/dislike.png" alt="dislike" width="20" height="auto"></a>
 					}
 					else{
@@ -117,7 +117,7 @@ else{
 					}
            		</atskls>
 				   <th>
-					@if(Model.user.Name==item.fk_User || Model.user.Name == "admin"){
+					@if(Model.doctor.Name==item.fk_User || Model.doctor.Name == "admin"){
 						@*<a href="@Url.Action("Delete","Answer", new { id1 = item.Id, id = Model.question.Id, q = Model.question.Questions} )" style="float: right;" class="btn btn-primary"><i class="fa-solid fa-pen-to-square"></i> Delete</a>
 						<a href="@Url.Action("Edit","Answer", new { id1 = item.Id, id = Model.question.Id, q = Model.question.Questions} )" style="float: right;" class="btn btn-primary"><i class="fa-solid fa-pen-to-square"></i> Edit</a>*@
 					<a href="@Url.Action("Delete","Answer", new { id = item.Id, idQ = Model.question.Id} )" style="float: right;" class="btn btn-danger"><i class="fa-solid fa-trash"></i> Delete</a>
@@ -128,7 +128,7 @@ else{
 				}
 			}
 			@foreach (var item in Model.answers){
-				@if(item.fk_User==Model.user.Name){
+				@if(item.fk_User==Model.doctor.Name){
 					<thead>
 					  <tr>
 				<td>
@@ -144,7 +144,7 @@ else{
 				<td>
           <atskls>
 					@Html.DisplayFor(Answer => item.Likes)
-					@if(Model.user.Id==0){
+					@if(Model.doctor.Id==0){
 						<a href="http://localhost:5000/User/Login"  role="button"><img src="/images/like.png" alt="like" width="20" height="auto"></a>
 					}
 					else{
@@ -155,7 +155,7 @@ else{
 				<td>
          		<atskls>
 					@Html.DisplayFor(Answer => item.Dislikes)
-					@if(Model.user.Id==0){
+					@if(Model.doctor.Id==0){
 						<a href="http://localhost:5000/User/Login"  role="button"><img src="/images/dislike.png" alt="dislike" width="20" height="auto"></a>
 					}
 					else{
@@ -163,7 +163,7 @@ else{
 					}
            		</atskls>
 				   <th>
-					@if(Model.user.Name==item.fk_User || Model.user.Name=="admin"){
+					@if(Model.doctor.Name==item.fk_User || Model.doctor.Name=="admin"){
 						@*<a href="@Url.Action("Delete","Answer", new { id1 = item.Id, id = Model.question.Id, q = Model.question.Questions} )" style="float: right;" class="btn btn-primary"><i class="fa-solid fa-pen-to-square"></i> Delete</a>
 						<a href="@Url.Action("Edit","Answer", new { id1 = item.Id, id = Model.question.Id, q = Model.question.Questions} )" style="float: right;" class="btn btn-primary"><i class="fa-solid fa-pen-to-square"></i> Edit</a>*@
 					<a href="@Url.Action("Delete","Answer", new { id = item.Id, idQ = Model.question.Id} )" style="float: right;" class="btn btn-danger"><i class="fa-solid fa-trash"></i> Delete</a>
@@ -175,7 +175,7 @@ else{
 			}
 		@foreach (var item in Model.answers) {
 			<thead>
-				@if(Model.user.Name!=item.fk_User && item.best==0){
+				@if(Model.doctor.Name!=item.fk_User && item.best==0){
 				<tr>
 				<td>
           <atskls>
@@ -190,7 +190,7 @@ else{
 				<td>
           <atskls>
 					@Html.DisplayFor(Answer => item.Likes)
-					@if(Model.user.Id==0){
+					@if(Model.doctor.Id==0){
 						<a href="http://localhost:5000/User/Login"  role="button"><img src="/images/like.png" alt="like" width="20" height="auto"></a>
 					}
 					else{
@@ -201,7 +201,7 @@ else{
 				<td>
          		<atskls>
 					@Html.DisplayFor(Answer => item.Dislikes)
-					@if(Model.user.Id==0){
+					@if(Model.doctor.Id==0){
 						<a href="http://localhost:5000/User/Login"  role="button"><img src="/images/dislike.png" alt="dislike" width="20" height="auto"></a>
 					}
 					else{
@@ -211,7 +211,7 @@ else{
 				</td>
 				<td>
           		<atskls>
-					  @if(Model.user.Name==Model.question.fk_User && Model.question.topAnswer==0 && Model.user.Name!=item.fk_User){
+					  @if(Model.doctor.Name==Model.question.fk_User && Model.question.topAnswer==0 && Model.doctor.Name!=item.fk_User){
 						  <a href="@Url.Action("Mark", new {AnswerId = item.Id})" class="btn btn-warning"> Mark as the best answer</a>
 					  }
 				</atskls>
@@ -221,7 +221,7 @@ else{
 					@Html.DisplayNameFor(Question => Question.Content)
 				</th>*@
 				<th>
-					@if(Model.user.Name==item.fk_User || Model.user.Name=="admin"){
+					@if(Model.doctor.Name==item.fk_User || Model.doctor.Name=="admin"){
 						@*<a href="@Url.Action("Delete","Answer", new { id1 = item.Id, id = Model.question.Id, q = Model.question.Questions} )" style="float: right;" class="btn btn-primary"><i class="fa-solid fa-pen-to-square"></i> Delete</a>
 						<a href="@Url.Action("Edit","Answer", new { id1 = item.Id, id = Model.question.Id, q = Model.question.Questions} )" style="float: right;" class="btn btn-primary"><i class="fa-solid fa-pen-to-square"></i> Edit</a>*@
 					<a href="@Url.Action("Delete","Answer", new { id = item.Id, idQ = Model.question.Id} )" style="float: right;" class="btn btn-danger"><i class="fa-solid fa-trash"></i> Delete</a>

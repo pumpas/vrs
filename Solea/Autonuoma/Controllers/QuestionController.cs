@@ -33,8 +33,8 @@ namespace Org.Ktu.Isk.P175B602.Autonuoma.Controllers
 				var questionsSearch = QuestionRepo.FindList(search);
 				vModel.question=questionsSearch;
 			}
-			var user = UserRepo.Find(idUser);
-			vModel.user=user;
+			var doctor = DoctorRepo.Find(idUser);
+			vModel.doctor=doctor;
 			return View(vModel);
 		}
 		//Shows the question and it's answers. From Views gets question id. With that id
@@ -43,11 +43,11 @@ namespace Org.Ktu.Isk.P175B602.Autonuoma.Controllers
 		{
 			var answerss = AnswerRepo.QuestionAnswers(id,n);
 			var questions = QuestionRepo.FindForDeletion(id);
-			var user = UserRepo.Find(Convert.ToInt32(TempData["id"]));
+			var doctor = DoctorRepo.Find(Convert.ToInt32(TempData["id"]));
 			var vModel = new Answers();
 			vModel.answers=answerss;
 			vModel.question=questions;
-			vModel.user=user;
+			vModel.doctor=doctor;
 			return View(vModel);
 		}
 
@@ -55,7 +55,7 @@ namespace Org.Ktu.Isk.P175B602.Autonuoma.Controllers
 		public ActionResult Like(int id, string QuestiondUserId)
 		{
 			var match = LikedRepo.Find(id, Convert.ToInt32(TempData["id"]));
-			var user = UserRepo.Find(QuestiondUserId, 1);
+			var doctor = DoctorRepo.Find(QuestiondUserId, 1);
 			var Liked = LikedRepo.List();
 			int LikedId = 0;
 			if(Liked.Count==0)
@@ -65,24 +65,24 @@ namespace Org.Ktu.Isk.P175B602.Autonuoma.Controllers
 			var question=QuestionRepo.Find(id);
 			if(match.QuestionId != id){
 				question.Question.Likes+=1;
-				if(user.Id!=Convert.ToInt32(TempData["id"]))
+				if(doctor.Id!=Convert.ToInt32(TempData["id"]))
 					//user.Currency+=5;
 				LikedRepo.Insert(id, 0, Convert.ToInt32(TempData["id"]), LikedId, 1);
 			}
 			else if(match.likedOrDisliked == 2 ){
 				question.Question.Likes+=1;
 				question.Question.Dislikes-=1;
-				if(user.Id!=Convert.ToInt32(TempData["id"]))
+				if(doctor.Id!=Convert.ToInt32(TempData["id"]))
 					//user.Currency+=5;
 				LikedRepo.Update(id, 0, Convert.ToInt32(TempData["id"]), match.Id, 1);
 			}
 			else{
-				if(user.Id!=Convert.ToInt32(TempData["id"]))
+				if(doctor.Id!=Convert.ToInt32(TempData["id"]))
 					//user.Currency-=5;
 				question.Question.Likes-=1;
 				LikedRepo.Delete(match.Id);
 			}
-			UserRepo.Update(user);
+			DoctorRepo.Update(doctor);
 			QuestionRepo.Update(question);
 			return RedirectToAction("Index");
 		}
@@ -90,7 +90,7 @@ namespace Org.Ktu.Isk.P175B602.Autonuoma.Controllers
 		public ActionResult Dislike(int id, string QuestiondUserId)
 		{
 			var match = LikedRepo.Find(id, Convert.ToInt32(TempData["id"]));
-			var user = UserRepo.Find(QuestiondUserId, 1);
+			var doctor = DoctorRepo.Find(QuestiondUserId, 1);
 			var Liked = LikedRepo.List();
 			int LikedId = 0;
 			if(Liked.Count==0)
@@ -105,7 +105,7 @@ namespace Org.Ktu.Isk.P175B602.Autonuoma.Controllers
 			else if(match.likedOrDisliked == 1){
 				question.Question.Likes-=1;
 				question.Question.Dislikes+=1;
-				if(user.Id!=Convert.ToInt32(TempData["id"]))
+				if(doctor.Id!=Convert.ToInt32(TempData["id"]))
 					//user.Currency-=5;
 				LikedRepo.Update(id, 0, Convert.ToInt32(TempData["id"]), match.Id, 2);
 			}
@@ -113,7 +113,7 @@ namespace Org.Ktu.Isk.P175B602.Autonuoma.Controllers
 				question.Question.Dislikes-=1;
 				LikedRepo.Delete(match.Id);
 			}
-			UserRepo.Update(user);
+			DoctorRepo.Update(doctor);
 			QuestionRepo.Update(question);
 			return RedirectToAction("Index");
 		}
@@ -127,10 +127,10 @@ namespace Org.Ktu.Isk.P175B602.Autonuoma.Controllers
 				var answer = AnswerRepo.Find(AnswerId);
 				answer.Answer.best=1;
 				AnswerRepo.Update(answer);
-				var user = UserRepo.Find(answer.Answer.fk_User, 1);
+				var doctor = DoctorRepo.Find(answer.Answer.fk_User, 1);
 				//user.Currency+=80;
-				UserRepo.Update(user);
-				Debug.WriteLine(user.Name);
+				DoctorRepo.Update(doctor);
+				Debug.WriteLine(doctor.Name);
 			}
 			return RedirectToAction("Content", new {id=Convert.ToInt32(TempData["Qid"])});
 		}
@@ -141,10 +141,10 @@ namespace Org.Ktu.Isk.P175B602.Autonuoma.Controllers
 		public ActionResult Create()
 		{
 			var questionEvm = new QuestionEditVM();
-			var user=UserRepo.Find(Convert.ToInt32(TempData["id"]));
-			questionEvm.user=user;
+			var doctor=DoctorRepo.Find(Convert.ToInt32(TempData["id"]));
+			questionEvm.doctor=doctor;
 			questionEvm.Lists.id=Convert.ToInt32(TempData["id"]);
-			questionEvm.Question.fk_User=user.Name;
+			questionEvm.Question.fk_User=doctor.Name;
 			//PopulateSelections(questionEvm);
 			return View(questionEvm);
 		}
@@ -172,9 +172,9 @@ namespace Org.Ktu.Isk.P175B602.Autonuoma.Controllers
 				temp=false;
 			}
 			if(temp){
-				var user = UserRepo.Find(Convert.ToInt32(TempData["id"]));
+				var doctor = DoctorRepo.Find(Convert.ToInt32(TempData["id"]));
 				//user.Currency-=100;
-				UserRepo.Update(user);
+				DoctorRepo.Update(doctor);
 				QuestionRepo.Insert(questionEvm);
 				return RedirectToAction("Index");
 			}
@@ -193,7 +193,7 @@ namespace Org.Ktu.Isk.P175B602.Autonuoma.Controllers
 		public ActionResult Edit(int id)
 		{
 			var questionEvm = QuestionRepo.Find(id);
-			questionEvm.user=UserRepo.Find(Convert.ToInt32(TempData["id"]));
+			questionEvm.doctor=DoctorRepo.Find(Convert.ToInt32(TempData["id"]));
 			return View(questionEvm);
 		}
 
@@ -238,7 +238,7 @@ namespace Org.Ktu.Isk.P175B602.Autonuoma.Controllers
 			var questionLvm = QuestionRepo.FindForDeletion(id);
 			Answers question = new Answers();
 			question.question=questionLvm;
-			question.user=UserRepo.Find(Convert.ToInt32(TempData["id"]));
+			question.doctor=DoctorRepo.Find(Convert.ToInt32(TempData["id"]));
 			return View(question);
 		}
 
@@ -265,7 +265,7 @@ namespace Org.Ktu.Isk.P175B602.Autonuoma.Controllers
 				ViewData["deletionNotPermitted"] = true;
 				Answers questionLvm = new Answers();
 				questionLvm.question = QuestionRepo.FindForDeletion(id);
-				questionLvm.user=UserRepo.Find(Convert.ToInt32(TempData["id"]));
+				questionLvm.doctor=DoctorRepo.Find(Convert.ToInt32(TempData["id"]));
 
 				return View("Delete", questionLvm);
 			}

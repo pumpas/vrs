@@ -45,6 +45,7 @@ namespace Org.Ktu.Isk.P175B602.Autonuoma.ViewModels
 		public class ListsM
 		{
 			public IList<SelectListItem> Users { get; set; }
+			public IList<SelectListItem> Doctors { get; set; }
 
             public string Questions { get; set; }
 
@@ -58,6 +59,7 @@ namespace Org.Ktu.Isk.P175B602.Autonuoma.ViewModels
 		public AnswerM Answer { get; set; } = new AnswerM();
 
 		public User user {get; set;}
+		public Doctor doctor {get; set;}
 		
 		/// <summary>
 		/// Lists for drop down controls.
