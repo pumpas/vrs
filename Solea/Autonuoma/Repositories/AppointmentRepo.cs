@@ -12,76 +12,54 @@ using Org.Ktu.Isk.P175B602.Autonuoma.ViewModels;
 
 namespace Org.Ktu.Isk.P175B602.Autonuoma.Repositories
 {
+	/// <summary>
+	/// Database operations related to 'Automobilis' entity.
+	/// </summary>
 	public class AppointmentRepo
 	{
 		public static List<AppointmentListVM> List()
 		{
-			var result = new List<AppointmentListVM>();
+			var autombiliai = new List<AppointmentListVM>();
 
 			var query =
 				$@"SELECT
-					md.id,
-					md.appointment_date,
-					md.appointment_duration,
-					md.appointment_reason,
-					md.appointment_status,
-					mark.firstname AS patient,
-					mm.firstname AS doctor
+					a.id,
+					a.appointment_date,
+					a.appointment_duration,
+					a.appointment_reason,
+					a.appointment_status,
+					b.firstname AS pacient,
+					m.firstname AS daktar
 				FROM
-					`{Config.TblPrefix}appointments` md
-					LEFT JOIN `{Config.TblPrefix}users` mark ON mark.id=md.patient_id
-				LEFT JOIN `{Config.TblPrefix}doctors` mm ON mm.id = md.doctor_id
-				ORDER BY mark.firstname ASC, md.id ASC";
+					{Config.TblPrefix}appointments a
+					LEFT JOIN `{Config.TblPrefix}users` b ON b.id = a.patient_id
+					LEFT JOIN `{Config.TblPrefix}doctors` m ON m.id = a.doctor_id
+				ORDER BY a.id ASC";
 
 			var dt = Sql.Query(query);
 
 			foreach( DataRow item in dt )
 			{
-				result.Add(new AppointmentListVM
+				autombiliai.Add(new AppointmentListVM
 				{
 					Id = Convert.ToInt32(item["id"]),
 					AppointmentDate = Convert.ToDateTime(item["appointment_date"]),
 					AppointmentDuration = Convert.ToInt32(item["appointment_duration"]),
 					AppointmentReason = Convert.ToString(item["appointment_reason"]),
 					AppointmentStatus = Convert.ToString(item["appointment_status"]),
-					PatientId = Convert.ToString(item["patient"]),
-					DoctorId = Convert.ToString(item["doctor"])
-
+					PatientId = Convert.ToString(item["pacient"]),
+					DoctorId = Convert.ToString(item["daktar"])
 				});
 			}
 
-			return result;
-		}
-
-		public static List<Appointment> ListForMarke(int markeId)
-		{
-			var result = new List<Appointment>();
-
-			var query = $@"SELECT * FROM `{Config.TblPrefix}modeliai` WHERE fk_marke=?markeId ORDER BY id ASC";
-
-			var dt =
-				Sql.Query(query, args => {
-					args.Add("?markeId", MySqlDbType.Int32).Value = markeId;
-				});
-
-			foreach( DataRow item in dt )
-			{
-				result.Add(new Appointment
-				{
-					Id = Convert.ToInt32(item["id"]),
-					AppointmentReason = Convert.ToString(item["pavadinimas"]),
-					AppointmentStatus = Convert.ToString(item["fk_marke"])
-				});
-			}
-
-			return result;
+			return autombiliai;
 		}
 
 		public static AppointmentEditVM Find(int id)
 		{
-			var mevm = new AppointmentEditVM();
+			var autoEvm = new AppointmentEditVM();
 
-			var query = $@"SELECT * FROM `{Config.TblPrefix}modeliai` WHERE id=?id";
+			var query =  $@"SELECT * FROM `{Config.TblPrefix}appointments` WHERE id=?id";
 
 			var dt =
 				Sql.Query(query, args => {
@@ -90,96 +68,70 @@ namespace Org.Ktu.Isk.P175B602.Autonuoma.Repositories
 
 			foreach( DataRow item in dt )
 			{
-				//mevm.Model.Id = Convert.ToInt32(item["id"]);
-				//mevm.Model.Pavadinimas = Convert.ToString(item["pavadinimas"]);
-				//mevm.Model.FkMarke = Convert.ToInt32(item["fk_marke"]);
+				autoEvm.Appointment.Id = Convert.ToInt32(item["id"]);
+				autoEvm.Appointment.AppointmentReason = Convert.ToString(item["appointment_reason"]);
+				autoEvm.Appointment.AppointmentDate = Convert.ToDateTime(item["appointment_date"]);
+				autoEvm.Appointment.AppointmentDuration = Convert.ToInt32(item["appointment_duration"]);
+				autoEvm.Appointment.AppointmentStatus = Convert.ToString(item["appointment_status"]);
+				autoEvm.Appointment.FKPatientId = Convert.ToInt32(item["patient_id"]);
+				autoEvm.Appointment.FKDoctorId = Convert.ToInt32(item["doctor_id"]);
 			}
 
-			return mevm;
+			return autoEvm;
 		}
 
-		public static AppointmentListVM FindForDeletion(int id)
+		public static void Insert(AppointmentEditVM autoEvm)
 		{
-			var mlvm = new AppointmentListVM();
+			var query = 
+				$@"INSERT INTO `{Config.TblPrefix}appointments`
+				(
+					`patient_id`,
+					`doctor_id`,
+					`appointment_date`,
+					`appointment_duration`,
+					`appointment_reason`,
+					`appointment_status`
+				)
+				VALUES (
+					?ptnt_id,
+					?doc_id,
+					?app_dat,
+					?app_dur,
+					?app_rea,
+					?app_sta
+				)";
 
-			var query =
-				$@"SELECT
-					md.id,
-					
-					mark.pavadinimas AS marke
-				FROM
-					`{Config.TblPrefix}modeliai` md
-					LEFT JOIN `{Config.TblPrefix}markes` mark ON mark.id=md.fk_marke
-				WHERE
-					md.id = ?id";
-
-			var dt =
-				Sql.Query(query, args => {
-					args.Add("?id", MySqlDbType.Int32).Value = id;
-				});
-
-			foreach( DataRow item in dt )
-			{
-				mlvm.Id = Convert.ToInt32(item["id"]);
-				mlvm.AppointmentReason = Convert.ToString(item["pavadinimas"]);
-				mlvm.AppointmentStatus = Convert.ToString(item["marke"]);
-			}
-
-			return mlvm;
+			Sql.Insert(query, args => {
+				args.Add("?ptnt_id", MySqlDbType.Int32).Value = autoEvm.Appointment.FKPatientId;
+				args.Add("?doc_id", MySqlDbType.Int32).Value = autoEvm.Appointment.FKDoctorId;
+				args.Add("?app_dat", MySqlDbType.Date).Value = autoEvm.Appointment.AppointmentDate?.ToString("yyyy-MM-dd");
+				args.Add("?app_dur", MySqlDbType.Int32).Value = autoEvm.Appointment.AppointmentDuration;
+				args.Add("?app_rea", MySqlDbType.VarChar).Value = autoEvm.Appointment.AppointmentReason;
+				args.Add("?app_sta", MySqlDbType.VarChar).Value = autoEvm.Appointment.AppointmentStatus;
+			});
 		}
 
-		public static void Update(AppointmentEditVM modelisEvm)
+		public static void Update(AppointmentEditVM autoEvm)
 		{
 			var query =
 				$@"UPDATE `{Config.TblPrefix}appointments`
 				SET
-					patient_id=?patient,
-					doctor_id=?doctor,
-					appointment_date=?date,
-					appointment_duration=?dur,
-					appointment_reason=?rea,
-					appointment_status=?sta
+					`patient_id` = ?ptnt_id,
+					`doctor_id` = ?doc_id,
+					`appointment_date` = ?app_dat,
+					`appointment_duration` = ?app_dur,
+					`appointment_reason` = ?app_rea,
+					`appointment_status` = ?app_sta
 				WHERE
 					id=?id";
 
 			Sql.Update(query, args => {
-				args.Add("?patient", MySqlDbType.VarChar).Value = modelisEvm.Appointment.FKPatientId;
-				args.Add("?doctor", MySqlDbType.VarChar).Value = modelisEvm.Appointment.FKDoctorId;
-				args.Add("?date", MySqlDbType.DateTime).Value = modelisEvm.Appointment.AppointmentDate;
-				args.Add("?dur", MySqlDbType.Int32).Value = modelisEvm.Appointment.AppointmentDuration;
-				args.Add("?rea", MySqlDbType.VarChar).Value = modelisEvm.Appointment.AppointmentReason;
-				args.Add("?sta", MySqlDbType.VarChar).Value = modelisEvm.Appointment.AppointmentStatus;
-			});
-		}
-
-		public static void Insert(AppointmentEditVM modelisEvm)
-		{
-			var query =
-				$@"INSERT INTO `{Config.TblPrefix}appointments`
-				(
-					patient_id,
-					doctor_id,
-					appointment_date,
-					appointment_duration,
-					appointment_reason,
-					appointment_status
-				)
-				VALUES(
-					?pacientas,
-					?daktaras,
-					?data,
-					?ilgis,
-					?tikslas,
-					?statusas
-				)";
-
-			Sql.Insert(query, args => {
-				args.Add("?pacientas", MySqlDbType.VarChar).Value = modelisEvm.Appointment.FKPatientId;
-				args.Add("?daktaras", MySqlDbType.VarChar).Value = modelisEvm.Appointment.FKDoctorId;
-				args.Add("?data", MySqlDbType.DateTime).Value = modelisEvm.Appointment.AppointmentDate;
-				args.Add("?ilgis", MySqlDbType.Int32).Value = modelisEvm.Appointment.AppointmentDuration;
-				args.Add("?tikslas", MySqlDbType.VarChar).Value = modelisEvm.Appointment.AppointmentReason;
-				args.Add("?statusas", MySqlDbType.VarChar).Value = modelisEvm.Appointment.AppointmentStatus;
+				args.Add("?ptnt_id", MySqlDbType.Int32).Value = autoEvm.Appointment.FKPatientId;
+				args.Add("?doc_id", MySqlDbType.Int32).Value = autoEvm.Appointment.FKDoctorId;
+				args.Add("?app_dat", MySqlDbType.Date).Value = autoEvm.Appointment.AppointmentDate?.ToString("yyyy-MM-dd");
+				args.Add("?app_dur", MySqlDbType.Int32).Value = autoEvm.Appointment.AppointmentDuration;
+				args.Add("?app_rea", MySqlDbType.VarChar).Value = autoEvm.Appointment.AppointmentReason;
+				args.Add("?app_sta", MySqlDbType.VarChar).Value = autoEvm.Appointment.AppointmentStatus;
 			});
 		}
 

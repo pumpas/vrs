@@ -1,62 +1,28 @@
-@model IEnumerable<Org.Ktu.Isk.P175B602.Autonuoma.Models.User>
+@model Org.Ktu.Isk.P175B602.Autonuoma.ViewModels.Appointments
 @{
-	ViewData["title"] = "Users";
-	TempData["id"] = 166;
-	TempData["id1"] = 166;
-	TempData["name"] = "admin";
-	//TempData["currency"] = 100;
+	ViewData["title"] = "Vizitų laikai";
+	TempData["id"] = Model.doctor.Id;
+	TempData["id1"] = Model.doctor.Id;
+	TempData["name"] = Model.doctor.Name;
+	//TempData["currency"] = Model.user.Currency;
 }
+@*@if(Model.user.Id==0){
+<body onload=' window.location="http://localhost:5000" ; '></body>
+}*@
+<link rel="stylesheet" href="~/css/bootswatchTheme.css" />
 
 <div class="main-content-header container-fluid d-flex d-row justify-content-between align-items-center p-2">
 	<pantrast class="title">@ViewData["title"]</pantrast>
-	<span class="actions">
-		@*<a href="@Url.Action("Create")" class="btn btn-primary"><i class="fa-solid fa-plus"></i> Create new User</a>
-	*@</span>
-</div>
-<div class="d-flex justify-content-center">
-	<table class="entitylist table table-striped table-hover">
-		<thead>
-			<tr>
-				<th>
-					@Html.DisplayNameFor(model => model.Name)
-
-				</th>
-				<th>
-					@Html.DisplayNameFor(model => model.MobileNumber)
-
-				</th>
-				<th>
-					@Html.DisplayNameFor(model => model.Email)
-
-				</th>
-				<th>
-					@Html.DisplayNameFor(model => model.Password)
-
-				</th>
-				<th></th>
-			</tr>
-		</thead>
-		<tbody>
-			@foreach (var item in Model) {
-			<tr>
-				<td>
-					@Html.DisplayFor(model => item.Name)
-				</td>
-				<td>
-					@Html.DisplayFor(model => item.MobileNumber)
-				</td>
-				<td>
-					@Html.DisplayFor(model => item.Email)
-				</td>
-				<td>
-					@Html.DisplayFor(model => item.Password)
-				</td>
-				<td>
-					@*<a href="@Url.Action("Edit", new { id = item.Id })" style="float: right;" class="btn btn-primary"><i class="fa-solid fa-pen-to-square"></i> Edit</a>*@
-					<a href="@Url.Action("Delete", new { id = item.Id })" style="float: right;" class="btn btn-danger"><i class="fa-solid fa-trash"></i> Remove</a>
-				</td>
-			</tr>
-			}
-		</tbody>
-	</table>
-</div>
+	@*<input type="text" placeholder="Search.." id="search">
+	<input type="submit" value="Search" formaction="Search" fommethod="post"/>
+	@*<button type="submit" formaction="@Url.Action("Create")">Submit</button>
+	<input type="submit" value="Search" formaction="Content" fommethod="post" >*@
+	<form href="@Url.Action("Search", "Question")">
+      <input type="text" placeholder="Search.." name="search">
+      <button type="submit"  ><img src="/images/magnifier.png" alt="search" width="20" height="auto"></button>
+	  @*<input type="image" src="/images/magnifier.png" width="30" height="auto"  alt="search">*@
+    </form>
+	@*<div class="container-fluid d-flex d-row justify-content-end">
+		<button name="Search" value="1" class="btn btn-success"><i class="fa-solid fa-floppy-disk"></i> Save</button>
+	</div>*@
+	

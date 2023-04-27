@@ -58,6 +58,7 @@ namespace Org.Ktu.Isk.P175B602.Autonuoma.ViewModels
 		public AnswerM Answer { get; set; } = new AnswerM();
 
 		public User user {get; set;}
+		
 		/// <summary>
 		/// Lists for drop down controls.
 		/// </summary>

@@ -138,7 +138,7 @@ namespace Org.Ktu.Isk.P175B602.Autonuoma.Controllers
 		{
 			//load entities for the select lists
 			var pacientai = UserRepo.List();
-			var daktarai = DoctorRepo.List();
+			var daktarai = 	DoctorRepo.List();
 
 
 			//build select lists
