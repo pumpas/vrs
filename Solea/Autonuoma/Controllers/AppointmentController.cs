@@ -29,6 +29,9 @@ namespace Org.Ktu.Isk.P175B602.Autonuoma.Controllers
 		public ActionResult Create()
 		{
 			var autoEvm = new AppointmentEditVM();
+			var doctor=DoctorRepo.Find(Convert.ToInt32(TempData["id"]));
+			autoEvm.Appointment.FKDoctorId=doctor.Name;
+			autoEvm.doctor=doctor;
 			PopulateSelections(autoEvm);
 
 			return View(autoEvm);
@@ -64,6 +67,7 @@ namespace Org.Ktu.Isk.P175B602.Autonuoma.Controllers
 		public ActionResult Edit(int id)
 		{
 			var autoEevm = AppointmentRepo.Find(id);
+			autoEevm.doctor=DoctorRepo.Find(Convert.ToInt32(TempData["id"]));
 			PopulateSelections(autoEevm);
 
 			return View(autoEevm);
@@ -98,6 +102,7 @@ namespace Org.Ktu.Isk.P175B602.Autonuoma.Controllers
 		public ActionResult Delete(int id)
 		{
 			var autoEvm = AppointmentRepo.Find(id);
+			autoEvm.doctor=DoctorRepo.Find(Convert.ToInt32(TempData["id"]));
 			return View(autoEvm);
 		}
 
@@ -123,10 +128,12 @@ namespace Org.Ktu.Isk.P175B602.Autonuoma.Controllers
 				//enable explanatory message and show delete form
 				ViewData["deletionNotPermitted"] = true;
 
-				var autoEvm = AppointmentRepo.Find(id);
-				PopulateSelections(autoEvm);
+				Appointments appLvm = new Appointments();
+				
+				appLvm.doctor=DoctorRepo.Find(Convert.ToInt32(TempData["id"]));
+				
 
-				return View("Delete", autoEvm);
+				return View("Delete", appLvm);
 			}
 		}
 

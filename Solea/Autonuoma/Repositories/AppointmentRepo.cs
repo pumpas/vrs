@@ -73,8 +73,8 @@ namespace Org.Ktu.Isk.P175B602.Autonuoma.Repositories
 				autoEvm.Appointment.AppointmentDate = Convert.ToDateTime(item["appointment_date"]);
 				autoEvm.Appointment.AppointmentDuration = Convert.ToInt32(item["appointment_duration"]);
 				autoEvm.Appointment.AppointmentStatus = Convert.ToString(item["appointment_status"]);
-				autoEvm.Appointment.FKPatientId = Convert.ToInt32(item["patient_id"]);
-				autoEvm.Appointment.FKDoctorId = Convert.ToInt32(item["doctor_id"]);
+				autoEvm.Appointment.FKPatientId = Convert.ToString(item["patient_id"]);
+				autoEvm.Appointment.FKDoctorId = Convert.ToString(item["doctor_id"]);
 			}
 
 			return autoEvm;

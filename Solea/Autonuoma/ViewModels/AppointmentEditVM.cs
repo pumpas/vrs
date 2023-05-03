@@ -20,11 +20,11 @@ namespace Org.Ktu.Isk.P175B602.Autonuoma.ViewModels
 
 			[DisplayName("PatientID")]
 			[Required]
-			public int FKPatientId { get; set; }
+			public string FKPatientId { get; set; }
 
 			[DisplayName("DoctorID")]
 			[Required]
-			public int FKDoctorId { get; set; }
+			public string FKDoctorId { get; set; }
 			
 			[DisplayName("AppointmentDate")]
 			[Required]
