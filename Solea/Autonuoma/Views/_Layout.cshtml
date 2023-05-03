@@ -45,58 +45,60 @@
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarColor01" aria-controls="navbarColor01" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
+	
 
     <nav class="navbar navbar-default" role="navigation">
-        <div class="navbar-header">
-            <a class="navbar-brand" href="#">Vartotojų registracinė sistema</a>
+        <div class="navbar-header mr-left">
+            <a class="navbar-brand" href="#"></a>
         </div>
     </nav>
-	@*<script>
-		sessionStorage.setItem("id", @TempData["id"]);
-		if(sessionStorage.id == null || sessionStorage.id == 0)
-	</script>*@
-	@if(TempData["id1"]==null || Convert.ToInt32(TempData["id1"])==0){
-	<div class="d-flex justify-content-end">
-		<span class="actions">
-			<a href="@Url.Action("Create", "User")" class="btn btn-primary btn-lg"><i class="fa-solid fa-plus"></i> Register</a>
-		</span>
-		<span class="actions">
-			<a href="@Url.Action("Login", "User")" class="btn btn-primary btn-lg"><i class="fa-solid fa-plus"></i> Login</a>
-		</span>
-	</div>
-}
-
-
-	else{
-		<span class="actions">
-			<a ><i class="fa-solid fa-plus"></i></a>
-		</span>
-
-		   <div class="navbar-collapse collapse w-100 order-3 dual-collapse2">
-			   
-        <ul class="navbar-nav ms-auto">
-            <li class="nav-item">
-				@*<antrast >@TempData["name"] </antrast>*@
-					<ul class="nav nav-tabs">
- 						<li class="nav-item dropdown">
-    					<antrast class="btn btn-secondary btn-lg dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">@TempData["name"] </antrast>
-    						<div class="dropdown-menu" style="">
-      							<a class="dropdown-item" href="@Url.Action("Edit", "User")">Edit profile</a>
-      							<a class="dropdown-item" style="color: red;" href="@Url.Action("Index", "Home")">Logout</a>
-  						</li>
-					</ul>
-				
-            </li> 
-        </ul>
-    </div>	
-	}
-    <div class="collapse navbar-collapse" id="navbarColor01">
-      <ul class="navbar-nav me-auto">
-		
-      </ul>
-    </div>
   </div>
+
+  <div class="d-flex ml-auto">
+    @if(TempData["id1"]==null || Convert.ToInt32(TempData["id1"])==0){
+		<span class="actions">
+        <a href="@Url.Action("Create", "User")" class="btn btn-primary btn-lg"><i class="fa-solid fa-plus"></i> Register Patient</a>
+      </span>
+	  <span class="actions">
+        <a href="@Url.Action("Create", "Doctor")" class="btn btn-primary btn-lg"><i class="fa-solid fa-plus"></i> Register Doctor</a>
+      </span>
+      <span class="actions">
+        <a href="@Url.Action("Login", "User")" class="btn btn-primary btn-lg"><i class="fa-solid fa-plus"></i> Login Patient</a>
+      </span>
+      <span class="actions">
+        <a href="@Url.Action("Login", "Doctor")" class="btn btn-primary btn-lg"><i class="fa-solid fa-plus"></i> Login Doctor</a>
+      </span>
+
+    }
+
+    else{
+      <span class="actions">
+        <a ><i class="fa-solid fa-plus"></i></a>
+      </span>
+
+      <div class="navbar-collapse collapse w-100 order-3 dual-collapse2">
+        <ul class="navbar-nav ms-auto">
+          <li class="nav-item">
+            @*<antrast >@TempData["name"] </antrast>*@
+            <ul class="nav nav-tabs">
+              <li class="nav-item dropdown">
+                <antrast class="btn btn-secondary btn-lg dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">@TempData["name"] </antrast>
+                <div class="dropdown-menu" style="">
+                  <a class="dropdown-item" href="@Url.Action("Edit", "User")">Edit profile</a>
+				  <a class="dropdown-item" href="@Url.Action("Edit", "Doctor")">Edit profile</a>
+                  <a class="dropdown-item" style="color: red;" href="@Url.Action("Index", "Home")">Logout</a>
+                </li>
+              </ul>
+
+            </li> 
+          </ul>
+        </div> 
+      }
+    </div>
+
 </nav>
+
+
 		
 
 

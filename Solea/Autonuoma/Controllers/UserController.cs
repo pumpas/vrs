@@ -16,6 +16,7 @@ namespace Org.Ktu.Isk.P175B602.Autonuoma.Controllers
 	/// </summary>
 	public class UserController : Controller
 	{
+			
 		/// <summary>
 		/// This is invoked when either 'Index' action is requested or no action is provided.
 		/// </summary>
@@ -50,11 +51,12 @@ namespace Org.Ktu.Isk.P175B602.Autonuoma.Controllers
 				TempData["id"]=match.Id;
 
 				//Loggedin.Login();
-				return RedirectToAction("Index", "Question");
+				return RedirectToAction("Index", "Answer");
 				//return View( "Index", nameof(Index));
 			}
 			return View(user);
 		}
+
 
 
 
@@ -94,6 +96,10 @@ namespace Org.Ktu.Isk.P175B602.Autonuoma.Controllers
 				ModelState.AddModelError("email", "Email must be atleast 5 characters long");
 			if(user.Password == null || user.Password.Length < 5)
 				ModelState.AddModelError("password", "Password must be atleast 5 characters long");
+			
+			
+			
+
 			//form field validation passed?
 			if (ModelState.IsValid && matchName.Name != user.Name && matchEmail.Email != user.Email)
 			{
@@ -113,6 +119,11 @@ namespace Org.Ktu.Isk.P175B602.Autonuoma.Controllers
 				TempData["userN"] = user.Name;
 				TempData["userE"] = user.Email;
 				TempData["userP"] = user.Password;
+				TempData["userFN"] = user.FirstName;
+				TempData["userLN"] = user.LastName;
+				TempData["userMN"] = user.MobileNumber;
+				TempData["userR"] = user.Role;
+				TempData["userS"] = user.Specialty;
 				return RedirectToAction("Confirm");
 				//return RedirectToAction("Index","Question");
 			}
@@ -120,6 +131,7 @@ namespace Org.Ktu.Isk.P175B602.Autonuoma.Controllers
 			//form field validation failed, go back to the form
 			return View(user);
 		}
+		
 
 		/// <summary>
 		/// This is invoked when editing form is first opened in browser.
@@ -188,7 +200,7 @@ namespace Org.Ktu.Isk.P175B602.Autonuoma.Controllers
 				return View("Delete", user);
 			}
 		}
-		public int SendConfirm(string mail){
+		 public int SendConfirm(string mail){
 			using (MailMessage mm = new MailMessage("blokasthe@gmail.com", mail))
         {
 			int id=0;
@@ -210,7 +222,9 @@ namespace Org.Ktu.Isk.P175B602.Autonuoma.Controllers
             smtp.Send(mm);
 			return id;
         }
+		
 		}
+		
 		public ActionResult Confirm(){
 			return View();
 		}
@@ -228,7 +242,12 @@ namespace Org.Ktu.Isk.P175B602.Autonuoma.Controllers
 			user.Name = Convert.ToString(TempData["userN"]);
 			user.Email = Convert.ToString(TempData["userE"]);
 			user.Password = Convert.ToString(TempData["userP"]);
-			user.Currency = 100;
+			user.FirstName = Convert.ToString(TempData["userFN"]);
+			user.LastName = Convert.ToString(TempData["userLN"]);
+			user.MobileNumber = Convert.ToString(TempData["userMN"]);
+			user.Role = Convert.ToString(TempData["userR"]);
+			user.Specialty = Convert.ToString(TempData["userS"]);
+			//user.Currency = 100;
 			UserRepo.Insert(user);
 			TempData["id"]=UserRepo.Find(user.Name, 1).Id;
 			return RedirectToAction("Index", "Question");
