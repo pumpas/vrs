@@ -1,6 +1,9 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
-
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
+using System.Security.Claims;
+using System.Web;
 using Org.Ktu.Isk.P175B602.Autonuoma.Repositories;
 using Org.Ktu.Isk.P175B602.Autonuoma.Models;
 using Org.Ktu.Isk.P175B602.Autonuoma.ViewModels;
@@ -19,6 +22,7 @@ namespace Org.Ktu.Isk.P175B602.Autonuoma.Controllers
 		/// <returns>Entity list view.</returns>
 		public ActionResult Index()
 		{
+
 			return View(AppointmentRepo.List());
 		}
 
@@ -137,6 +141,7 @@ namespace Org.Ktu.Isk.P175B602.Autonuoma.Controllers
 			}
 		}
 
+
 		/// <summary>
 		/// Populates select lists used to render drop down controls.
 		/// </summary>
@@ -147,6 +152,9 @@ namespace Org.Ktu.Isk.P175B602.Autonuoma.Controllers
 			var pacientai = UserRepo.List();
 			var daktarai = 	DoctorRepo.List();
 
+
+
+			//@HttpContext.Current.Session["Username"].ToString();
 
 			//build select lists
 			modelisEvm.Lists.PatientId =

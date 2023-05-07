@@ -1,5 +1,6 @@
 @model Org.Ktu.Isk.P175B602.Autonuoma.ViewModels.AppointmentEditVM
-
+@using Microsoft.AspNetCore.Http
+@*@inject IHttpContextAccessor Accessor*@
 @{
 	ViewData["title"] = "Automobilio sukūrimas";
 }
@@ -24,7 +25,7 @@
 			@Html.EditorFor(m => m.Appointment.AppointmentReason, new { htmlAttributes = new { @class = "form-control" } })
 			@Html.ValidationMessageFor(m => m.Appointment.AppointmentReason, "", new { @class = "text-danger" })
 		</div>
-
+		@*<p>@Accessor.HttpContext.Session.GetString("vardas")</p>*@
 		<div class="form-group">
 			@Html.LabelFor(m => m.Appointment.AppointmentDate, new { @class = "control-label" })
 			@Html.TextBoxFor(m => m.Appointment.AppointmentDate, "{0:yyyy-MM-dd}", new { @class = "form-control date-picker"})

@@ -57,7 +57,7 @@
 			<div id="role-field" class="form-group">
     @Html.LabelFor(m => m.Role, new { @class = "control-label" })
     <div>
-        @Html.RadioButtonFor(m => m.Role, "Patient", new { @id = "patient-radio" }) <label for="patient-radio">Patient</label>
+      @* @Html.RadioButtonFor(m => m.Role, "Patient", new { @id = "patient-radio" }) <label for="patient-radio">Patient</label>*@ 
         @Html.RadioButtonFor(m => m.Role, "Doctor", new { @id = "doctor-radio" }) <label for="doctor-radio">Doctor</label>
     </div>
 </div>

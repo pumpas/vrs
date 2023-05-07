@@ -64,6 +64,15 @@ namespace Org.Ktu.Isk.P175B602.Autonuoma
 				//build the app
                 var app = builder.Build();
 
+				builder.Services.AddDistributedMemoryCache();
+
+			/*	builder.Services.AddSession(options =>
+				{
+					options.IdleTimeout = TimeSpan.FromSeconds(10);
+					options.Cookie.HttpOnly = true;
+					options.Cookie.IsEssential = true;
+				});*/
+
                 //initialize configuration helper
                 Config.CreateSingletonInstance(app.Configuration);
 
@@ -72,6 +81,8 @@ namespace Org.Ktu.Isk.P175B602.Autonuoma
                 app.UseRouting();
                 app.UseAuthorization();
 
+				//app.UseSession();
+				
                 app.MapDefaultControllerRoute();
                 app.MapRazorPages();
 

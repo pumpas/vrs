@@ -20,7 +20,7 @@ namespace Org.Ktu.Isk.P175B602.Autonuoma
         /// </summary>
 		private IConfiguration Configuration { get; init; }
 
-
+		
 		/// <summary>
         /// Constructor.
         /// </summary>
@@ -30,6 +30,7 @@ namespace Org.Ktu.Isk.P175B602.Autonuoma
             Configuration = configuration;
         }
 
+		
 		/// <summary>
         /// Creates singleton instance. Call this before using other members of this class.
         /// </summary>
