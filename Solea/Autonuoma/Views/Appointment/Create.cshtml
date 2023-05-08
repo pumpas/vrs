@@ -1,7 +1,7 @@
 @model Org.Ktu.Isk.P175B602.Autonuoma.ViewModels.AppointmentEditVM
 
 @{
-	ViewData["title"] = "Automobilio sukūrimas";
+	ViewData["title"] = "Vizito sukūrimas";
 }
 
 <div class="main-content-header container-fluid d-flex d-row justify-content-between align-items-center">
@@ -20,19 +20,19 @@
 
 	<fieldset class="border rounded shadow p-2">
 		<div class="form-group">
-			@Html.LabelFor(m => m.Appointment.AppointmentReason, new { @class = "control-label" })
+			@Html.LabelFor(m => m.Appointment.AppointmentReason, "Vizito priežastis", new { @class = "control-label" })
 			@Html.EditorFor(m => m.Appointment.AppointmentReason, new { htmlAttributes = new { @class = "form-control" } })
 			@Html.ValidationMessageFor(m => m.Appointment.AppointmentReason, "", new { @class = "text-danger" })
 		</div>
 
 		<div class="form-group">
-			@Html.LabelFor(m => m.Appointment.AppointmentDate, new { @class = "control-label" })
+			@Html.LabelFor(m => m.Appointment.AppointmentDate, "Vizito data", new { @class = "control-label" })
 			@Html.TextBoxFor(m => m.Appointment.AppointmentDate, "{0:yyyy-MM-dd}", new { @class = "form-control date-picker"})
 			@Html.ValidationMessageFor(m => m.Appointment.AppointmentDate, "", new { @class = "text-danger" })
 		</div>
 
 		<div class="form-group">
-			@Html.LabelFor(m => m.Appointment.AppointmentStatus, new { @class = "control-label" })
+			@Html.LabelFor(m => m.Appointment.AppointmentStatus, "Statusas", new { @class = "control-label" })
 			@Html.EditorFor(m => m.Appointment.AppointmentStatus, new { htmlAttributes = new { @class = "form-control" } })
 			@Html.ValidationMessageFor(m => m.Appointment.AppointmentStatus, "", new { @class = "text-danger" })
 		</div>
