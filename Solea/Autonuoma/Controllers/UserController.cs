@@ -228,7 +228,6 @@ namespace Org.Ktu.Isk.P175B602.Autonuoma.Controllers
 			user.Name = Convert.ToString(TempData["userN"]);
 			user.Email = Convert.ToString(TempData["userE"]);
 			user.Password = Convert.ToString(TempData["userP"]);
-			user.Currency = 100;
 			UserRepo.Insert(user);
 			TempData["id"]=UserRepo.Find(user.Name, 1).Id;
 			return RedirectToAction("Index", "Question");
