@@ -4,7 +4,7 @@
 	TempData["id"] = Model.user.Id;
 	TempData["id1"] = Model.user.Id;
 	TempData["name"] = Model.user.Name;
-	TempData["currency"] = Model.user.Currency;
+	//TempData["currency"] = Model.user.Currency;
 }
 @*@if(Model.user.Id==0){
 <body onload=' window.location="http://localhost:5000" ; '></body>
@@ -28,7 +28,7 @@
 	@if(Model.user.Id==0){
 		<a href="http://localhost:5000/User/Login" class="btn btn-outline-danger" role="button">Login to create a question</a>
 	}
-	else if(Model.user.Currency>=100){
+	else if(Model.user.Id!=0){
 		<span class="actions">
 			<a href="@Url.Action("Create")" class="btn btn-warning"><i class="fa-solid fa-plus"></i> Create new question</a>
 		</span>

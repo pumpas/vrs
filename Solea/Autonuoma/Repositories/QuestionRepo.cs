@@ -22,6 +22,7 @@ namespace Org.Ktu.Isk.P175B602.Autonuoma.Repositories
 				query =
 				$@"SELECT
 						md.user,
+						md.doctor,
 						md.question,
 						md.content,
 						md.id,
@@ -31,12 +32,14 @@ namespace Org.Ktu.Isk.P175B602.Autonuoma.Repositories
 						FROM
 						`{Config.TblPrefix}questions` md
 						LEFT JOIN `{Config.TblPrefix}users` usr ON md.user=usr.name
+						LEFT JOIN `{Config.TblPrefix}users` usrs ON md.doctor=usrs.name
 					ORDER BY md.dislikes DESC";
 			}
 			else if(n == 3){
 				query =
 				$@"SELECT
 						md.user,
+						md.doctor,
 						md.question,
 						md.content,
 						md.id,
@@ -46,12 +49,14 @@ namespace Org.Ktu.Isk.P175B602.Autonuoma.Repositories
 						FROM
 						`{Config.TblPrefix}questions` md
 						LEFT JOIN `{Config.TblPrefix}users` usr ON md.user=usr.name
+						LEFT JOIN `{Config.TblPrefix}users` usrs ON md.doctor=usrs.name
 					ORDER BY md.id DESC";
 			}
 			else{
 				query =
 				$@"SELECT
 						md.user,
+						md.doctor,
 						md.question,
 						md.content,
 						md.id,
@@ -61,6 +66,8 @@ namespace Org.Ktu.Isk.P175B602.Autonuoma.Repositories
 						FROM
 						`{Config.TblPrefix}questions` md
 						LEFT JOIN `{Config.TblPrefix}users` usr ON md.user=usr.name
+						LEFT JOIN `{Config.TblPrefix}users` usrs ON md.doctor=usrs.name
+
 					ORDER BY md.likes DESC";
 			}
 			var dt = Sql.Query(query);
@@ -70,6 +77,7 @@ namespace Org.Ktu.Isk.P175B602.Autonuoma.Repositories
 				result.Add(new QuestionListVM
 				{
 					fk_User = Convert.ToString(item["user"]),
+					Doctor = Convert.ToString(item["doctor"]),
                     Questions = Convert.ToString(item["question"]),
 					Content = Convert.ToString(item["content"]),
 				    Id = Convert.ToInt32(item["id"]),
@@ -204,6 +212,7 @@ namespace Org.Ktu.Isk.P175B602.Autonuoma.Repositories
 				$@"INSERT INTO `{Config.TblPrefix}questions`
 				(
 					user,
+					doctor,
 					question,
 					content,
 					id,
@@ -213,6 +222,7 @@ namespace Org.Ktu.Isk.P175B602.Autonuoma.Repositories
 				)
 				VALUES(
 					?user,
+					?doctor,
 					?question,
 					?content,
 					?id,
@@ -223,6 +233,7 @@ namespace Org.Ktu.Isk.P175B602.Autonuoma.Repositories
 
 			Sql.Insert(query, args => {
 				args.Add("?user", MySqlDbType.VarChar).Value = QuestionEvm.Question.fk_User;
+				args.Add("?doctor", MySqlDbType.VarChar).Value = QuestionEvm.Question.Doctor;
 				args.Add("?question", MySqlDbType.VarChar).Value = QuestionEvm.Question.Questions;
 				args.Add("?content", MySqlDbType.VarChar).Value = QuestionEvm.Question.Content;
 				args.Add("?id", MySqlDbType.Int32).Value = QuestionEvm.Question.Id;

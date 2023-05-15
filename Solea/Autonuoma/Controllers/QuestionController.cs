@@ -66,19 +66,16 @@ namespace Org.Ktu.Isk.P175B602.Autonuoma.Controllers
 			if(match.QuestionId != id){
 				question.Question.Likes+=1;
 				if(user.Id!=Convert.ToInt32(TempData["id"]))
-					user.Currency+=5;
 				LikedRepo.Insert(id, 0, Convert.ToInt32(TempData["id"]), LikedId, 1);
 			}
 			else if(match.likedOrDisliked == 2 ){
 				question.Question.Likes+=1;
 				question.Question.Dislikes-=1;
 				if(user.Id!=Convert.ToInt32(TempData["id"]))
-					user.Currency+=5;
 				LikedRepo.Update(id, 0, Convert.ToInt32(TempData["id"]), match.Id, 1);
 			}
 			else{
 				if(user.Id!=Convert.ToInt32(TempData["id"]))
-					user.Currency-=5;
 				question.Question.Likes-=1;
 				LikedRepo.Delete(match.Id);
 			}
@@ -106,7 +103,6 @@ namespace Org.Ktu.Isk.P175B602.Autonuoma.Controllers
 				question.Question.Likes-=1;
 				question.Question.Dislikes+=1;
 				if(user.Id!=Convert.ToInt32(TempData["id"]))
-					user.Currency-=5;
 				LikedRepo.Update(id, 0, Convert.ToInt32(TempData["id"]), match.Id, 2);
 			}
 			else{
@@ -128,7 +124,6 @@ namespace Org.Ktu.Isk.P175B602.Autonuoma.Controllers
 				answer.Answer.best=1;
 				AnswerRepo.Update(answer);
 				var user = UserRepo.Find(answer.Answer.fk_User, 1);
-				user.Currency+=80;
 				UserRepo.Update(user);
 				Debug.WriteLine(user.Name);
 			}
@@ -145,7 +140,7 @@ namespace Org.Ktu.Isk.P175B602.Autonuoma.Controllers
 			questionEvm.user=user;
 			questionEvm.Lists.id=Convert.ToInt32(TempData["id"]);
 			questionEvm.Question.fk_User=user.Name;
-			//PopulateSelections(questionEvm);
+			PopulateSelections(questionEvm);
 			return View(questionEvm);
 		}
 
@@ -172,8 +167,7 @@ namespace Org.Ktu.Isk.P175B602.Autonuoma.Controllers
 				temp=false;
 			}
 			if(temp){
-				var user = UserRepo.Find(Convert.ToInt32(TempData["id"]));
-				user.Currency-=100;
+				var user = UserRepo.Find(Convert.ToInt32(TempData["id"]));				
 				UserRepo.Update(user);
 				QuestionRepo.Insert(questionEvm);
 				return RedirectToAction("Index");
@@ -275,7 +269,7 @@ namespace Org.Ktu.Isk.P175B602.Autonuoma.Controllers
 		/// Populates select lists used to render drop down controls.
 		/// </summary>
 		/// <param name="questionEvm">'Automobilis' view model to append to.</param>
-		/*public void PopulateSelections(QuestionEditVM questionsEvm)
+		public void PopulateSelections(QuestionEditVM questionsEvm)
 		{
 			//load entities for the select lists
 			var users = UserRepo.List();
@@ -290,7 +284,7 @@ namespace Org.Ktu.Isk.P175B602.Autonuoma.Controllers
 						};
 				})
 				.ToList();
-		}*/
+		}
 		public ActionResult Share(){
 			return Redirect("http://www.facebook.com");
 		}

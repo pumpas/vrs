@@ -18,6 +18,8 @@ namespace Org.Ktu.Isk.P175B602.Autonuoma.Models
 
 		[DisplayName("Id")]
 		public int Id { get; set; }
+		[DisplayName("Doctor")]
+		public string Doctor { get; set; }
 
 		[DisplayName("Content")]
 		public string Content { get; set; }

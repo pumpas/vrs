@@ -113,6 +113,11 @@ namespace Org.Ktu.Isk.P175B602.Autonuoma.Controllers
 				TempData["userN"] = user.Name;
 				TempData["userE"] = user.Email;
 				TempData["userP"] = user.Password;
+				TempData["userFN"] = user.FirstName;
+				TempData["userLN"] = user.LastName;
+				TempData["userMN"] = user.MobileNumber;
+				TempData["userR"] = user.Role;
+				TempData["userS"] = user.Specialty;
 				return RedirectToAction("Confirm");
 				//return RedirectToAction("Index","Question");
 			}
@@ -224,10 +229,15 @@ namespace Org.Ktu.Isk.P175B602.Autonuoma.Controllers
 			return View();
 		}
 		public ActionResult Add(){
-			User user = new User();
+		User user = new User();
 			user.Name = Convert.ToString(TempData["userN"]);
 			user.Email = Convert.ToString(TempData["userE"]);
 			user.Password = Convert.ToString(TempData["userP"]);
+			user.FirstName = Convert.ToString(TempData["userFN"]);
+			user.LastName = Convert.ToString(TempData["userLN"]);
+			user.MobileNumber = Convert.ToString(TempData["userMN"]);
+			user.Role = Convert.ToString(TempData["userR"]);
+			user.Specialty = Convert.ToString(TempData["userS"]);
 			UserRepo.Insert(user);
 			TempData["id"]=UserRepo.Find(user.Name, 1).Id;
 			return RedirectToAction("Index", "Question");
