@@ -172,10 +172,10 @@ namespace Org.Ktu.Isk.P175B602.Autonuoma.Controllers
 				QuestionRepo.Insert(questionEvm);
 				return RedirectToAction("Index");
 			}
-			return View(questionEvm);
-			//form field validation failed, go back to the form
-			//PopulateSelections(questionEvm);
 			//return View(questionEvm);
+			//form field validation failed, go back to the form
+			PopulateSelections(questionEvm);
+			return View(questionEvm);
 			
 		}
 
@@ -271,19 +271,17 @@ namespace Org.Ktu.Isk.P175B602.Autonuoma.Controllers
 		/// <param name="questionEvm">'Automobilis' view model to append to.</param>
 		public void PopulateSelections(QuestionEditVM questionsEvm)
 		{
-			//load entities for the select lists
-			var users = UserRepo.List();
+			var doctors = UserRepo.List().Where(u => u.Role == "Doctor");
 
-			//build select lists
-			questionsEvm.Lists.Users =
-				users.Select(it => {
-					return
-						new SelectListItem() {
-							Value = Convert.ToString(it.Name),
-							Text = Convert.ToString(it.Name)
-						};
-				})
-				.ToList();
+		questionsEvm.Lists.Users =
+		doctors.Select(it => {
+		return new SelectListItem() {
+			Value = Convert.ToString(it.Id),
+			Text = Convert.ToString(it.Name)
+		};
+	})
+	.ToList();
+
 		}
 		public ActionResult Share(){
 			return Redirect("http://www.facebook.com");

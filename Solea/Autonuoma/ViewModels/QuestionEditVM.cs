@@ -48,6 +48,7 @@ namespace Org.Ktu.Isk.P175B602.Autonuoma.ViewModels
 		public class ListsM
 		{
 			public IList<SelectListItem> Users { get; set; }
+			public IList<SelectListItem> Doctor { get; set; }
 
 			public int id {get;set;}
 		}
