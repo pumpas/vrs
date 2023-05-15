@@ -30,7 +30,7 @@ namespace Org.Ktu.Isk.P175B602.Autonuoma.Repositories
 						md.topAnswer
 						FROM
 						`{Config.TblPrefix}questions` md
-						LEFT JOIN `{Config.TblPrefix}doctors` usr ON md.user=usr.name
+						LEFT JOIN `{Config.TblPrefix}users` usr ON md.user=usr.name
 					ORDER BY md.dislikes DESC";
 			}
 			else if(n == 3){
@@ -45,7 +45,7 @@ namespace Org.Ktu.Isk.P175B602.Autonuoma.Repositories
 						md.topAnswer
 						FROM
 						`{Config.TblPrefix}questions` md
-						LEFT JOIN `{Config.TblPrefix}doctors` usr ON md.user=usr.name
+						LEFT JOIN `{Config.TblPrefix}users` usr ON md.user=usr.name
 					ORDER BY md.id DESC";
 			}
 			else{
@@ -60,7 +60,7 @@ namespace Org.Ktu.Isk.P175B602.Autonuoma.Repositories
 						md.topAnswer
 						FROM
 						`{Config.TblPrefix}questions` md
-						LEFT JOIN `{Config.TblPrefix}doctors` usr ON md.user=usr.name
+						LEFT JOIN `{Config.TblPrefix}users` usr ON md.user=usr.name
 					ORDER BY md.likes DESC";
 			}
 			var dt = Sql.Query(query);
@@ -151,7 +151,7 @@ namespace Org.Ktu.Isk.P175B602.Autonuoma.Repositories
 					md.topAnswer
 				FROM
 					`{Config.TblPrefix}questions` md
-					LEFT JOIN `{Config.TblPrefix}doctors` usr ON md.user=usr.name
+					LEFT JOIN `{Config.TblPrefix}users` usr ON md.user=usr.name
 				WHERE
 					md.id = ?id";
 			var dt =

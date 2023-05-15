@@ -109,7 +109,7 @@ namespace Org.Ktu.Isk.P175B602.Autonuoma
 		/// </summary>
 		/// <param name="entry">Entry to convert.</param>
 		/// <param name="converter">Converter to apply.</param>
-		/// <typeparam name="T">Numanomas rezultato tipas.</typeparam>
+		/// <typeparam name="T">Expected type of result.</typeparam>
 		/// <returns>default(T) if entry == DBNull.Value, result of converter(entry) otherwise.</returns>
 		public static T AllowNull<T>(object entry, Func<object, T> converter)
 		{

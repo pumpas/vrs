@@ -12,6 +12,5 @@ namespace Org.Ktu.Isk.P175B602.Autonuoma.ViewModels
     {
         public List<UserListVM> users { get; set; }
         public User user {get; set;}
-          public string Role { get; set; }
     }
 }

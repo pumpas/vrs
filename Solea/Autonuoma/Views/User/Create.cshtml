@@ -14,10 +14,10 @@
 	@Html.AntiForgeryToken()
 	
 	@Html.ValidationSummary(true, "", new { @class = "text-danger" })
-	@*
+	
 	@Html.HiddenFor(m => m.Id)
-	//@Html.HiddenFor(m => m.Currency)
-	@Html.HiddenFor(m => m.Currency, new { htmlAttributes = new { @Value=100 } })
+	@Html.HiddenFor(m => m.Currency)
+	@*@Html.HiddenFor(m => m.Currency, new { htmlAttributes = new { @Value=100 } })
 
 *@
 	<fieldset class="border rounded shadow p-2">
@@ -39,62 +39,6 @@
 			@Html.EditorFor(m => m.Password, new { htmlAttributes = new { @class = "form-control", @type = "password", @placeholder = "Password" } })
 			@Html.ValidationMessage("password"@*m => m.Password, "", new { @class = "text-danger" }*@)
 			</div>
-			<div>
-			<atskls>@Html.LabelFor(m => m.FirstName, new { @class = "control-label" }) </atskls>
-			@Html.EditorFor(m => m.FirstName, new { htmlAttributes = new { @class = "form-control", @placeholder = "Enter your First name" } })
-			@Html.ValidationMessage("firstname"@*m => m.FirstName, "", new { @class = "text-danger" }*@)
-			</div>
-			<div>
-			<atskls>@Html.LabelFor(m => m.LastName, new { @class = "control-label" }) </atskls>
-			@Html.EditorFor(m => m.LastName, new { htmlAttributes = new { @class = "form-control", @placeholder = "Enter your Last name" } })
-			@Html.ValidationMessage("lastname"@*m => m.LastName, "", new { @class = "text-danger" }*@)
-			</div>
-			<div>
-			<atskls>@Html.LabelFor(m => m.MobileNumber, new { @class = "control-label" }) </atskls>
-			@Html.EditorFor(m => m.MobileNumber, new { htmlAttributes = new { @class = "form-control", @placeholder = "Enter your mobile number" } })
-			@Html.ValidationMessage("mobilenumber"@*m => m.MobileNumber, "", new { @class = "text-danger" }*@)
-			</div>
-			<div id="role-field" class="form-group">
-    @Html.LabelFor(m => m.Role, new { @class = "control-label" })
-    <div>
-        @Html.RadioButtonFor(m => m.Role, "Patient", new { @id = "patient-radio" }) <label for="patient-radio">Patient</label>
-        @Html.RadioButtonFor(m => m.Role, "Doctor", new { @id = "doctor-radio" }) <label for="doctor-radio">Doctor</label>
-    </div>
-</div>
-
-<div class="form-group" id="specialty-div" >
-    @Html.LabelFor(m => m.Specialty, new { @class = "control-label" })
-    <div>
-        @Html.EditorFor(m => m.Specialty, new { htmlAttributes = new { @class = "form-control", @placeholder = "Enter your specialty", @id = "specialty-field" } })
-    </div>
-</div>
-
-
-<script>
-$(document).ready(function() {
-  // Get the Role and Specialty fields
-  var roleField = $('#role-field');
-  var specialtyField = $('#Specialty');
-
-  // Hide the Specialty field by default
-  specialtyField.hide();
-
-  // Add an event listener to the Role dropdown menu
-  roleField.change(function() {
-    // Check if "Doctor" is selected
-    if (roleField.val() === 'Doctor') {
-      // Show the Specialty field
-      specialtyField.show();
-    } else {
-      // Hide the Specialty field
-      specialtyField.hide();
-    }
-  });
-});
-
-</script>
-
-
 			 
 		</div>
 	</fieldset>

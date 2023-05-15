@@ -13,9 +13,7 @@ namespace Org.Ktu.Isk.P175B602.Autonuoma.Repositories
 {
 	public class UserRepo
 	{
-        
-
-        public static List<User> List()
+		public static List<User> List()
 		{
 			var users = new List<User>();
 
@@ -28,14 +26,9 @@ namespace Org.Ktu.Isk.P175B602.Autonuoma.Repositories
 				{
 					Id = Convert.ToInt32(item["id"]),
 					Name = Convert.ToString(item["name"]),
-					//Currency = Convert.ToInt32(item["currency"]),
+					Currency = Convert.ToInt32(item["currency"]),
 					Email = Convert.ToString(item["email"]),
 					Password = Convert.ToString(item["password"]),
-					LastName = Convert.ToString(item["lastname"]),
-					MobileNumber = Convert.ToString(item["mobilenumber"]),
-					Role = Convert.ToString(item["role"]),
-					Specialty = Convert.ToString(item["specialty"]),
-					FirstName = Convert.ToString(item["firstname"])
 				});
 			}
 
@@ -56,14 +49,9 @@ namespace Org.Ktu.Isk.P175B602.Autonuoma.Repositories
 			{
 				User.Id = Convert.ToInt32(item["id"]);
 				User.Name = Convert.ToString(item["name"]);
-				//User.Currency = Convert.ToInt32(item["currency"]);
+				User.Currency = Convert.ToInt32(item["currency"]);
 				User.Email = Convert.ToString(item["email"]);
 				User.Password = Convert.ToString(item["password"]);
-				User.LastName = Convert.ToString(item["lastname"]);
-				User.MobileNumber = Convert.ToString(item["mobilenumber"]);
-				User.Role = Convert.ToString(item["role"]);
-				User.Specialty = Convert.ToString(item["specialty"]);
-				User.FirstName = Convert.ToString(item["firstname"]);
 			}
 
 			return User;
@@ -83,14 +71,9 @@ namespace Org.Ktu.Isk.P175B602.Autonuoma.Repositories
 			{
 				User.Id = Convert.ToInt32(item["id"]);
 				User.Name = Convert.ToString(item["name"]);
-				//User.Currency = Convert.ToInt32(item["currency"]);
+				User.Currency = Convert.ToInt32(item["currency"]);
 				User.Email = Convert.ToString(item["email"]);
 				User.Password = Convert.ToString(item["password"]);
-				User.LastName = Convert.ToString(item["lastname"]);
-				User.MobileNumber = Convert.ToString(item["mobilenumber"]);
-				User.Role = Convert.ToString(item["role"]);
-				User.Specialty = Convert.ToString(item["specialty"]);
-				User.FirstName = Convert.ToString(item["firstname"]);
 			}
 
 			return User;
@@ -107,14 +90,9 @@ namespace Org.Ktu.Isk.P175B602.Autonuoma.Repositories
 			{
 				User.Id = Convert.ToInt32(item["id"]);
 				User.Name = Convert.ToString(item["name"]);
-				//User.Currency = Convert.ToInt32(item["currency"]);
+				User.Currency = Convert.ToInt32(item["currency"]);
 				User.Email = Convert.ToString(item["email"]);
 				User.Password = Convert.ToString(item["password"]);
-				User.LastName = Convert.ToString(item["lastname"]);
-				User.MobileNumber = Convert.ToString(item["mobilenumber"]);
-				User.Role = Convert.ToString(item["role"]);
-				User.Specialty = Convert.ToString(item["specialty"]);
-				User.FirstName = Convert.ToString(item["firstname"]);
 			}
 
 			return User;
@@ -130,14 +108,9 @@ namespace Org.Ktu.Isk.P175B602.Autonuoma.Repositories
 			{
 				User.Id = Convert.ToInt32(item["id"]);
 				User.Name = Convert.ToString(item["name"]);
-				//User.Currency = Convert.ToInt32(item["currency"]);
+				User.Currency = Convert.ToInt32(item["currency"]);
 				User.Email = Convert.ToString(item["email"]);
 				User.Password = Convert.ToString(item["password"]);
-				User.LastName = Convert.ToString(item["lastname"]);
-				User.MobileNumber = Convert.ToString(item["mobilenumber"]);
-				User.Role = Convert.ToString(item["role"]);
-				User.Specialty = Convert.ToString(item["specialty"]);
-				User.FirstName = Convert.ToString(item["firstname"]);
 			}
 
 			return User;
@@ -149,27 +122,18 @@ namespace Org.Ktu.Isk.P175B602.Autonuoma.Repositories
 				$@"UPDATE `{Config.TblPrefix}users` 
 				SET 
 					name=?name,
+					currency=?currency,
 					email=?email,
-					password=?password,
-					lastname=?lastname,
-					mobilenumber=?mobilenumber,
-					role=?role,
-					specialty=?specialty,
-					firstname=?firstname
+					password=?password
 				WHERE 
 					id=?id";
 
 			Sql.Update(query, args => {
 				args.Add("?name", MySqlDbType.VarChar).Value = User.Name;
 				args.Add("?id", MySqlDbType.VarChar).Value = User.Id;
-				//args.Add("?currency", MySqlDbType.VarChar).Value = User.Currency;
+				args.Add("?currency", MySqlDbType.VarChar).Value = User.Currency;
 				args.Add("?email", MySqlDbType.VarChar).Value = User.Email;
 				args.Add("?password", MySqlDbType.VarChar).Value = User.Password;
-				args.Add("?lastname", MySqlDbType.VarChar).Value = User.LastName;
-				args.Add("?mobilenumber", MySqlDbType.VarChar).Value = User.MobileNumber;
-				args.Add("?role", MySqlDbType.VarChar).Value = User.Role;
-				args.Add("?specialty", MySqlDbType.VarChar).Value = User.Specialty;
-				args.Add("?firstname", MySqlDbType.VarChar).Value = User.FirstName;
 			});							
 		}
 
@@ -180,37 +144,24 @@ namespace Org.Ktu.Isk.P175B602.Autonuoma.Repositories
 				(
 					id,
                     name,
+					currency,
 					email,
-					password,
-					lastname,
-					mobilenumber,
-					role,
-					specialty,
-					firstname
+					password
 				)
 				VALUES(
 					?id,
 					?name,
+					?currency,
 					?email,
-					?password,
-					?lastname,
-					?mobilenumber,
-					?role,
-					?specialty,
-					?firstname
+					?password
 				)";
 
 			Sql.Insert(query, args => {
 				args.Add("?id", MySqlDbType.VarChar).Value = User.Id;
 				args.Add("?name", MySqlDbType.VarChar).Value = User.Name;
-				//args.Add("?currency", MySqlDbType.VarChar).Value = User.Currency;
+				args.Add("?currency", MySqlDbType.VarChar).Value = User.Currency;
 				args.Add("?email", MySqlDbType.VarChar).Value = User.Email;
 				args.Add("?password", MySqlDbType.VarChar).Value = User.Password;
-				args.Add("?lastname", MySqlDbType.VarChar).Value = User.LastName;
-				args.Add("?mobilenumber", MySqlDbType.VarChar).Value = User.MobileNumber;
-				args.Add("?role", MySqlDbType.VarChar).Value = User.Role;
-				args.Add("?specialty", MySqlDbType.VarChar).Value = User.Specialty;
-				args.Add("?firstname", MySqlDbType.VarChar).Value = User.FirstName;
 			});
 		}
 

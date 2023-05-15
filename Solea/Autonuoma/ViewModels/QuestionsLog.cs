@@ -12,8 +12,6 @@ namespace Org.Ktu.Isk.P175B602.Autonuoma.ViewModels
 	{
 		public List<QuestionListVM> question { get; set; }
         public User user {get;set;}
-		public Doctor doctor {get;set;}
-
 
 	}
 }
