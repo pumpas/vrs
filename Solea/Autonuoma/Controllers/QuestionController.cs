@@ -277,7 +277,7 @@ namespace Org.Ktu.Isk.P175B602.Autonuoma.Controllers
 		doctors.Select(it => {
 		return new SelectListItem() {
 			Value = Convert.ToString(it.Id),
-			Text = Convert.ToString(it.Name)
+			Text = $"{it.FirstName} {it.LastName} ({it.Specialty})"
 		};
 	})
 	.ToList();

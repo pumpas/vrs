@@ -187,6 +187,7 @@ namespace Org.Ktu.Isk.P175B602.Autonuoma.Repositories
 				$@"UPDATE `{Config.TblPrefix}questions`
 				SET
 					user=?user,
+					doctor=?doctor,
 					question=?question,
 					content=?content,
 					likes=?likes,
@@ -197,6 +198,7 @@ namespace Org.Ktu.Isk.P175B602.Autonuoma.Repositories
 
 			Sql.Update(query, args => {
 				args.Add("?user", MySqlDbType.VarChar).Value = QuestionEvm.Question.fk_User;
+				args.Add("?doctor", MySqlDbType.VarChar).Value = QuestionEvm.Question.Doctor;
 				args.Add("?question", MySqlDbType.VarChar).Value = QuestionEvm.Question.Questions;
 				args.Add("?id", MySqlDbType.Int32).Value = QuestionEvm.Question.Id;
 				args.Add("?content", MySqlDbType.VarChar).Value = QuestionEvm.Question.Content;
