@@ -23,6 +23,9 @@ namespace Org.Ktu.Isk.P175B602.Autonuoma.ViewModels
 			[DisplayName("Doctor")]
 		    public string Doctor { get; set; }
 
+			[DisplayName("Doc")]
+		    public int Doc { get; set; }
+
 			[DisplayName("Content")]
 		    public string Content { get; set; }	
 

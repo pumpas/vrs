@@ -271,21 +271,16 @@ namespace Org.Ktu.Isk.P175B602.Autonuoma.Controllers
 		/// <param name="questionEvm">'Automobilis' view model to append to.</param>
 		public void PopulateSelections(QuestionEditVM questionsEvm)
 		{
-			//load entities for the select lists
-			var markes = UserRepo.List();
+			var doctors = UserRepo.List().Where(u => u.Role == "Doctor");
 
-			//build select lists
-			questionsEvm.Lists.Users =
-				markes.Select(it => {
-					return
-						new SelectListItem() {
-							Value = Convert.ToString(it.Id),
-							Text = it.LastName
-						};
-				})
-				.ToList();
-
-			
+		questionsEvm.Lists.Doctorai =
+		doctors.Select(it => {
+		return new SelectListItem() {
+			Value = Convert.ToString(it.Id),
+			Text = $"{it.FirstName} {it.LastName} ({it.Specialty})"
+		};
+	})
+	.ToList();
 
 		}
 		public ActionResult Share(){

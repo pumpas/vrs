@@ -27,6 +27,9 @@ namespace Org.Ktu.Isk.P175B602.Autonuoma.ViewModels
 			 [DisplayName("Doctor")]
 		     public string Doctor { get; set; }
 
+			  [DisplayName("Doc")]
+		     public int Doc { get; set; }
+
 			 [DisplayName("Content")]
 		     public string Content { get; set; }
 
@@ -49,6 +52,7 @@ namespace Org.Ktu.Isk.P175B602.Autonuoma.ViewModels
 		{
 			public IList<SelectListItem> Users { get; set; }
 			public IList<SelectListItem> Doctor { get; set; }
+			public IList<SelectListItem> Doctorai { get; set; }
 
 			public int id {get;set;}
 		}
