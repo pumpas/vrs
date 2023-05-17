@@ -22,6 +22,7 @@ namespace Org.Ktu.Isk.P175B602.Autonuoma.Repositories
 				query =
 				$@"SELECT
 						md.user,
+						marke.name AS doctor,
 						mark.name AS doc,
 						CONCAT(mark.vardas, ' ', mark.pavarde) AS doc,
 						md.question,
@@ -34,6 +35,7 @@ namespace Org.Ktu.Isk.P175B602.Autonuoma.Repositories
 						FROM
 						`{Config.TblPrefix}questions` md
 						LEFT JOIN `{Config.TblPrefix}users` usr ON md.user=usr.name
+						LEFT JOIN `{Config.TblPrefix}users` marke ON marke.id=md.doc
 						LEFT JOIN `{Config.TblPrefix}users` mark ON mark.id=md.doc
 					ORDER BY md.dislikes DESC";
 			}
@@ -41,6 +43,7 @@ namespace Org.Ktu.Isk.P175B602.Autonuoma.Repositories
 				query =
 				$@"SELECT
 						md.user,
+						marke.name AS doctor,
 						CONCAT(mark.vardas, ' ', mark.pavarde) AS doc,
 						md.question,
 						md.content,
@@ -52,6 +55,7 @@ namespace Org.Ktu.Isk.P175B602.Autonuoma.Repositories
 						FROM
 						`{Config.TblPrefix}questions` md
 						LEFT JOIN `{Config.TblPrefix}users` usr ON md.user=usr.name
+						LEFT JOIN `{Config.TblPrefix}users` marke ON marke.id=md.doc
 						LEFT JOIN `{Config.TblPrefix}users` mark ON mark.id=md.doc
 					ORDER BY md.id DESC";
 			}
@@ -114,6 +118,7 @@ namespace Org.Ktu.Isk.P175B602.Autonuoma.Repositories
 			foreach( DataRow item in dt )
 			{
 				mevm.Question.fk_User = Convert.ToString(item["user"]);
+				mevm.Question.Doc = Convert.ToInt32(item["doc"]);
 				mevm.Question.Questions = Convert.ToString(item["question"]);
 				mevm.Question.Content = Convert.ToString(item["content"]);
 				mevm.Question.Id = Convert.ToInt32(item["id"]);
@@ -135,6 +140,7 @@ namespace Org.Ktu.Isk.P175B602.Autonuoma.Repositories
 				if(words.All(item.Questions.Contains)){
 					questions.Add(new QuestionListVM{
 						fk_User = item.fk_User,
+						Doc = item.Doc,
 						Questions = item.Questions,
 						Content = item.Content,
 						Id = item.Id,
