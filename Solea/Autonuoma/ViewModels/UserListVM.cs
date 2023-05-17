@@ -17,6 +17,9 @@ namespace Org.Ktu.Isk.P175B602.Autonuoma.ViewModels
 		[DisplayName("Name")]
 		[Required]
 		public string Name { get; set; }
+		[DisplayName("FirstName")]
+		[Required]
+		public string FirstName { get; set; }
 
 		[DisplayName("Currency")]
 		public int Currency { get; set; }

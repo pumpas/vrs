@@ -14,6 +14,9 @@ namespace Org.Ktu.Isk.P175B602.Autonuoma.ViewModels
 		    [DisplayName("User")]
 		    public string fk_User { get; set; }
 
+			 [DisplayName("Useris")]
+		    public string useris { get; set; }
+
 		    [DisplayName("Question")]
 	    	public string Questions { get; set; } // error when write Question, because of same name as class
 
@@ -24,7 +27,7 @@ namespace Org.Ktu.Isk.P175B602.Autonuoma.ViewModels
 		    public string Doctor { get; set; }
 
 			[DisplayName("Doc")]
-		    public int Doc { get; set; }
+		    public string Doc { get; set; }
 
 			[DisplayName("Content")]
 		    public string Content { get; set; }	

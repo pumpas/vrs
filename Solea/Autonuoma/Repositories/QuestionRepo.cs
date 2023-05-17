@@ -22,7 +22,8 @@ namespace Org.Ktu.Isk.P175B602.Autonuoma.Repositories
 				query =
 				$@"SELECT
 						md.user,
-						md.doctor,
+						mark.name AS doc,
+						CONCAT(mark.firstname, ' ', mark.lastname) AS doc,
 						md.question,
 						md.content,
 						md.id,
@@ -32,14 +33,14 @@ namespace Org.Ktu.Isk.P175B602.Autonuoma.Repositories
 						FROM
 						`{Config.TblPrefix}questions` md
 						LEFT JOIN `{Config.TblPrefix}users` usr ON md.user=usr.name
-						LEFT JOIN `{Config.TblPrefix}users` usrs ON md.doctor=usrs.name
+						LEFT JOIN `{Config.TblPrefix}users` mark ON mark.id=md.doc
 					ORDER BY md.dislikes DESC";
 			}
 			else if(n == 3){
 				query =
 				$@"SELECT
 						md.user,
-						md.doctor,
+						CONCAT(mark.firstname, ' ', mark.lastname) AS doc,
 						md.question,
 						md.content,
 						md.id,
@@ -49,14 +50,15 @@ namespace Org.Ktu.Isk.P175B602.Autonuoma.Repositories
 						FROM
 						`{Config.TblPrefix}questions` md
 						LEFT JOIN `{Config.TblPrefix}users` usr ON md.user=usr.name
-						LEFT JOIN `{Config.TblPrefix}users` usrs ON md.doctor=usrs.name
+						LEFT JOIN `{Config.TblPrefix}users` mark ON mark.id=md.doc
 					ORDER BY md.id DESC";
 			}
 			else{
 				query =
 				$@"SELECT
 						md.user,
-						md.doctor,
+						marke.name AS doctor,
+						CONCAT(mark.firstname, ' ', mark.lastname) AS doc,
 						md.question,
 						md.content,
 						md.id,
@@ -66,7 +68,8 @@ namespace Org.Ktu.Isk.P175B602.Autonuoma.Repositories
 						FROM
 						`{Config.TblPrefix}questions` md
 						LEFT JOIN `{Config.TblPrefix}users` usr ON md.user=usr.name
-						LEFT JOIN `{Config.TblPrefix}users` usrs ON md.doctor=usrs.name
+						LEFT JOIN `{Config.TblPrefix}users` marke ON marke.id=md.doc						
+						LEFT JOIN `{Config.TblPrefix}users` mark ON mark.id=md.doc
 
 					ORDER BY md.likes DESC";
 			}
@@ -78,6 +81,7 @@ namespace Org.Ktu.Isk.P175B602.Autonuoma.Repositories
 				{
 					fk_User = Convert.ToString(item["user"]),
 					Doctor = Convert.ToString(item["doctor"]),
+					Doc = Convert.ToString(item["doc"]),
                     Questions = Convert.ToString(item["question"]),
 					Content = Convert.ToString(item["content"]),
 				    Id = Convert.ToInt32(item["id"]),
