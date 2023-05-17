@@ -14,6 +14,9 @@ namespace Org.Ktu.Isk.P175B602.Autonuoma.ViewModels
 		[DisplayName("Id")]
 		public int Id { get; set; }
 
+		[DisplayName("Age")]
+		public int Age { get; set; }
+
 		[DisplayName("Name")]
 		[Required]
 		public string Name { get; set; }
@@ -31,6 +34,14 @@ namespace Org.Ktu.Isk.P175B602.Autonuoma.ViewModels
 		[DisplayName("Password")]
 		[Required]
 		public string Password { get; set; }
+
+		[DisplayName("Vardas")]
+		[Required]
+		public string Vardas { get; set; }
+
+		[DisplayName("Pavarde")]
+		[Required]
+		public string Pavarde { get; set; }
 
 
 	}

@@ -40,13 +40,18 @@
 			@Html.ValidationMessage("password"@*m => m.Password, "", new { @class = "text-danger" }*@)
 			</div>
 			<div>
-			<atskls>@Html.LabelFor(m => m.FirstName, new { @class = "control-label" }) </atskls>
-			@Html.EditorFor(m => m.FirstName, new { htmlAttributes = new { @class = "form-control", @placeholder = "Enter your First name" } })
+			<atskls>@Html.LabelFor(m => m.Vardas, new { @class = "control-label" }) </atskls>
+			@Html.EditorFor(m => m.Vardas, new { htmlAttributes = new { @class = "form-control", @placeholder = "Enter your First name" } })
 			@Html.ValidationMessage("firstname"@*m => m.FirstName, "", new { @class = "text-danger" }*@)
 			</div>
 			<div>
-			<atskls>@Html.LabelFor(m => m.LastName, new { @class = "control-label" }) </atskls>
-			@Html.EditorFor(m => m.LastName, new { htmlAttributes = new { @class = "form-control", @placeholder = "Enter your Last name" } })
+			<atskls>@Html.LabelFor(m => m.Pavarde, new { @class = "control-label" }) </atskls>
+			@Html.EditorFor(m => m.Pavarde, new { htmlAttributes = new { @class = "form-control", @placeholder = "Enter your Last name" } })
+			@Html.ValidationMessage("lastname"@*m => m.LastName, "", new { @class = "text-danger" }*@)
+			</div>
+			<div>
+			<atskls>@Html.LabelFor(m => m.Age, new { @class = "control-label" }) </atskls>
+			@Html.EditorFor(m => m.Age, new { htmlAttributes = new { @class = "form-control", @placeholder = "Enter your Last name" } })
 			@Html.ValidationMessage("lastname"@*m => m.LastName, "", new { @class = "text-danger" }*@)
 			</div>
 			<div>

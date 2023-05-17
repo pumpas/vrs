@@ -23,12 +23,13 @@ namespace Org.Ktu.Isk.P175B602.Autonuoma.Repositories
 				$@"SELECT
 						md.user,
 						mark.name AS doc,
-						CONCAT(mark.firstname, ' ', mark.lastname) AS doc,
+						CONCAT(mark.vardas, ' ', mark.pavarde) AS doc,
 						md.question,
 						md.content,
 						md.id,
 						md.likes,
 						md.dislikes,
+						md.regdata,
 						md.topAnswer
 						FROM
 						`{Config.TblPrefix}questions` md
@@ -40,12 +41,13 @@ namespace Org.Ktu.Isk.P175B602.Autonuoma.Repositories
 				query =
 				$@"SELECT
 						md.user,
-						CONCAT(mark.firstname, ' ', mark.lastname) AS doc,
+						CONCAT(mark.vardas, ' ', mark.pavarde) AS doc,
 						md.question,
 						md.content,
 						md.id,
 						md.likes,
 						md.dislikes,
+						md.regdata,
 						md.topAnswer
 						FROM
 						`{Config.TblPrefix}questions` md
@@ -58,12 +60,13 @@ namespace Org.Ktu.Isk.P175B602.Autonuoma.Repositories
 				$@"SELECT
 						md.user,
 						marke.name AS doctor,
-						CONCAT(mark.firstname, ' ', mark.lastname) AS doc,
+						CONCAT(mark.vardas, ' ', mark.pavarde) AS doc,
 						md.question,
 						md.content,
 						md.id,
 						md.likes,
 						md.dislikes,
+						md.regdata,
 						md.topAnswer
 						FROM
 						`{Config.TblPrefix}questions` md
@@ -87,6 +90,7 @@ namespace Org.Ktu.Isk.P175B602.Autonuoma.Repositories
 				    Id = Convert.ToInt32(item["id"]),
 					Likes = Convert.ToInt32(item["likes"]),
 					Dislikes = Convert.ToInt32(item["dislikes"]),
+					RegistravimoData = Convert.ToDateTime(item["regdata"]),
 					topAnswer = Convert.ToInt32(item["topAnswer"])
 
 				});
@@ -191,7 +195,6 @@ namespace Org.Ktu.Isk.P175B602.Autonuoma.Repositories
 				$@"UPDATE `{Config.TblPrefix}questions`
 				SET
 					user=?user,
-					doctor=?doctor,
 					question=?question,
 					content=?content,
 					likes=?likes,
@@ -203,7 +206,6 @@ namespace Org.Ktu.Isk.P175B602.Autonuoma.Repositories
 
 			Sql.Update(query, args => {
 				args.Add("?user", MySqlDbType.VarChar).Value = QuestionEvm.Question.fk_User;
-				args.Add("?doctor", MySqlDbType.VarChar).Value = QuestionEvm.Question.Doctor;
 				args.Add("?question", MySqlDbType.VarChar).Value = QuestionEvm.Question.Questions;
 				args.Add("?id", MySqlDbType.Int32).Value = QuestionEvm.Question.Id;
 				args.Add("?content", MySqlDbType.VarChar).Value = QuestionEvm.Question.Content;
@@ -220,36 +222,36 @@ namespace Org.Ktu.Isk.P175B602.Autonuoma.Repositories
 				$@"INSERT INTO `{Config.TblPrefix}questions`
 				(
 					user,
-					doctor,
 					question,
 					content,
 					id,
 					likes,
 					dislikes,
 					doc,
+					regdata,
 					topAnswer
 				)
 				VALUES(
 					?user,
-					?doctor,
 					?question,
 					?content,
 					?id,
 					?likes,
 					?dislikes,
 					?doc,
+					?regdata,
 					?topAnswer
 				)";
 
 			Sql.Insert(query, args => {
 				args.Add("?user", MySqlDbType.VarChar).Value = QuestionEvm.Question.fk_User;
-				args.Add("?doctor", MySqlDbType.VarChar).Value = QuestionEvm.Question.Doctor;
 				args.Add("?question", MySqlDbType.VarChar).Value = QuestionEvm.Question.Questions;
 				args.Add("?content", MySqlDbType.VarChar).Value = QuestionEvm.Question.Content;
 				args.Add("?id", MySqlDbType.Int32).Value = QuestionEvm.Question.Id;
 				args.Add("?likes", MySqlDbType.Int32).Value = QuestionEvm.Question.Likes;
 				args.Add("?dislikes", MySqlDbType.Int32).Value = QuestionEvm.Question.Dislikes;
 				args.Add("?doc", MySqlDbType.Int32).Value = QuestionEvm.Question.Doc;
+				args.Add("?regdata", MySqlDbType.Date).Value = QuestionEvm.Question.RegistravimoData?.ToString("yyyy-MM-dd");
 				args.Add("?topAnswer", MySqlDbType.Int32).Value = QuestionEvm.Question.topAnswer;
 			});
 		}

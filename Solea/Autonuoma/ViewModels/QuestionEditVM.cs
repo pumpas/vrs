@@ -45,6 +45,11 @@ namespace Org.Ktu.Isk.P175B602.Autonuoma.ViewModels
 			[DisplayName("topAnswer")]
 			public int topAnswer { get; set; }
 			
+			[DisplayName("Registravimo data")]
+			[Required]
+			[DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}")]
+			public DateTime? RegistravimoData { get; set; }
+			
 
 		}
 

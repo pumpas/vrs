@@ -11,6 +11,7 @@ namespace Org.Ktu.Isk.P175B602.Autonuoma.Models
 	public class User
 {
     public int Id { get; set; }
+    public int Age { get; set; }
     public string FirstName { get; set; }
     public string LastName { get; set; }
     public string MobileNumber { get; set; }
@@ -19,6 +20,8 @@ namespace Org.Ktu.Isk.P175B602.Autonuoma.Models
     public string Role { get; set; }
 	public string Name { get; set; }
     public string Specialty { get; set; }
+     public string Vardas { get; set; }
+     public string Pavarde { get; set; }
 	
 }
 }

@@ -4,6 +4,8 @@
 	TempData["id"] = Model.user.Id;
 	TempData["id1"] = Model.user.Id;
 	TempData["name"] = Model.user.Name;
+	TempData["userFN"] = Model.user.FirstName;
+	TempData["userLN"] = Model.user.LastName;
 	//TempData["currency"] = Model.user.Currency;
 }
 @*@if(Model.user.Id==0){
@@ -48,20 +50,17 @@
 		<thead>
 			<tr>
 				<th>
-					<antrast>Daktaras </antrast>
+					<antrast>Doctor </antrast>
 				</th>
 				<th>
-					<antrast>Pacientas </antrast>
+					<antrast>Patient </antrast>
 				</th>
 				<th>
 					<antrast>Question </antrast>
 					<a href="@Url.Action("Index","Question", new { n = 3})"  role="button">sort by date</a>
 				</th>
 				<th>
-					<a href="@Url.Action("Index","Question", new { n = 1})"  role="button">sort by likes</a>
-				</th>
-				<th>
-					<a href="@Url.Action("Index","Question", new { n = 2})"  role="button">sort by dislikes</a>
+					<antrast>Registering date </antrast>
 				</th>
 				@*<th>
 					@Html.DisplayNameFor(Question => Question.Content)
@@ -94,29 +93,13 @@
 				</td>
 				<td>
 					<atskls>
-							@Html.DisplayFor(Question => item.Likes)
-
-							@if(Model.user.Id==0){
-								<a href="http://localhost:5000/User/Login"  role="button"><img src="/images/like.png" alt="like" width="20" height="auto"></a>
-							}
-							else{
-								<a href="@Url.Action("Like", new { id = item.Id, QuestiondUserId=item.fk_User})" > <img src="/images/like.png" alt="like" width="20" height="auto"></a>
-							}
-      				</atskls>
+							@Html.DisplayFor(Question => item.RegistravimoData)
+							
+					</atskls>
+					
 				</td>
-				<td>
-					<atskls>
-							@Html.DisplayFor(Question => item.Dislikes)
-
-							@if(Model.user.Id==0){
-								<a href="http://localhost:5000/User/Login"  role="button"><img src="/images/dislike.png" alt="dislike" width="20" height="auto"></a>
-							}
-							else{
-								<a href="@Url.Action("Dislike", new { id = item.Id, QuestiondUserId=item.fk_User})" > <img src="/images/dislike.png" alt="dislike" width="20" height="auto"></a>
-							}
-					</atskls>	
 				
-				</td>
+				
 				@*<td>
 					@Html.DisplayFor(Question => item.Content)
 				</td>*@

@@ -31,11 +31,11 @@ namespace Org.Ktu.Isk.P175B602.Autonuoma.Repositories
 					//Currency = Convert.ToInt32(item["currency"]),
 					Email = Convert.ToString(item["email"]),
 					Password = Convert.ToString(item["password"]),
-					LastName = Convert.ToString(item["lastname"]),
+					LastName = Convert.ToString(item["pavarde"]),
 					MobileNumber = Convert.ToString(item["mobilenumber"]),
 					Role = Convert.ToString(item["role"]),
 					Specialty = Convert.ToString(item["specialty"]),
-					FirstName = Convert.ToString(item["firstname"])
+					FirstName = Convert.ToString(item["vardas"])
 				});
 			}
 
@@ -59,11 +59,11 @@ namespace Org.Ktu.Isk.P175B602.Autonuoma.Repositories
 				//User.Currency = Convert.ToInt32(item["currency"]);
 				User.Email = Convert.ToString(item["email"]);
 				User.Password = Convert.ToString(item["password"]);
-				User.LastName = Convert.ToString(item["lastname"]);
+				User.LastName = Convert.ToString(item["pavarde"]);
 				User.MobileNumber = Convert.ToString(item["mobilenumber"]);
 				User.Role = Convert.ToString(item["role"]);
 				User.Specialty = Convert.ToString(item["specialty"]);
-				User.FirstName = Convert.ToString(item["firstname"]);
+				User.FirstName = Convert.ToString(item["vardas"]);
 			}
 
 			return User;
@@ -86,11 +86,11 @@ namespace Org.Ktu.Isk.P175B602.Autonuoma.Repositories
 				//User.Currency = Convert.ToInt32(item["currency"]);
 				User.Email = Convert.ToString(item["email"]);
 				User.Password = Convert.ToString(item["password"]);
-				User.LastName = Convert.ToString(item["lastname"]);
+				User.LastName = Convert.ToString(item["pavarde"]);
 				User.MobileNumber = Convert.ToString(item["mobilenumber"]);
 				User.Role = Convert.ToString(item["role"]);
 				User.Specialty = Convert.ToString(item["specialty"]);
-				User.FirstName = Convert.ToString(item["firstname"]);
+				User.FirstName = Convert.ToString(item["vardas"]);
 			}
 
 			return User;
@@ -110,11 +110,11 @@ namespace Org.Ktu.Isk.P175B602.Autonuoma.Repositories
 				//User.Currency = Convert.ToInt32(item["currency"]);
 				User.Email = Convert.ToString(item["email"]);
 				User.Password = Convert.ToString(item["password"]);
-				User.LastName = Convert.ToString(item["lastname"]);
+				User.LastName = Convert.ToString(item["pavarde"]);
 				User.MobileNumber = Convert.ToString(item["mobilenumber"]);
 				User.Role = Convert.ToString(item["role"]);
 				User.Specialty = Convert.ToString(item["specialty"]);
-				User.FirstName = Convert.ToString(item["firstname"]);
+				User.FirstName = Convert.ToString(item["vardas"]);
 			}
 
 			return User;
@@ -133,11 +133,11 @@ namespace Org.Ktu.Isk.P175B602.Autonuoma.Repositories
 				//User.Currency = Convert.ToInt32(item["currency"]);
 				User.Email = Convert.ToString(item["email"]);
 				User.Password = Convert.ToString(item["password"]);
-				User.LastName = Convert.ToString(item["lastname"]);
+				User.LastName = Convert.ToString(item["pavarde"]);
 				User.MobileNumber = Convert.ToString(item["mobilenumber"]);
 				User.Role = Convert.ToString(item["role"]);
 				User.Specialty = Convert.ToString(item["specialty"]);
-				User.FirstName = Convert.ToString(item["firstname"]);
+				User.FirstName = Convert.ToString(item["vardas"]);
 			}
 
 			return User;
@@ -151,11 +151,11 @@ namespace Org.Ktu.Isk.P175B602.Autonuoma.Repositories
 					name=?name,
 					email=?email,
 					password=?password,
-					lastname=?lastname,
+					pavarde=?pavarde,
 					mobilenumber=?mobilenumber,
 					role=?role,
 					specialty=?specialty,
-					firstname=?firstname
+					vardas=?vardas
 				WHERE 
 					id=?id";
 
@@ -165,11 +165,11 @@ namespace Org.Ktu.Isk.P175B602.Autonuoma.Repositories
 				//args.Add("?currency", MySqlDbType.VarChar).Value = User.Currency;
 				args.Add("?email", MySqlDbType.VarChar).Value = User.Email;
 				args.Add("?password", MySqlDbType.VarChar).Value = User.Password;
-				args.Add("?lastname", MySqlDbType.VarChar).Value = User.LastName;
+				args.Add("?pavarde", MySqlDbType.VarChar).Value = User.LastName;
 				args.Add("?mobilenumber", MySqlDbType.VarChar).Value = User.MobileNumber;
 				args.Add("?role", MySqlDbType.VarChar).Value = User.Role;
 				args.Add("?specialty", MySqlDbType.VarChar).Value = User.Specialty;
-				args.Add("?firstname", MySqlDbType.VarChar).Value = User.FirstName;
+				args.Add("?vardas", MySqlDbType.VarChar).Value = User.FirstName;
 			});							
 		}
 
@@ -180,37 +180,42 @@ namespace Org.Ktu.Isk.P175B602.Autonuoma.Repositories
 				(
 					id,
                     name,
+					age,
 					email,
 					password,
-					lastname,
 					mobilenumber,
 					role,
 					specialty,
-					firstname
+					pavarde,
+					vardas
 				)
 				VALUES(
 					?id,
 					?name,
+					?age,
 					?email,
 					?password,
-					?lastname,
 					?mobilenumber,
 					?role,
 					?specialty,
-					?firstname
+					?pavarde,
+					?vardas
 				)";
 
 			Sql.Insert(query, args => {
 				args.Add("?id", MySqlDbType.VarChar).Value = User.Id;
 				args.Add("?name", MySqlDbType.VarChar).Value = User.Name;
+				args.Add("?age", MySqlDbType.VarChar).Value = User.Age;
 				//args.Add("?currency", MySqlDbType.VarChar).Value = User.Currency;
 				args.Add("?email", MySqlDbType.VarChar).Value = User.Email;
 				args.Add("?password", MySqlDbType.VarChar).Value = User.Password;
-				args.Add("?lastname", MySqlDbType.VarChar).Value = User.LastName;
+				
 				args.Add("?mobilenumber", MySqlDbType.VarChar).Value = User.MobileNumber;
 				args.Add("?role", MySqlDbType.VarChar).Value = User.Role;
 				args.Add("?specialty", MySqlDbType.VarChar).Value = User.Specialty;
-				args.Add("?firstname", MySqlDbType.VarChar).Value = User.FirstName;
+				
+				args.Add("?pavarde", MySqlDbType.VarChar).Value = User.Pavarde;
+				args.Add("?vardas", MySqlDbType.VarChar).Value = User.Vardas;
 			});
 		}
 
