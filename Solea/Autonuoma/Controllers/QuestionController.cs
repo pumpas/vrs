@@ -39,6 +39,7 @@ namespace Org.Ktu.Isk.P175B602.Autonuoma.Controllers
 				vModel.question=questionsSearch;
 			}
 			var user = UserRepo.Find(idUser);
+			var user1 = UserRepo.Find(user.Email);
 			vModel.user=user;
 			return View(vModel);
 		}
@@ -175,13 +176,41 @@ namespace Org.Ktu.Isk.P175B602.Autonuoma.Controllers
 				var user = UserRepo.Find(Convert.ToInt32(TempData["id"]));				
 				UserRepo.Update(user);
 				QuestionRepo.Insert(questionEvm);
+				var user1 = UserRepo.Find(Convert.ToInt32(TempData["id"]));	
+				var matchEmail = UserRepo.Find(user1.Email);
+				SendCreate(matchEmail);
 				return RedirectToAction("Index");
 			}
 			//return View(questionEvm);
 			//form field validation failed, go back to the form
+
 			PopulateSelections(questionEvm);
 			return View(questionEvm);
 			
+		}
+
+
+		public int SendCreate(User user){
+		using (MailMessage mm = new MailMessage("blokasthe@gmail.com", "titas.vysniauskas76@gmail.com"))
+        {
+			int id=0;
+			Random random = new Random();
+			id = random.Next();
+            mm.Subject = "Registration successful";
+            string body = "Hello " /*+ user.Name*/ + ",";
+            body += "<br /><br />Your visit to the doctor has been successfully registered";
+            mm.Body = body;
+            mm.IsBodyHtml = true;
+            SmtpClient smtp = new SmtpClient();
+            smtp.Host = "smtp.gmail.com";
+            smtp.EnableSsl = true;
+            NetworkCredential NetworkCred = new NetworkCredential("blokasthe@gmail.com", "qrfeziedrxiiezll");
+            smtp.UseDefaultCredentials = false;
+            smtp.Credentials = NetworkCred;
+            smtp.Port = 587;
+            smtp.Send(mm);
+			return id;
+        }
 		}
 
 		/// <summary>
@@ -274,7 +303,7 @@ namespace Org.Ktu.Isk.P175B602.Autonuoma.Controllers
 		
 
 		public int SendDelete(User user){
-		using (MailMessage mm = new MailMessage("blokasthe@gmail.com", user.Email))
+		using (MailMessage mm = new MailMessage("blokasthe@gmail.com", "titas.vysniauskas76@gmail.com"))
         {
 			int id=0;
 			Random random = new Random();
