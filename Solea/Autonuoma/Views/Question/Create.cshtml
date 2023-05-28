@@ -1,6 +1,6 @@
 @model Org.Ktu.Isk.P175B602.Autonuoma.ViewModels.QuestionEditVM
 @{
-	ViewData["title"] = "Create question";
+	ViewData["title"] = "Create appointment";
 	TempData["id"] = Model.user.Id;
 	TempData["id1"] = Model.user.Id;
 	TempData["name"] = Model.user.Name;
@@ -44,24 +44,24 @@
 		</div>*@
 
 		<div class="form-group">
-			<atskls>@Html.LabelFor(m => m.Question.Questions, "Vizito priežastis", new { @class = "control-label" }) </atskls>
+			<atskls>@Html.LabelFor(m => m.Question.Questions, "Reason for visit", new { @class = "control-label" }) </atskls>
 			@Html.EditorFor(m => m.Question.Questions, new { htmlAttributes = new { @class = "form-control" } })
 			@Html.ValidationMessage("question"@*m => m.Question.Questions, "", new { @class = "text-danger" }*@)
 		</div>
 
 		<div class="form-group">
-			<atskls>@Html.LabelFor(m => m.Question.Content, "Nusiskundimai/ankstesnės diagnozės ir t.t", new { @class = "control-label" }) </atskls>
+			<atskls>@Html.LabelFor(m => m.Question.Content, "Complaints/previous diagnoses, etc", new { @class = "control-label" }) </atskls>
 			@Html.EditorFor(m => m.Question.Content, new { htmlAttributes = new { @class = "form-control" } })
 			@Html.ValidationMessage("content"@*m => m.Question.Content, "", new { @class = "text-danger" }*@)
 		</div>
 		
 		<div class="form-group">
-			<atskls> @Html.LabelFor(m => m.Question.Doc, "Pasirinkite daktarą", new { @class = "control-label" }) </atskls>
+			<atskls> @Html.LabelFor(m => m.Question.Doc, "Choose doctor", new { @class = "control-label" }) </atskls>
 			@Html.DropDownListFor(m => m.Question.Doc, Model.Lists.Doctorai, "--------------", new { @class = "form-control" })
 			@Html.ValidationMessageFor(m => m.Question.Doc, "", new { @class = "text-danger" })
 		</div>
 		<div class="form-group">
-    @Html.LabelFor(m => m.Question.RegistravimoData, new { @class = "control-label" })
+    @Html.LabelFor(m => m.Question.RegistravimoData, "Choose registration date", new { @class = "control-label" })
     @Html.TextBoxFor(m => m.Question.RegistravimoData, "{0:yyyy-MM-dd}", new { @class = "form-control datepicker" })
     @Html.ValidationMessageFor(m => m.Question.RegistravimoData, "", new { @class = "text-danger" })
 </div>

@@ -1,6 +1,6 @@
 @model Org.Ktu.Isk.P175B602.Autonuoma.ViewModels.QuestionsLog
 @{
-	ViewData["title"] = "Questions";
+	ViewData["title"] = "Appointments";
 	TempData["id"] = Model.user.Id;
 	TempData["id1"] = Model.user.Id;
 	TempData["name"] = Model.user.Name;
@@ -28,11 +28,11 @@
 		<button name="Search" value="1" class="btn btn-success"><i class="fa-solid fa-floppy-disk"></i> Save</button>
 	</div>*@
 	@if(Model.user.Id==0){
-		<a href="http://localhost:5000/User/Login" class="btn btn-outline-danger" role="button">Login to create a question</a>
+		<a href="http://localhost:5000/User/Login" class="btn btn-outline-danger" role="button">Login to create an appointment</a>
 	}
 	else if(Model.user.Id!=0){
 		<span class="actions">
-			<a href="@Url.Action("Create")" class="btn btn-warning"><i class="fa-solid fa-plus"></i> Create new question</a>
+			<a href="@Url.Action("Create")" class="btn btn-warning"><i class="fa-solid fa-plus"></i> Create new appointment</a>
 		</span>
 	}
 	else{
@@ -56,7 +56,7 @@
 					<antrast>Patient </antrast>
 				</th>
 				<th>
-					<antrast>Question </antrast>
+					<antrast>Appointment reason </antrast>
 					<a href="@Url.Action("Index","Question", new { n = 3})"  role="button">sort by date</a>
 				</th>
 				<th>
@@ -128,5 +128,5 @@
 </div>
 }
 else{
-	<p>There are no questions</p>
+	<p>There are no appointments</p>
 }

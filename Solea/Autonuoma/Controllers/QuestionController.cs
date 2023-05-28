@@ -156,62 +156,67 @@ namespace Org.Ktu.Isk.P175B602.Autonuoma.Controllers
 		/// <param name="questionEvm">Entity model filled with latest data.</param>
 		/// <returns>Returns creation from view or redirects back to Index if save is successfull.</returns>
 		[HttpPost]
-		public ActionResult Create(QuestionEditVM questionEvm)
-		{
-			bool temp=true;
-			if(questionEvm.Question.Questions == null || questionEvm.Question.Questions.Length < 5){
-				ModelState.AddModelError("question", "Question must be atleast 5 characters");
-				temp=false;
-			}
-			var question = QuestionRepo.Find(questionEvm.Question.Id);
-			if(question.Question.Questions == questionEvm.Question.Questions){
-				ModelState.AddModelError("question", "Question with the same title already exist");
-				temp=false;
-			}
-			if(questionEvm.Question.Content == null || questionEvm.Question.Content.Length < 15){
-				ModelState.AddModelError("content", "Content must be atleast 15 characters");
-				temp=false;
-			}
-			if(temp){
-				var user = UserRepo.Find(Convert.ToInt32(TempData["id"]));				
-				UserRepo.Update(user);
-				QuestionRepo.Insert(questionEvm);
-				var user1 = UserRepo.Find(Convert.ToInt32(TempData["id"]));	
-				var matchEmail = UserRepo.Find(user1.Email);
-				SendCreate(matchEmail);
-				return RedirectToAction("Index");
-			}
-			//return View(questionEvm);
-			//form field validation failed, go back to the form
+public ActionResult Create(QuestionEditVM questionEvm)
+{
+    bool temp = true;
+    if (questionEvm.Question.Questions == null || questionEvm.Question.Questions.Length < 5)
+    {
+        ModelState.AddModelError("question", "Question must be at least 5 characters");
+        temp = false;
+    }
+    var question = QuestionRepo.Find(questionEvm.Question.Id);
+    if (question.Question.Questions == questionEvm.Question.Questions)
+    {
+        ModelState.AddModelError("question", "Question with the same title already exists");
+        temp = false;
+    }
+    if (questionEvm.Question.Content == null || questionEvm.Question.Content.Length < 15)
+    {
+        ModelState.AddModelError("content", "Content must be at least 15 characters");
+        temp = false;
+    }
 
-			PopulateSelections(questionEvm);
-			return View(questionEvm);
-			
-		}
+    if (temp)
+    {
+        var user = UserRepo.Find(Convert.ToInt32(TempData["id"]));
+        UserRepo.Update(user);
+        QuestionRepo.Insert(questionEvm);
+        var user1 = UserRepo.Find(Convert.ToInt32(TempData["id"]));
+        var matchEmail = UserRepo.Find(user1.Email);
+        SendCreate(matchEmail);
+        return RedirectToAction("Index");
+    }
+
+    // form field validation failed, go back to the form
+    PopulateSelections(questionEvm);
+    return View(questionEvm);
+}
 
 
-		public int SendCreate(User user){
-		using (MailMessage mm = new MailMessage("blokasthe@gmail.com", "titas.vysniauskas76@gmail.com"))
-        {
-			int id=0;
-			Random random = new Random();
-			id = random.Next();
-            mm.Subject = "Registration successful";
-            string body = "Hello " /*+ user.Name*/ + ",";
-            body += "<br /><br />Your visit to the doctor has been successfully registered";
-            mm.Body = body;
-            mm.IsBodyHtml = true;
-            SmtpClient smtp = new SmtpClient();
-            smtp.Host = "smtp.gmail.com";
-            smtp.EnableSsl = true;
-            NetworkCredential NetworkCred = new NetworkCredential("blokasthe@gmail.com", "qrfeziedrxiiezll");
-            smtp.UseDefaultCredentials = false;
-            smtp.Credentials = NetworkCred;
-            smtp.Port = 587;
-            smtp.Send(mm);
-			return id;
-        }
-		}
+
+		public int SendCreate(User user)
+{
+    using (MailMessage mm = new MailMessage("blokasthe@gmail.com", user.Email))
+    {
+        int id = 0;
+        Random random = new Random();
+        id = random.Next();
+        mm.Subject = "Registration to visit successful";
+        string body = "Hello " + user.FirstName + " " + user.LastName + ",";
+        body += "<br /><br />your visit to the doctor has been successfully registered. We'll be waiting for your arrival.";
+        mm.Body = body;
+        mm.IsBodyHtml = true;
+        SmtpClient smtp = new SmtpClient();
+        smtp.Host = "smtp.gmail.com";
+        smtp.EnableSsl = true;
+        NetworkCredential NetworkCred = new NetworkCredential("blokasthe@gmail.com", "qrfeziedrxiiezll");
+        smtp.UseDefaultCredentials = false;
+        smtp.Credentials = NetworkCred;
+        smtp.Port = 587;
+        smtp.Send(mm);
+        return id;
+    }
+}
 
 		/// <summary>
 		/// This is invoked when editing form is first opened in browser.
@@ -282,7 +287,8 @@ namespace Org.Ktu.Isk.P175B602.Autonuoma.Controllers
 			try
 			{
 				var user = UserRepo.Find(Convert.ToString(TempData["Email"]));
-				var matchEmail = UserRepo.Find(user.Email);
+				var user1 = UserRepo.Find(Convert.ToInt32(TempData["id"]));
+        		var matchEmail = UserRepo.Find(user1.Email);
 				QuestionRepo.Delete(id);
 				SendDelete(matchEmail);
 				//deletion success, redired to list form
@@ -302,28 +308,31 @@ namespace Org.Ktu.Isk.P175B602.Autonuoma.Controllers
 		}
 		
 
-		public int SendDelete(User user){
-		using (MailMessage mm = new MailMessage("blokasthe@gmail.com", "titas.vysniauskas76@gmail.com"))
-        {
-			int id=0;
-			Random random = new Random();
-			id = random.Next();
-            mm.Subject = "Visit cancelled";
-            string body = "Hello " /*+ user.Name*/ + ",";
-            body += "<br /><br />Your visit to the doctor has bet cancelled ";
-            mm.Body = body;
-            mm.IsBodyHtml = true;
-            SmtpClient smtp = new SmtpClient();
-            smtp.Host = "smtp.gmail.com";
-            smtp.EnableSsl = true;
-            NetworkCredential NetworkCred = new NetworkCredential("blokasthe@gmail.com", "qrfeziedrxiiezll");
-            smtp.UseDefaultCredentials = false;
-            smtp.Credentials = NetworkCred;
-            smtp.Port = 587;
-            smtp.Send(mm);
-			return id;
-        }
-		}
+		public int SendDelete(User user)
+{
+    int id = 0;
+    using (MailMessage mm = new MailMessage("blokasthe@gmail.com", user.Email))
+    {
+        Random random = new Random();
+        id = random.Next();
+        mm.Subject = "Visit cancelled";
+        string body = "Hello " + user.FirstName + " " + user.LastName + ",";
+        body += "<br /><br />your visit to the doctor has been cancelled. To re-register for a visit, visit our system again";
+        mm.Body = body;
+        mm.IsBodyHtml = true;
+        SmtpClient smtp = new SmtpClient();
+        smtp.Host = "smtp.gmail.com";
+        smtp.EnableSsl = true;
+        NetworkCredential NetworkCred = new NetworkCredential("blokasthe@gmail.com", "qrfeziedrxiiezll");
+        smtp.UseDefaultCredentials = false;
+        smtp.Credentials = NetworkCred;
+        smtp.Port = 587;
+        smtp.Send(mm);
+    }
+
+    return id;
+}
+
 
 		/// <summary>
 		/// Populates select lists used to render drop down controls.
