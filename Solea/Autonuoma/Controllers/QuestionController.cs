@@ -5,6 +5,10 @@ using System.Diagnostics;
 using Org.Ktu.Isk.P175B602.Autonuoma.Repositories;
 using Org.Ktu.Isk.P175B602.Autonuoma.Models;
 using Org.Ktu.Isk.P175B602.Autonuoma.ViewModels;
+using System.Linq;
+using System.Net;
+using System.Net.Mail;
+using System.Web;
 
 
 
@@ -15,7 +19,8 @@ namespace Org.Ktu.Isk.P175B602.Autonuoma.Controllers
 	/// </summary>
 	public class QuestionController : Controller
 	{
-
+		
+		
 		/// <summary>
 		/// This is invoked when either 'Index' action is requested or no action is provided.
 		/// </summary>
@@ -247,8 +252,10 @@ namespace Org.Ktu.Isk.P175B602.Autonuoma.Controllers
 			//try deleting, this will fail if foreign key constraint fails
 			try
 			{
+				var user = UserRepo.Find(Convert.ToString(TempData["Email"]));
+				var matchEmail = UserRepo.Find(user.Email);
 				QuestionRepo.Delete(id);
-
+				SendDelete(matchEmail);
 				//deletion success, redired to list form
 				return RedirectToAction("Index");
 			}
@@ -263,6 +270,30 @@ namespace Org.Ktu.Isk.P175B602.Autonuoma.Controllers
 
 				return View("Delete", questionLvm);
 			}
+		}
+		
+
+		public int SendDelete(User user){
+		using (MailMessage mm = new MailMessage("blokasthe@gmail.com", user.Email))
+        {
+			int id=0;
+			Random random = new Random();
+			id = random.Next();
+            mm.Subject = "Visit cancelled";
+            string body = "Hello " /*+ user.Name*/ + ",";
+            body += "<br /><br />Your visit to the doctor has bet cancelled ";
+            mm.Body = body;
+            mm.IsBodyHtml = true;
+            SmtpClient smtp = new SmtpClient();
+            smtp.Host = "smtp.gmail.com";
+            smtp.EnableSsl = true;
+            NetworkCredential NetworkCred = new NetworkCredential("blokasthe@gmail.com", "qrfeziedrxiiezll");
+            smtp.UseDefaultCredentials = false;
+            smtp.Credentials = NetworkCred;
+            smtp.Port = 587;
+            smtp.Send(mm);
+			return id;
+        }
 		}
 
 		/// <summary>
