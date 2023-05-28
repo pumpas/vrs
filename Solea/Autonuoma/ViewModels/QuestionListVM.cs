@@ -43,8 +43,9 @@ namespace Org.Ktu.Isk.P175B602.Autonuoma.ViewModels
 
 			[DisplayName("Registravimo data")]
 			[Required]
-			[DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}")]
+			[DisplayFormat(DataFormatString = "{0:yyyy-MM-dd HH:mm}")]
 			public DateTime? RegistravimoData { get; set; }
+
 
 	}
 }

@@ -257,7 +257,7 @@ namespace Org.Ktu.Isk.P175B602.Autonuoma.Repositories
 				args.Add("?likes", MySqlDbType.Int32).Value = QuestionEvm.Question.Likes;
 				args.Add("?dislikes", MySqlDbType.Int32).Value = QuestionEvm.Question.Dislikes;
 				args.Add("?doc", MySqlDbType.Int32).Value = QuestionEvm.Question.Doc;
-				args.Add("?regdata", MySqlDbType.Date).Value = QuestionEvm.Question.RegistravimoData?.ToString("yyyy-MM-dd");
+				args.Add("?regdata", MySqlDbType.DateTime).Value = QuestionEvm.Question.RegistravimoData?.ToString("yyyy-MM-dd HH:mm:ss");
 				args.Add("?topAnswer", MySqlDbType.Int32).Value = QuestionEvm.Question.topAnswer;
 			});
 		}
