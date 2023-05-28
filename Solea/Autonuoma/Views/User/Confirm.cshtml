@@ -15,12 +15,14 @@
 </div>
 
 <div class="container-fluid d-flex justify-content-center">
-@using (Html.BeginForm("Confirm", "User", new { id = "0" }, FormMethod.Post)){
-  <input type="text" id="code" name="code" />
-  <br/>
-  <button type="submit"><span>Add</span></button>
-  @* <input type="submit" name="submit" value="Confirm" /> *@
+@using (Html.BeginForm("Confirm", "User", new { id = "0" }, FormMethod.Post))
+{
+    <input type="text" id="code" name="code" placeholder="Enter your code" />
+    <br/>
+    <button type="submit"><span>Add</span></button>
+    
 }
+
 	@* <fieldset class="border rounded shadow p-2">
 		<div class="form-group">
 			
